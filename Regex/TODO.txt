@@ -1,0 +1,52 @@
+Data structures:
+	ArrayList
+	LinkedList
+	Stack
+	Queue
+	BinaryTree
+	BinarySearchTree
+	HuffmanTree
+	[Maps, Graphs]
+
+UI:
+	input regex
+	input string
+	output results
+
+POSIX Extended Regular Expressions:
+	String Tokenizer / parser ??
+
+
+Ask Bostain:
+	java.util.StringTokenizer ??
+
+
+
+
+
+
+
+//Comparator anonymous class implementation
+    public static Comparator<Customer> idComparator = new Comparator<Customer>(){
+        @Override
+        public int compare(Customer c1, Customer c2) {
+            return (int) (c1.getId() - c2.getId());
+        }
+    };
+
+
+ public class MyCustomComparator implements Comparator{
+  public int compare(Object obj1, Object obj2){
+   Person p1 =(Person) obj1;
+   Person p2 =(Person) ob2;
+   String p1Name = p1.getName()+ " " +p1.getLastName();
+   String p2Name = p2.getName()+ " " +p2.getLastName();
+   return p1Name.toCompareTo(p2Name);
+  }
+ }
+
+interface:
+int	compare(T o1, T o2)
+Compares its two arguments for order.
+boolean	equals(Object obj)
+Indicates whether some other object is "equal to" this comparator.
