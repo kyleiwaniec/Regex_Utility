@@ -7,14 +7,15 @@
 <body>
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package edu.mccc.cos210.ds;<a name="line.1"></a>
-<span class="sourceLineNo">002</span>public interface QueueInt&lt;E&gt; {<a name="line.2"></a>
-<span class="sourceLineNo">003</span>        boolean add(E e);<a name="line.3"></a>
-<span class="sourceLineNo">004</span>        boolean offer(E e);<a name="line.4"></a>
-<span class="sourceLineNo">005</span>        E remove();<a name="line.5"></a>
-<span class="sourceLineNo">006</span>        E poll();<a name="line.6"></a>
-<span class="sourceLineNo">007</span>        E element();<a name="line.7"></a>
-<span class="sourceLineNo">008</span>        E peek();<a name="line.8"></a>
-<span class="sourceLineNo">009</span>}<a name="line.9"></a>
+<span class="sourceLineNo">002</span>import edu.mccc.cos210.ex.NoSuchElementException;<a name="line.2"></a>
+<span class="sourceLineNo">003</span>public interface QueueInt&lt;E&gt; {<a name="line.3"></a>
+<span class="sourceLineNo">004</span>        boolean add(E e);<a name="line.4"></a>
+<span class="sourceLineNo">005</span>        boolean offer(E e);<a name="line.5"></a>
+<span class="sourceLineNo">006</span>        E remove() throws NoSuchElementException;<a name="line.6"></a>
+<span class="sourceLineNo">007</span>        E poll();<a name="line.7"></a>
+<span class="sourceLineNo">008</span>        E element();<a name="line.8"></a>
+<span class="sourceLineNo">009</span>        E peek();<a name="line.9"></a>
+<span class="sourceLineNo">010</span>}<a name="line.10"></a>
 
 
 

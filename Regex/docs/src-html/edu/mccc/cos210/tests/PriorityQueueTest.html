@@ -8,23 +8,25 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package edu.mccc.cos210.tests;<a name="line.1"></a>
 <span class="sourceLineNo">002</span>import edu.mccc.cos210.ds.PriorityQueue;<a name="line.2"></a>
-<span class="sourceLineNo">003</span>public class PriorityQueueTest{<a name="line.3"></a>
-<span class="sourceLineNo">004</span>        public static void main(String[] sa){<a name="line.4"></a>
-<span class="sourceLineNo">005</span>                String[] data = {"Francis", "Alice", "Betty", "Charlie", "Duke", "Gregory", "Thomas"};<a name="line.5"></a>
-<span class="sourceLineNo">006</span>                PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;String&gt;();<a name="line.6"></a>
-<span class="sourceLineNo">007</span>                for(int i = 0; i&lt;data.length; i++){<a name="line.7"></a>
-<span class="sourceLineNo">008</span>                        pq.offer(data[i]);<a name="line.8"></a>
-<span class="sourceLineNo">009</span>                        //System.out.println("pqsize: "+pq.size());<a name="line.9"></a>
-<span class="sourceLineNo">010</span>                }<a name="line.10"></a>
-<span class="sourceLineNo">011</span>                System.out.println(pq.toString());<a name="line.11"></a>
-<span class="sourceLineNo">012</span>                System.out.println("remove: " +pq.remove());<a name="line.12"></a>
+<span class="sourceLineNo">003</span>import edu.mccc.cos210.ex.NoSuchElementException;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>public class PriorityQueueTest{<a name="line.5"></a>
+<span class="sourceLineNo">006</span>        public static void main(String[] sa) throws NoSuchElementException{<a name="line.6"></a>
+<span class="sourceLineNo">007</span>                String[] data = {"Francis", "Alice", "Betty", "Charlie", "Duke", "Gregory", "Thomas"};<a name="line.7"></a>
+<span class="sourceLineNo">008</span>                PriorityQueue&lt;String&gt; pq = new PriorityQueue&lt;String&gt;();<a name="line.8"></a>
+<span class="sourceLineNo">009</span>                for(int i = 0; i&lt;data.length; i++){<a name="line.9"></a>
+<span class="sourceLineNo">010</span>                        pq.offer(data[i]);<a name="line.10"></a>
+<span class="sourceLineNo">011</span>                        //System.out.println("pqsize: "+pq.size());<a name="line.11"></a>
+<span class="sourceLineNo">012</span>                }<a name="line.12"></a>
 <span class="sourceLineNo">013</span>                System.out.println(pq.toString());<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                System.out.println("peek:  "+pq.peek());<a name="line.14"></a>
+<span class="sourceLineNo">014</span>                System.out.println("remove: " +pq.remove());<a name="line.14"></a>
 <span class="sourceLineNo">015</span>                System.out.println(pq.toString());<a name="line.15"></a>
-<span class="sourceLineNo">016</span>                System.out.println("poll:  "+pq.poll());<a name="line.16"></a>
+<span class="sourceLineNo">016</span>                System.out.println("peek:  "+pq.peek());<a name="line.16"></a>
 <span class="sourceLineNo">017</span>                System.out.println(pq.toString());<a name="line.17"></a>
-<span class="sourceLineNo">018</span>        }<a name="line.18"></a>
-<span class="sourceLineNo">019</span>}<a name="line.19"></a>
+<span class="sourceLineNo">018</span>                System.out.println("poll:  "+pq.poll());<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                System.out.println(pq.toString());<a name="line.19"></a>
+<span class="sourceLineNo">020</span>        }<a name="line.20"></a>
+<span class="sourceLineNo">021</span>}<a name="line.21"></a>
 
 
 
