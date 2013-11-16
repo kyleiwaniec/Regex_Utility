@@ -79,9 +79,8 @@ public class ArrayList<E>{
 			for(int i = index; i < size; i++){
 				theData[i-1] = theData[i];
 			}
+			size--;
 		}
-		size--;
-		System.out.println("returnValue"+returnValue);
 		return returnValue;
 	}
 

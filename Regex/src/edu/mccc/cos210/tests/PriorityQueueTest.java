@@ -11,10 +11,13 @@ public class PriorityQueueTest{
 			//System.out.println("pqsize: "+pq.size());
 		}
 		System.out.println(pq.toString());
-		System.out.println("remove: " +pq.remove());
-		System.out.println(pq.toString());
+
+		// System.out.println("remove: " +pq.remove());
+		// System.out.println(pq.toString());
+
 		System.out.println("peek:  "+pq.peek());
 		System.out.println(pq.toString());
+
 		System.out.println("poll:  "+pq.poll());
 		System.out.println(pq.toString());
 	}

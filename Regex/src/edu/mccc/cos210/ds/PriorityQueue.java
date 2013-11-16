@@ -61,12 +61,10 @@ public class PriorityQueue<E> extends QueueSingle<E>{
     public boolean offer(E item) {
         // Add the item to the heap.
         theData.add(item);
-        System.out.println("added, now what"+theData.size());
         // child is newly inserted item.
         int child = theData.size() - 1;
         int parent = (child - 1) / 2; // Find child's parent.
         // Reheap
-        System.out.println("compare: "+compare(theData.get(parent), theData.get(child)));
 
         while (parent >= 0 && compare(theData.get(parent), theData.get(child)) > 0) {
             //System.out.println("before swap: "+theData.get(parent) +":"+theData.get(child));
@@ -83,8 +81,6 @@ public class PriorityQueue<E> extends QueueSingle<E>{
 
         theData.set(b, tempa);
         theData.set(a, tempb);
-        // b = a;
-        // a = temp;
     }
     public boolean isEmpty(){
         if(theData.size() == 0){
@@ -94,7 +90,7 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         }
     }
     /**
-     * Remove an item from the priority queue
+     * Removes the entry at the front of the queue and returns it.
      * @pre The ArrayList theData is in heap order.
      * @post Removed smallest item, theData is in heap order.
      * @return The item with the smallest priority value or null if empty.
@@ -115,14 +111,17 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         // the first position.
         theData.set(0, theData.remove(theData.size() - 1));
         // The parent starts at the top.
+        
         int parent = 0;
+        
         while (true) {
+            
             int leftChild = 2 * parent + 1;
             if (leftChild >= theData.size()) {
                 break; // Out of heap.
             }
             int rightChild = leftChild + 1;
-            int minChild = leftChild; // Assume leftChild is smaller.
+            int minChild = leftChild;
             // See whether rightChild is smaller.
             if (rightChild < theData.size() && compare(theData.get(leftChild), theData.get(rightChild)) > 0) {
                 minChild = rightChild;
@@ -148,12 +147,10 @@ public class PriorityQueue<E> extends QueueSingle<E>{
      */
     @Override
     public E remove() throws NoSuchElementException{
-        if (theData.size() == 0) {
+        if (isEmpty()) {
             throw new NoSuchElementException();
         } else {
-            E first = theData.get(0);
-            theData.remove(0);
-            return first;
+           return poll();
         }
     }
     /**
@@ -169,27 +166,11 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         }
     }
     // TODO: level order traverse:
-
-
     // /**
     //  * Perform a level-order traversal.
-    //  * @param node The local root
-    //  * @param depth The depth
     //  * @param sb The string buffer to save the output
     //  */
-    // private void levelOrderTraverse(E node, int depth, StringBuilder sb) {
-    //     for (int i = 1; i < depth; i++) {
-    //         sb.append("  ");
-    //     }
-    //     if (node == null) {
-    //        sb.append("null\n");
-    //     } else {
-    //         sb.append(node.toString());
-    //         sb.append("\n");
-
-    //         levelOrderTraverse(node.left, depth + 1, sb);
-    //         levelOrderTraverse(node.right, depth + 1, sb);
-    //     }
+  
     // }
 
 
@@ -205,10 +186,8 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         for(int i = 0; i < theData.size(); i++) {
             res += ", "+theData.get(i);
         }
-        res = res.substring(2, res.length());
-
+        res = res.substring(2, res.length()); // get rid of leading comma and space (2 characters)
         return res;
-
     }
     /**
      * Compare two items using either a Comparator object�s compare method
