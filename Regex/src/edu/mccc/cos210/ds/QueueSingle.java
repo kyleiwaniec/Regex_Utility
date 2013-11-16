@@ -1,16 +1,13 @@
 package edu.mccc.cos210.ds;
+import edu.mccc.cos210.ex.NoSuchElementException;
 /** 
- * Implements the Queue interface using a LinkedList component.
+ * Implements the Queue interface using an ArrayList component.
  **/
 public class QueueSingle<E> implements QueueInt<E> {
 
     // Data Field
-    private ArrayList<E> theQueue = new ArrayList<E>(); // LinkedList that is the queue.
+    private ArrayList<E> theQueue = new ArrayList<E>(); // ArrayList that is the queue.
 
-    // public int size(){
-    //     System.out.println("theQueuesize: "+theQueue.size());
-    //     return theQueue.size();
-    // }
     /**
      * Inserts an item at the rear of the queue.
      * @param item The element to add
@@ -44,9 +41,9 @@ public class QueueSingle<E> implements QueueInt<E> {
      * @return The item removed if successful, throws exception if not
      */
     @Override
-    public E remove() throws java.util.NoSuchElementException{
+    public E remove() throws NoSuchElementException{
         if (theQueue.size() == 0) {
-            throw new java.util.NoSuchElementException();
+            throw new NoSuchElementException();
         } else {
             E first = theQueue.get(0);
             theQueue.remove(0);

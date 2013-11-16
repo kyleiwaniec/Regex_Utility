@@ -1,7 +1,9 @@
 package edu.mccc.cos210.tests;
 import edu.mccc.cos210.ds.PriorityQueue;
+import edu.mccc.cos210.ex.NoSuchElementException;
+
 public class PriorityQueueTest{
-	public static void main(String[] sa){
+	public static void main(String[] sa) throws NoSuchElementException{
 		String[] data = {"Francis", "Alice", "Betty", "Charlie", "Duke", "Gregory", "Thomas"};
 		PriorityQueue<String> pq = new PriorityQueue<String>();
 		for(int i = 0; i<data.length; i++){

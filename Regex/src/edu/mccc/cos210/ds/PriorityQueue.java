@@ -1,5 +1,5 @@
 package edu.mccc.cos210.ds;
-
+import edu.mccc.cos210.ex.NoSuchElementException;
 /**
  * The PriorityQueue implements the Queue interface
  *  by building a heap in an ArrayList. The heap is structured
@@ -147,9 +147,9 @@ public class PriorityQueue<E> extends QueueSingle<E>{
      * @return The item removed if successful, throws exception if not
      */
     @Override
-    public E remove() throws java.util.NoSuchElementException{
+    public E remove() throws NoSuchElementException{
         if (theData.size() == 0) {
-            throw new java.util.NoSuchElementException();
+            throw new NoSuchElementException();
         } else {
             E first = theData.get(0);
             theData.remove(0);
