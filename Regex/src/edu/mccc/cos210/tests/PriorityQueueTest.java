@@ -17,6 +17,5 @@ public class PriorityQueueTest{
 		System.out.println(pq.toString());
 		System.out.println("poll:  "+pq.poll());
 		System.out.println(pq.toString());
-		
 	}
 }
