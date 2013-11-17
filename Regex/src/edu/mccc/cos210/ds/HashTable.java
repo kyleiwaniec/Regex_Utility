@@ -64,6 +64,11 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         }
 // Insert solution to programming exercise 3, section 4, chapter 7 here
         // toString method
+        public String toString(){
+            String result = "";
+            result += this.key +" : "+this.value;
+            return result;
+        }
     }
 
     // Constructor
@@ -97,20 +102,26 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         //     }
         // }
 
-        // REWRITE sans iterator
-        while(table[index].hasNext()){
-           Entry<K, V> nextItem = (Entry<K, V>) table[index].getNext();
-           if(nextItem.key.equals(key)){
-                return nextItem.value;
-           }
-        }
+        // TODO: ^^ REWRITE sans iterator
+        
 
-        // assert: key is not in the table.
+
+        Entry<K, V> nextItem = (Entry<K, V>) table[index].getFirst();
+        for(int i = 0; i < table[index].getSize(); i++){
+            if (nextItem.key.equals(key)) {
+                 return nextItem.value;
+            }
+            while(table[index].hasNext()){
+                nextItem = (Entry<K, V>) table[index].getNext();
+            }
+        }
+        
         return null;
     }
 
+    
     /**
-     * Method put for class HashtableChain.
+     * Method put for class HashTable.
      * @post This key-value pair is inserted in the
      *       table and numKeys is incremented. If the key is already
      *       in the table, its value is changed to the argument
@@ -142,29 +153,34 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         //     }
         // }
 
+        // TODO: ^^ REWRITE sans iterator
 
-        // REWRITE sans iterator
-
-        while(table[index].hasNext()){
-           Entry<K, V> nextItem = (Entry<K, V>) table[index].getNext();
-           if(nextItem.key.equals(key)){
-                V oldVal = nextItem.value;
-                nextItem.setValue(value);
-                return oldVal;
-           }
-        }
-
-        // assert: key is not in the table, add new item.
+    // assert: key is not in the table, add new item.
         table[index].addFirst(new Entry<K, V>(key, value));
         numKeys++;
         if (numKeys > (LOAD_THRESHOLD * table.length)) {
             rehash();
         }
+
         return null;
     }
+    public void getCurrent(){
+        System.out.println(table[3].getCurrent());
+    }
 
-// Insert solution to programming exercise 4, section 4, chapter 7 here
-    // toString method
+    public String toString(){
+        String res = "";
+        for(int i = 0; i < table.length; i++){
+            if(table[i] != null){
+                res += ", "+table[i].toString();
+            }
+        }
+        if(res.length() > 2){
+            res = res.substring(2, res.length());
+        }
+        
+        return res;
+    }
 
 // Insert solution to programming exercise 5, section 4, chapter 7 here
     // getSize() method
@@ -182,7 +198,35 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
 
     }
     public V remove(Object key){
-        return (V) key;
+        int index = key.hashCode() % table.length;
+        if (index < 0) {
+            index += table.length;
+        }
+        //Search the list at table[index] to find the key.
+        // for (Entry<K, V> nextItem : table[index]) {
+        //     // If the search is successful, remove item
+        //     if (nextItem.key.equals(key)) {
+        //         // remove item, decrement numKeys
+                        // if table[index] is empty, set table[index] to null
+        //     }
+        // }
+
+        Entry<K, V> nextItem = (Entry<K, V>) table[index].getFirst();
+        for(int i = 0; i < table[index].getSize(); i++){
+            if (nextItem.key.equals(key)) {
+                 // Entry<K, V> previousItem = table[index].getPrevious();
+                 // System.out.println("previous item: "+previousItem.toString());
+                 numKeys--;
+            }
+            while(table[index].hasNext()){
+                nextItem = (Entry<K, V>) table[index].getNext();
+            }
+        }
+
+
+
+
+        return null;
     }
 
 

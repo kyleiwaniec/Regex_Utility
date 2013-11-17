@@ -14,19 +14,19 @@ public interface Iterator<E>\{\
 \
 @Override\
 	public Iterator<E> iterator() \{\
-        return new Iterator<E>();\
-    \}\
-    //iterator inner class:\
-	private class Iterator<E> implements MyIterator<E> \{ \
-    	public boolean hasNext()\{\
-    		//Returns true if the iteration has more elements.\
-    		return true;\
-    	\}\
-    	public E next()\{\
-    		//Returns the next element in the iteration.\
-    		return (E) getNext();\
-    	\}\
-    	public void remove()\{\
-    		//Removes from the underlying collection the last element returned by this iterator (optional operation).\
-    	\}\
+		return new MyIterator<E>();\
+	\}\
+	//iterator inner class:\
+	public class MyIterator<E>  extends DoublyLinkedList<E>\{ \
+		public boolean hasNext()\{\
+			//Returns true if the iteration has more elements.\
+			return super.hasNext();\
+		\}\
+		public E next()\{\
+			//Returns the next element in the iteration.\
+			return super.getNext();\
+		\}\
+		public void remove()\{\
+			//Removes from the underlying collection the last element returned by this iterator (optional operation).\
+		\}\
 	\}}

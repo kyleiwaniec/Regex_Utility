@@ -28,6 +28,10 @@ public class DoublyLinkedListTest{
 		dlls.removeFirst();
 		System.out.println("remove first: ");
 		System.out.println(++i+". "+dlls);
+
+		System.out.println("next: "+dlls.hasNext());
+
+
 		dlls.removeLast();
 		System.out.println("remove last: ");
 		System.out.println(++i+". "+dlls);

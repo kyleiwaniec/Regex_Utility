@@ -1,5 +1,5 @@
 package edu.mccc.cos210.ds;
-import java.lang.Iterable;
+
 
 public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 	private DNode<E> head;
@@ -12,7 +12,6 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 		this.tail = null;
 		this.current = null;
 	}
-	
 	
 	@Override
 	public E getFirst() throws java.util.NoSuchElementException {
@@ -43,11 +42,22 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 		return element;
 	}
 	public boolean hasNext(){
+		if (this.size == 0 || this.current == null) {
+			return false;
+		}
 		if(this.current.next == null){
 			return false;
-		}else{
-			return true;
 		}
+		//this.current = this.current.previous;
+		return true;
+
+
+
+
+		//return currentIndex < currentSize && arrayList[currentIndex] != null;
+
+
+				
 	}
 	@Override
 	public E getPrevious() {
@@ -89,7 +99,6 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 		}
 		this.current = node;
 		this.size++;
-
 
 	}
 	@Override 
@@ -239,27 +248,28 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 	}
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("< ");
+		StringBuilder sb = new StringBuilder("<");
 		DNode<E> node = head;
 		while (node != null) {
 			if (node.element != null) {
-				sb.append(node.element.toString() + " ");
+				sb.append(", "+node.element.toString());
 			} else {
 				sb.append("null ");
 			}
 			node = node.next;
 		}
-		sb.append(">");
+		if(sb.length()>2){sb.deleteCharAt(1);};
+		sb.append(" >");
 		return sb.toString();
 	}
-	private class DNode<T> {
-		private T element;
-		private DNode<T> next = null;
-		private DNode<T> previous = null;
+	public class DNode<T> {
+		public T element;
+		public DNode<T> next = null;
+		public DNode<T> previous = null;
 		public DNode(T element) {
 			this.element = element;
 		}
-		private void reset() {
+		public void reset() {
 			this.element = null;
 			this.next = null;
 			this.previous = null;
