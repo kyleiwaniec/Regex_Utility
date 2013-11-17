@@ -67,9 +67,7 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         // Reheap
 
         while (parent >= 0 && compare(theData.get(parent), theData.get(child)) > 0) {
-            //System.out.println("before swap: "+theData.get(parent) +":"+theData.get(child));
             swap(parent, child);
-            //System.out.println("after swap: "+theData.get(parent) +":"+theData.get(child));
             child = parent;
             parent = (child - 1) / 2;
         }
@@ -165,12 +163,14 @@ public class PriorityQueue<E> extends QueueSingle<E>{
             return theData.get(0);
         }
     }
-    // TODO: level order traverse:
+    // TODO: level-order traverse:
     // /**
     //  * Perform a level-order traversal.
     //  * @param sb The string buffer to save the output
     //  */
-  
+    // 1. Dequeue a nodee
+    // 2. Visit it.
+    // 3. Enqueue it's children left to right until Queue is empty.
     // }
 
 

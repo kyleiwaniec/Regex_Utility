@@ -8,7 +8,6 @@ public class PriorityQueueTest{
 		PriorityQueue<String> pq = new PriorityQueue<String>();
 		for(int i = 0; i<data.length; i++){
 			pq.offer(data[i]);
-			//System.out.println("pqsize: "+pq.size());
 		}
 		System.out.println(pq.toString());
 
@@ -20,6 +19,15 @@ public class PriorityQueueTest{
 
 		System.out.println("poll:  "+pq.poll());
 		System.out.println(pq.toString());
+
+		pq.offer("Connor");
+		System.out.println(pq.toString());
+
+		System.out.println("remove: " +pq.remove());
+		System.out.println(pq.toString());
+
+		System.out.println("Is the quque empty? "+pq.isEmpty());
+		System.out.println("Size: "+pq.getSize());
 	}
 }
 

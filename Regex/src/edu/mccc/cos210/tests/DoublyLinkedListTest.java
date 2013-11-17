@@ -1,5 +1,5 @@
 package edu.mccc.cos210.tests;
-import edu.mccc.cos210.ds.DoublyLinkedListImpl;
+import edu.mccc.cos210.ds.DoublyLinkedList;
 
 public class DoublyLinkedListTest{
 	public static void main(String[] sa) throws Exception {
@@ -9,7 +9,7 @@ public class DoublyLinkedListTest{
 	private void doIt() throws Exception {
 		//@SuppressWarnings("unchecked")
 		int i = 0;
-		DoublyLinkedListImpl<String> dlls = new DoublyLinkedListImpl <String>();
+		DoublyLinkedList<String> dlls = new DoublyLinkedList <String>();
 
 		System.out.println(++i+". "+dlls);
 		dlls.addNext("A");

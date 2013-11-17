@@ -1,15 +1,19 @@
 package edu.mccc.cos210.ds;
+import java.lang.Iterable;
 
-public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
+public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 	private DNode<E> head;
 	private DNode<E> tail;
 	private DNode<E> current;
 	private int size = 0;
-	public DoublyLinkedListImpl() {
+
+	public DoublyLinkedList() {
 		this.head = null;
 		this.tail = null;
 		this.current = null;
 	}
+	
+	
 	@Override
 	public E getFirst() throws java.util.NoSuchElementException {
 		if (this.size == 0) {
@@ -37,6 +41,13 @@ public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
 		}
 		E element = this.current.element;
 		return element;
+	}
+	public boolean hasNext(){
+		if(this.current.next == null){
+			return false;
+		}else{
+			return true;
+		}
 	}
 	@Override
 	public E getPrevious() {
@@ -254,4 +265,7 @@ public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
 			this.previous = null;
 		}
 	}
+	
+
+
 }

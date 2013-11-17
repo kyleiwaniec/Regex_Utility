@@ -1,5 +1,5 @@
 package edu.mccc.cos210.ds;
-public interface DoublyLinkedListInt<E> {
+public interface DoublyLinkedListInt<E>{
 	E getFirst();
 	E getLast();
 	E getNext();
