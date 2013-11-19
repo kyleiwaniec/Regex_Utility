@@ -37,8 +37,8 @@ public class DoublyLinkedListTest{
 		System.out.println(++i+". "+dlls);
 		dlls.getPrevious();
 		System.out.println("current Element: "+dlls.getCurrent());
-		dlls.removeNext();
-		System.out.println("remove next: ");
+		dlls.removeCurrent();
+		System.out.println("removed current^^: ");
 		System.out.println(++i+". "+dlls);
 		
 		System.out.println("current Element: "+dlls.getCurrent());

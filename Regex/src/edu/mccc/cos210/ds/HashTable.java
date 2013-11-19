@@ -197,38 +197,33 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
     public void rehash(){
 
     }
+    /** removes all items with given key
+    *   @return null.
+    */
     public V remove(Object key){
         int index = key.hashCode() % table.length;
         if (index < 0) {
             index += table.length;
         }
-        //Search the list at table[index] to find the key.
-        // for (Entry<K, V> nextItem : table[index]) {
-        //     // If the search is successful, remove item
-        //     if (nextItem.key.equals(key)) {
-        //         // remove item, decrement numKeys
-                        // if table[index] is empty, set table[index] to null
-        //     }
-        // }
-
         Entry<K, V> nextItem = (Entry<K, V>) table[index].getFirst();
-        for(int i = 0; i < table[index].getSize(); i++){
+        int size = table[index].getSize();
+        for(int i = 0; i < size; i++){
+            System.out.println(table[index].getSize());
             if (nextItem.key.equals(key)) {
-                 // Entry<K, V> previousItem = table[index].getPrevious();
-                 // System.out.println("previous item: "+previousItem.toString());
-                 numKeys--;
+                  table[index].removeCurrent();
+                  numKeys--;
             }
             while(table[index].hasNext()){
                 nextItem = (Entry<K, V>) table[index].getNext();
             }
+
         }
-
-
-
-
+        if(table[index].isEmpty()){
+            table[index] = null;
+        }
         return null;
     }
 
 
-// Insert solution to programming project 7, chapter -1 here
+// Insert solution to programming project 7, chapter -1 here ????
 }

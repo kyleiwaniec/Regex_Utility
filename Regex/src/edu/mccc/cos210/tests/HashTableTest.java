@@ -23,9 +23,12 @@ public class HashTableTest{
 		ht.put(782,"Sammy");
 		ht.put(178,"bob");
 		System.out.println(ht.toString());
-		System.out.println("get sammy"+ht.get(4));
+		System.out.println("get"+ht.get(4));
 
-		ht.remove(782);
+		ht.remove(3);
+		System.out.println(ht.toString());
+
+		ht.put(3, "Woot!");
 		System.out.println(ht.toString());
 
 	}

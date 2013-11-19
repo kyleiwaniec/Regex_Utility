@@ -13,6 +13,7 @@ public interface DoublyLinkedListInt<E>{
 	void removeLast();
 	void removeNext();
 	void removePrevious();
+	void removeCurrent();
 	int getSize();
 	boolean isEmpty();
 }

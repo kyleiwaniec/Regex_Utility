@@ -238,6 +238,34 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 		this.size--;
 	}
 
+	/** Removes the current item
+	*	
+	*	sets the next item to current
+	*
+	*/
+	@Override
+	public void removeCurrent() throws java.util.NoSuchElementException {
+		if (this.size == 0 || this.current == null) {
+			this.current = null;
+			throw new java.util.NoSuchElementException();
+		}
+		
+
+		if(this.current.next == null){
+			removeLast();
+		}else if (this.current.previous == null) {
+			removeFirst();
+		} else {
+			DNode<E> node = this.current;
+			this.current.next.previous = this.current.previous;
+			this.current.previous.next = this.current.next;
+
+			this.current = this.current.next;
+			
+			node.reset();
+			this.size--;
+		}
+	}
 	@Override
 	public int getSize() {
 		return this.size;
