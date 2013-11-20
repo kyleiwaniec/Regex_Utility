@@ -22,5 +22,9 @@ Ask Bostain:
 
 
 
+Clean-up and remove java.util dependencies:
 
-
+	DepthFirstSearch: iterator
+	DepthFirstSearchNR
+	AbstractGraph
+	Edge

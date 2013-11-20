@@ -74,11 +74,9 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         return true;
     }
     public void swap(int a, int b){
-        E tempb = (E) theData.get(b);
-        E tempa = (E) theData.get(a);
-
-        theData.set(b, tempa);
-        theData.set(a, tempb);
+        E temp = theData.get(a); 
+        theData.set(a, theData.get(b)); 
+        theData.set(b, temp);
     }
     public boolean isEmpty(){
         if(theData.size() == 0){
