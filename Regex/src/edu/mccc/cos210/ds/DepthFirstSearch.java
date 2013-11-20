@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 /**
  * Class to implement the depth-first search algorithm.
- * @author Koffman and Wolfgang
  **/
 public class DepthFirstSearch {
 

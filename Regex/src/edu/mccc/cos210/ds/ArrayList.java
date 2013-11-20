@@ -113,6 +113,14 @@ public class ArrayList<E>{
 		}
 		return index;
 	}
+	public boolean contains(E target){
+		for(int i = 0; i < size; i++){
+			if(theData[i] == target){
+				return true;
+			}
+		return false;	
+	}
+
 	public int size(){
 		return size;
 	}
