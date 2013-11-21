@@ -1,9 +1,9 @@
- package edu.mccc.cos210.ds; 
+package edu.mccc.cos210.ds;
  
  /** An Edge represents a relationship between two 
  * vertices. 
  */ 
- public class Edge { 
+ public class Edge{ 
 	 // Data Fields 
 	 
 	 /** The source vertex */ 

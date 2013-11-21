@@ -23,14 +23,14 @@ public interface Graph{
 	*/
 	void insert(Edge edge);
 	
-	/** Determone whether edge exists.
+	/** Determine whether edge exists.
 		@param source The source vertex
 		@param dest The desitination vertex
 		@return true if there is an edge from source to dest.
 	*/
 	boolean isEdge(int source, int dest);
 
-	/** Get the edge between two veritces.
+	/** Get the edge between two veritices.
 		@param source The source vertex
 		@param dest The desitination vertex
 		@return The Edge between these two vertices or 
@@ -44,6 +44,8 @@ public interface Graph{
 		@return An Iterator<Edge> to the vertices connected to the source
 
 		But we're not so lucky so Iterator goes away...
+		TODO: hasNext(), getNext()
 	*/
 	//Iterator<Edge> edgeIterator(int source);
+	
 }	 

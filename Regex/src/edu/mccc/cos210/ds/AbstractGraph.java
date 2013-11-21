@@ -8,7 +8,6 @@ import java.util.Scanner;
  * of vertices and a set of edges. Vertices are
  * represented by integers from 0 to n - 1. Edges
  * are ordered pairs of vertices.
- * @author Koffman and Wolfgang
  */
 public abstract class AbstractGraph implements Graph {
 
@@ -96,7 +95,8 @@ public abstract class AbstractGraph implements Graph {
         scan.nextLine();
         AbstractGraph returnValue = null;
         if (type.equalsIgnoreCase("Matrix")) {
-            returnValue = new MatrixGraph(numV, isDirected);
+            System.out.println("Matrix is not supported at this time");
+          //  returnValue = new MatrixGraph(numV, isDirected);
         } else if (type.equalsIgnoreCase("List")) {
             returnValue = new ListGraph(numV, isDirected);
         } else {

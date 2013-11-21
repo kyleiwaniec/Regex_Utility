@@ -118,9 +118,9 @@ public class ArrayList<E>{
 			if(theData[i] == target){
 				return true;
 			}
+		}
 		return false;	
 	}
-
 	public int size(){
 		return size;
 	}

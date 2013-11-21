@@ -1,4 +1,4 @@
-package edu.mcc.cos210.ds;
+package edu.mccc.cos210.ds;
 
 import java.util.Iterator;
 import java.util.Deque;

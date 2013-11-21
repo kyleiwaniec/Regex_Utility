@@ -58,20 +58,35 @@ public class DepthFirstSearch {
         // Mark the current vertex visited.
         visited[current] = true;
         discoveryOrder[discoverIndex++] = current;
-        // Examine each vertex adjacent to the current vertex
-        Iterator<Edge> itr = graph.edgeIterator(current);
-        while (itr.hasNext()) {
-            int neighbor = itr.next().getDest();
-            // Process a neighbor that has not been visited
-            if (!visited[neighbor]) {
-                // Insert (current, neighbor) into the depth-
-                // first search tree.
-                parent[neighbor] = current;
-                // Recursively apply the algorithm
-                // starting at neighbor.
-                depthFirstSearch(neighbor);
-            }
+
+        //the graph is a DLL of DLLs of edges
+
+        if(graph.hasNext()){
+            System.out.println(graph);
         }
+
+
+        // Examine each vertex adjacent to the current vertex
+        // Iterator<Edge> itr = graph.edgeIterator(current);
+        // while (itr.hasNext()) {
+        //     int neighbor = itr.next().getDest();
+        //     // Process a neighbor that has not been visited
+        //     if (!visited[neighbor]) {
+        //         // Insert (current, neighbor) into the depth-
+        //         // first search tree.
+        //         parent[neighbor] = current;
+        //         // Recursively apply the algorithm
+        //         // starting at neighbor.
+        //         depthFirstSearch(neighbor);
+        //     }
+        // }
+
+
+
+
+
+
+
         // Mark current finished.
         finishOrder[finishIndex++] = current;
     }
