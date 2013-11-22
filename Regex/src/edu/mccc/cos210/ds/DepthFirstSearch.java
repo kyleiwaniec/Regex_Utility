@@ -1,6 +1,5 @@
 package edu.mccc.cos210.ds;
 
-import java.util.Iterator;
 
 /**
  * Class to implement the depth-first search algorithm.
@@ -59,7 +58,7 @@ public class DepthFirstSearch {
         visited[current] = true;
         discoveryOrder[discoverIndex++] = current;
 
-        //the graph is a DLL of DLLs of edges
+        //the graph is an array of DLLs of edges
 
         if(graph.hasNext()){
             System.out.println(graph);

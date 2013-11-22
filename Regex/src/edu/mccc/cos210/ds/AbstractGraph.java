@@ -73,7 +73,7 @@ public abstract class AbstractGraph implements Graph {
              insert(new Edge(source, dest, weight)); 
          } 
     }
-
+    
     /**
      * Factory method to create a graph and load the data from an input
      * file. The first line of the input file should contain the number

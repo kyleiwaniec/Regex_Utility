@@ -48,4 +48,5 @@ public interface Graph{
 	*/
 	//Iterator<Edge> edgeIterator(int source);
 	
+	boolean hasNext();
 }	 

@@ -38,7 +38,10 @@ public class ListGraph extends AbstractGraph{
 												edge.getWeight()));
 		}
 	}
-
+	public boolean hasNext(){
+        // STUB!!
+        return true;
+    }
 	/** Determine whether an edge exists.
 		@param source The source vertex
 		@param dest The desitonation vertex
