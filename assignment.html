@@ -7,15 +7,13 @@
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="1187.4">
   <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p1 {margin: 0.0px 0.0px 20px 0.0px}
     font.f1 {font: 12.0px Helvetica}
-    span.Apple-tab-span {white-space:pre}
+    span.Apple-tab-span {width:50px; display:inline-block;}
   </style>
 </head>
 <body>
 <p class="p1"><font face="Helvetica" size="3" class="f1">Final Project:<span class="Apple-converted-space">  </span>Regular Expression Matcher</font></p>
-<p class="p2"><br></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">Design a utility class (Regex) in Java which will implement POSIX Extended Regular Expressions.<span class="Apple-converted-space">  </span>Additionally, you will need to write the supporting data structure classes, and a JFrame-based demonstration utility to show off your design, that minimally allows the user to enter regular expressions and the strings to be tested and shows meaningful results.</font></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">You can read about ERE’s at http://www.regular-expressions.info/posix.html#ere. <br>
 They extend the POSIX Basic Regular Expressions (BRE).<span class="Apple-converted-space">  </span>http://www.regular-expressions.info/posix.html#bre. Info about POSIX Bracket Expressions can be found at http://www.regular-expressions.info/posixbrackets.html.</font></p>
@@ -27,13 +25,12 @@ They extend the POSIX Basic Regular Expressions (BRE).<span class="Apple-convert
 <p class="p1"><font face="Helvetica" size="3" class="f1">The Regex class will support the following public constructor and public methods:</font></p>
 <p class="p2"><br></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">Regex(String regularExpression)<br>
-<span class="Apple-tab-span">	</span>public constructor.</font></p>
-<p class="p1"><font face="Helvetica" size="3" class="f1"><span class="Apple-tab-span">	</span>creates a stateful object representing the regular expression.</font></p>
+<span class="Apple-tab-span">	</span>public constructor. creates a stateful object representing the regular expression.</font></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">boolean find(String target);<br>
-<span class="Apple-tab-span">	</span>returns true if the regularExpression represented by this instance is found in the target beginning at 0 if no previous find or at the last end() position in the target.<br>
-throws NullPointerException if target is NULL.</font></p>
-<p class="p1"><font face="Helvetica" size="3" class="f1"><span class="Apple-tab-span">	</span>boolean find(String target, int start);<br>
-<span class="Apple-tab-span">	</span>returns true if the regularExpression represented by this instance is found in the target beginning at position start<br>
+<span class="Apple-tab-span"> </span>returns true if the regularExpression represented by this instance is found in the target beginning at 0 if no previous find or at the last end() position in the target.<br>
+<span class="Apple-tab-span"> </span>throws NullPointerException if target is NULL.</font></p>
+<p class="p1"><font face="Helvetica" size="3" class="f1">boolean find(String target, int start);<br>
+<span class="Apple-tab-span"> </span>returns true if the regularExpression represented by this instance is found in the target beginning at position start<br>
 <span class="Apple-tab-span">	</span>throws NullPointerException if target is NULL.</font></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">boolean match(String target);<br>
 <span class="Apple-tab-span">	</span>returns true if the regularExpression represented by this instance matches the target<br>
@@ -45,19 +42,15 @@ throws NullPointerException if target is NULL.</font></p>
 <span class="Apple-tab-span">	</span>after the last successful find returns returns the offset after the last character found.<br>
 <span class="Apple-tab-span">	</span>after a match returns length of the target.<br>
 <span class="Apple-tab-span">	</span>throws IllegalStateException If no match has yet been attempted, or if the previous match operation failed.</font></p>
-<p class="p2"><br></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">String getCapture(int n); <br>
-<span class="Apple-tab-span">	</span>after last successful match or find return the nth capture group. A value of 0 <span class="Apple-tab-span">	</span>returns the entire found or matched<span class="Apple-converted-space">  </span>string.<br>
+<span class="Apple-tab-span">	</span>after last successful match or find return the nth capture group. A value of 0 returns the entire found or matched<span class="Apple-converted-space">  </span>string.<br>
 <span class="Apple-tab-span">	</span>throws IllegalStateException If no match has yet been attempted, or if the previous match operation failed.<br>
 <span class="Apple-tab-span">	</span>throws IndexOutOfBoundsException If there is no capturing group in the pattern with the given index</font></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">int captureCount();<br>
-<span class="Apple-tab-span">	</span>after last successful match returns the number of strings captured in the target.<br>
+<span class="Apple-tab-span">	</span>after last successful match or find returns the number of strings captured in the target.<br>
 <span class="Apple-tab-span">	</span>throws IllegalStateException If no match has yet been attempted, or if the previous match operation failed.</font></p>
 <p class="p1"><font face="Helvetica" size="3" class="f1">void reset();<br>
-<span class="Apple-tab-span">	</span>resets the state of the Regex object so that it may be reused.<span class="Apple-converted-space"> </span></font></p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
-<p class="p2"><br></p>
+<span class="Apple-tab-span">	</span>resets the state of the Regex object so that it may be reused. does not clear the regular expression<span class="Apple-converted-space"> </span></font></p>
+
 </body>
 </html>
