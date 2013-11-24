@@ -1,31 +1,31 @@
-Data structures:
-	ArrayList
-	LinkedList
-	Stack
-	Queue
-	BinaryTree
-	BinarySearchTree
-	HuffmanTree
-	[Maps, Graphs]
-
-UI:
-	input regex
-	input string
-	output results
-
-POSIX Extended Regular Expressions:
-	String Tokenizer / parser ??
+package edu.mccc.cos210.ds;
+public interface Iterator<E>{
+	boolean hasNext();
+    E next();
+    void remove();
+}
 
 
-Ask Bostain:
-	java.util.StringTokenizer ??
+@Override
+	public Iterator<E> iterator() {
+		return new MyIterator<E>();
+	}
+	//iterator inner class:
+	public class MyIterator<E>  extends DoublyLinkedList<E>{ 
+		public boolean hasNext(){
+			//Returns true if the iteration has more elements.
+			return super.hasNext();
+		}
+		public E next(){
+			//Returns the next element in the iteration.
+			return super.getNext();
+		}
+		public void remove(){
+			//Removes from the underlying collection the last element returned by this iterator (optional operation).
+		}
+	}
 
-
-
-
-
-
-
+	
 //Comparator anonymous class implementation
     public static Comparator<Customer> idComparator = new Comparator<Customer>(){
         @Override

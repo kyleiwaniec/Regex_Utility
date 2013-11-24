@@ -79,9 +79,8 @@ public class ArrayList<E>{
 			for(int i = index; i < size; i++){
 				theData[i-1] = theData[i];
 			}
+			size--;
 		}
-		size--;
-		System.out.println("returnValue"+returnValue);
 		return returnValue;
 	}
 
@@ -113,6 +112,14 @@ public class ArrayList<E>{
 			}
 		}
 		return index;
+	}
+	public boolean contains(E target){
+		for(int i = 0; i < size; i++){
+			if(theData[i] == target){
+				return true;
+			}
+		}
+		return false;	
 	}
 	public int size(){
 		return size;

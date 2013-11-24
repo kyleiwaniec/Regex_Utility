@@ -1,5 +1,5 @@
 package edu.mccc.cos210.tests;
-import edu.mccc.cos210.ds.DoublyLinkedListImpl;
+import edu.mccc.cos210.ds.DoublyLinkedList;
 
 public class DoublyLinkedListTest{
 	public static void main(String[] sa) throws Exception {
@@ -9,7 +9,7 @@ public class DoublyLinkedListTest{
 	private void doIt() throws Exception {
 		//@SuppressWarnings("unchecked")
 		int i = 0;
-		DoublyLinkedListImpl<String> dlls = new DoublyLinkedListImpl <String>();
+		DoublyLinkedList<String> dlls = new DoublyLinkedList <String>();
 
 		System.out.println(++i+". "+dlls);
 		dlls.addNext("A");
@@ -28,13 +28,17 @@ public class DoublyLinkedListTest{
 		dlls.removeFirst();
 		System.out.println("remove first: ");
 		System.out.println(++i+". "+dlls);
+
+		System.out.println("next: "+dlls.hasNext());
+
+
 		dlls.removeLast();
 		System.out.println("remove last: ");
 		System.out.println(++i+". "+dlls);
 		dlls.getPrevious();
 		System.out.println("current Element: "+dlls.getCurrent());
-		dlls.removeNext();
-		System.out.println("remove next: ");
+		dlls.removeCurrent();
+		System.out.println("removed current^^: ");
 		System.out.println(++i+". "+dlls);
 		
 		System.out.println("current Element: "+dlls.getCurrent());

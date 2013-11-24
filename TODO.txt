@@ -1,0 +1,21 @@
+Data structures:
+	ArrayList
+	LinkedList
+	Stack
+	Queue
+	BinaryTree
+	BinarySearchTree
+	HuffmanTree
+	[Maps, Graphs]
+
+UI:
+	input regex
+	input string
+	output results
+
+POSIX Extended Regular Expressions:
+	there are 4 ways of implementing FSA: enum, if-else, switch case, graph, hashMap
+
+Ask Bostain:
+	
+

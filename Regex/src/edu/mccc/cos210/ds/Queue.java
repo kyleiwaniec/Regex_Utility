@@ -6,7 +6,7 @@ package edu.mccc.cos210.ds;
 public class Queue<E> implements QueueInt<E> {
 
     // Data Field
-    private DoublyLinkedListImpl<E> theQueue = new DoublyLinkedListImpl<E>(); // LinkedList that is the queue.
+    private DoublyLinkedList<E> theQueue = new DoublyLinkedList<E>(); // LinkedList that is the queue.
     private int size(){
         return theQueue.getSize();
     }

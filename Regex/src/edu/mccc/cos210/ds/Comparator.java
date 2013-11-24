@@ -10,7 +10,6 @@ public class Comparator<E> implements ComparatorInt<E>{
 		// Comparable<E> right = p2.getName();
 		return ((Comparable<E>) left).compareTo(right);
 	}
-	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
 	}

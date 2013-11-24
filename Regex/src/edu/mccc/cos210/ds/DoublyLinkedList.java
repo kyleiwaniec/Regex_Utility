@@ -1,15 +1,18 @@
 package edu.mccc.cos210.ds;
 
-public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
+
+public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 	private DNode<E> head;
 	private DNode<E> tail;
 	private DNode<E> current;
 	private int size = 0;
-	public DoublyLinkedListImpl() {
+
+	public DoublyLinkedList() {
 		this.head = null;
 		this.tail = null;
 		this.current = null;
 	}
+	
 	@Override
 	public E getFirst() throws java.util.NoSuchElementException {
 		if (this.size == 0) {
@@ -37,6 +40,24 @@ public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
 		}
 		E element = this.current.element;
 		return element;
+	}
+	public boolean hasNext(){
+		if (this.size == 0 || this.current == null) {
+			return false;
+		}
+		if(this.current.next == null){
+			return false;
+		}
+		//this.current = this.current.previous;
+		return true;
+
+
+
+
+		//return currentIndex < currentSize && arrayList[currentIndex] != null;
+
+
+				
 	}
 	@Override
 	public E getPrevious() {
@@ -78,7 +99,6 @@ public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
 		}
 		this.current = node;
 		this.size++;
-
 
 	}
 	@Override 
@@ -218,6 +238,34 @@ public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
 		this.size--;
 	}
 
+	/** Removes the current item
+	*	
+	*	sets the next item to current
+	*
+	*/
+	@Override
+	public void removeCurrent() throws java.util.NoSuchElementException {
+		if (this.size == 0 || this.current == null) {
+			this.current = null;
+			throw new java.util.NoSuchElementException();
+		}
+		
+
+		if(this.current.next == null){
+			removeLast();
+		}else if (this.current.previous == null) {
+			removeFirst();
+		} else {
+			DNode<E> node = this.current;
+			this.current.next.previous = this.current.previous;
+			this.current.previous.next = this.current.next;
+
+			this.current = this.current.next;
+			
+			node.reset();
+			this.size--;
+		}
+	}
 	@Override
 	public int getSize() {
 		return this.size;
@@ -228,30 +276,34 @@ public class DoublyLinkedListImpl<E> implements DoublyLinkedListInt<E> {
 	}
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("< ");
+		StringBuilder sb = new StringBuilder("<");
 		DNode<E> node = head;
 		while (node != null) {
 			if (node.element != null) {
-				sb.append(node.element.toString() + " ");
+				sb.append(", "+node.element.toString());
 			} else {
 				sb.append("null ");
 			}
 			node = node.next;
 		}
-		sb.append(">");
+		if(sb.length()>2){sb.deleteCharAt(1);};
+		sb.append(" >");
 		return sb.toString();
 	}
-	private class DNode<T> {
-		private T element;
-		private DNode<T> next = null;
-		private DNode<T> previous = null;
+	public class DNode<T> {
+		public T element;
+		public DNode<T> next = null;
+		public DNode<T> previous = null;
 		public DNode(T element) {
 			this.element = element;
 		}
-		private void reset() {
+		public void reset() {
 			this.element = null;
 			this.next = null;
 			this.previous = null;
 		}
 	}
+	
+
+
 }

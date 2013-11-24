@@ -1,5 +1,5 @@
 package edu.mccc.cos210.ds;
-public interface DoublyLinkedListInt<E> {
+public interface DoublyLinkedListInt<E>{
 	E getFirst();
 	E getLast();
 	E getNext();
@@ -13,6 +13,7 @@ public interface DoublyLinkedListInt<E> {
 	void removeLast();
 	void removeNext();
 	void removePrevious();
+	void removeCurrent();
 	int getSize();
 	boolean isEmpty();
 }
