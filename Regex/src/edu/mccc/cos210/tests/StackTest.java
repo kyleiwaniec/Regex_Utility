@@ -9,14 +9,9 @@ public class StackTest{
 		stack.push("is");
 		stack.push("my");
 		stack.push("implementation");
-
-		System.out.println(stack.toString());
-
 		stack.push(" - woohoo!");
 		System.out.println(stack.toString());
-		stack.push("awesome");
-		System.out.println(stack.toString());
-
+		System.out.println(stack.getSize());
 		
 		System.out.println("popped item: "+stack.pop());
 		System.out.println(stack.toString());

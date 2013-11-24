@@ -2,6 +2,7 @@ package edu.mccc.cos210.ds;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Iterator;
 
 /**
  * Abstract base class for graphs. A graph is a set
@@ -66,9 +67,9 @@ public abstract class AbstractGraph implements Graph {
              String[] tokens = line.split("\\s+"); 
              int source = Integer.parseInt(tokens[0]); 
              int dest = Integer.parseInt(tokens[1]); 
-             double weight = 1.0; 
+             char[] weight = new char[128]; 
              if (tokens.length == 3) { 
-                weight = Double.parseDouble(tokens[2]); 
+                //weight = Double.parseDouble(tokens[2]); 
              } 
              insert(new Edge(source, dest, weight)); 
          } 

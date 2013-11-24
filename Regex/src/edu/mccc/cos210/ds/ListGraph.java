@@ -1,14 +1,13 @@
 package edu.mccc.cos210.ds;
+import java.util.Iterator;
 
 /** A ListGraph is an extention of the AbstractGraph 
 	abstract class that uses an array of lists to represent the edges
 */
-public class ListGraph extends AbstractGraph{
+public class ListGraph extends AbstractGraph implements Iterable{
 	// Data field
-	/** An array of Lists to contain the edges that originate with each vertex
-		(each vertex, as in each index value will be a state, each edge will be transition/conditional 
-		it's what tells the machine which state to move to. EX: if I'm in state 1, and pattern matches edge a, go to state 2
-		1 ------a------- 2 )
+	/** A List of Lists to contain the edges that originate with each vertex
+		
 	*/
 	private DoublyLinkedList<Edge>[] edges;
 
@@ -30,18 +29,18 @@ public class ListGraph extends AbstractGraph{
 		@param edge The new edge
 
 	*/	
-	public void insert(Edge edge){
+	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char[] weight))
+		// add the edge to the end of the list for the given source vertex
 		edges[edge.getSource()].addLast(edge);
+
 		if(!isDirected()){
 			edges[edge.getDest()].addLast(new Edge(edge.getDest(),
 												edge.getSource(),
 												edge.getWeight()));
 		}
 	}
-	public boolean hasNext(){
-        // STUB!!
-        return true;
-    }
+
+
 	/** Determine whether an edge exists.
 		@param source The source vertex
 		@param dest The desitonation vertex
@@ -50,6 +49,7 @@ public class ListGraph extends AbstractGraph{
 	public boolean isEdge(int source, int dest){
 		Edge target = new Edge(source, dest);
 		// loop over edges[source] (DLL) => return edge if exists
+		// this should be re-written back to the original using the iterator, but I don't have that kind of time.
 
 
 		Edge nextItem = (Edge) edges[source].getFirst();
@@ -73,7 +73,7 @@ public class ListGraph extends AbstractGraph{
 		@return the edge between these two vertices
 	*/
 	public Edge getEdge(int source, int dest){
-		Edge target = new Edge(source, dest, Double.POSITIVE_INFINITY);
+		Edge target = new Edge(source, dest, new char[128]);
 		// loop over edges[source] (DLL) => return edge if exists
 
 
@@ -89,5 +89,71 @@ public class ListGraph extends AbstractGraph{
 
 		//Assert: All edges for source checked. desired edge not found;
 		return target;
-	}	
+	}
+
+	@Override
+	public Iterator<Edge> iterator(){
+		return new Iter();
+	};
+	@Override
+	public Iterator<Edge> edgeIterator(int source){
+		return new Iter(source);
+	};
+
+	private class Iter implements Iterator<Edge> {
+        // Data Fields
+
+        // Count of elements accessed so far */
+        private int count = 0;
+        private int source;
+
+        // Methods
+        // Constructor
+        /**
+         * Initializes the Iter object to reference the
+         * first  element.
+         */
+        public Iter(){
+        	//super(source);
+        }
+        public Iter(int source) {
+        	this.source = source;
+            count = 0;
+        }
+
+        /**
+         * Returns true if there are more elements in the queue to access.
+         * @return true if there are more elements in the queue to access.
+         */
+        @Override
+        public boolean hasNext() {
+            return count < edges[source].getSize();
+        }
+
+        /**
+         * Returns the next element in the queue.
+         * @pre index references the next element to access.
+         * @post index and count are incremented.
+         * @return The element with subscript index
+         */
+        @Override
+        public Edge next() {
+            count++;
+			Edge edge = edges[source].getCurrent();
+			edges[source].getNext();
+			return edge;
+            
+        }
+
+        /**
+         * Remove the item accessed by the Iter object -- not implemented.
+         * @throws UnsupportedOperationException when called
+         */
+        @Override
+        public void remove() {
+        	throw new UnsupportedOperationException();
+        }
+    }
+
+
 }

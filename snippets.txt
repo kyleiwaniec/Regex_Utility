@@ -50,3 +50,43 @@ int	compare(T o1, T o2)
 Compares its two arguments for order.
 boolean	equals(Object obj)
 Indicates whether some other object is "equal to" this comparator.
+
+
+
+An Iterator as an inner class would look like this:
+
+class MyIterable implements Iterable {
+    public Iterator iterator() {
+        return new Iterator() {
+            public boolean hasNext() {...}
+            public Object next() {...}
+            void remove();
+        }
+    }
+}
+In contrast, an Iterator that's not an inner class might look more like:
+
+class MyIterable implements Iterable {
+    public Iterator iterator() {
+        return new MyIterator();
+    }
+}
+
+class MyIterator {
+    public boolean hasNext() {...}
+    public Object next() {...}
+    void remove();
+}
+This is another way that's technically speaking not an inner class, but some people will look at you funny if you say that:
+
+class MyIterable implements Iterable {
+    public Iterator iterator() {
+        return new MyIterator();
+    }
+
+    static class MyIterator {
+        public boolean hasNext() {...}
+        public Object next() {...}
+        void remove();
+    }
+}

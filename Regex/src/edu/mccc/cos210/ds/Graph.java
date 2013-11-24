@@ -1,5 +1,5 @@
 package edu.mccc.cos210.ds;
-
+import java.util.Iterator;
 /** Itereface to specify the Graph ADT. 
 Each implementation should provide a constructor 
 that specifies the number of veritcies and whether 
@@ -43,10 +43,7 @@ public interface Graph{
 		@param source The source vertex
 		@return An Iterator<Edge> to the vertices connected to the source
 
-		But we're not so lucky so Iterator goes away...
-		TODO: hasNext(), getNext()
 	*/
-	//Iterator<Edge> edgeIterator(int source);
+	Iterator<Edge> edgeIterator(int source);
 	
-	boolean hasNext();
 }	 

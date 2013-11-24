@@ -34,6 +34,7 @@ public class Stack<E> implements StackInt<E> {
         }
         topOfStack++;
         theData[topOfStack] = obj;
+        size++;
         
         return obj;
     }
@@ -51,6 +52,7 @@ public class Stack<E> implements StackInt<E> {
         if (empty()) {
             throw new java.util.EmptyStackException();
         }
+        size--;
         return theData[topOfStack--];
     }
     /**
@@ -76,6 +78,9 @@ public class Stack<E> implements StackInt<E> {
             return false;
         }
     }
+    public int getSize(){
+        return this.size;
+    }
     private void reallocate(){
         capacity = 2*theData.length;
         E[] newData = (E[]) new Object[capacity];
@@ -85,7 +90,7 @@ public class Stack<E> implements StackInt<E> {
 
     public String toString(){
         String res = "";
-        for(int i = 0; i < topOfStack; i++) {
+        for(int i = 0; i < size; i++) {
             res += ", "+theData[i];
         }
         res = res.substring(2, res.length());

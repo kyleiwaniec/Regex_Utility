@@ -4,14 +4,14 @@ import edu.mccc.cos210.ds.DoublyLinkedList;
 
 public class Regex{
 	public static void main(String[] sa) throws Exception {
-		new Regex().doIt();
+		new Regex("sally").doIt();
 	}
 	
 	private void doIt() throws Exception {
 		
 	}
 
-	public Regex(String regularExpression){
+	public Regex(String regularExpression) throws IOException {
 
 		BufferedReader br = stringToBR(regularExpression);
 		int c;

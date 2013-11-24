@@ -11,7 +11,9 @@ package edu.mccc.cos210.ds;
 	 /** The destination vertex */ 
 	 private int dest; 
 	 /** The weight */ 
-	 private double weight; 
+	 //private double weight; 
+
+	 private char[] weight; 
 	 
 	 // Constructor 
 	 /** Construct an Edge with a source of from 
@@ -23,7 +25,7 @@ package edu.mccc.cos210.ds;
 	 public Edge(int source, int dest) { 
 		 this.source = source; 
 		 this.dest = dest; 
-		 weight = 1.0; 
+		 weight = new char[128];  // the ASCII set we're working with.
 	 } 
 	 
 	 /** Construct a weighted edge with a source 
@@ -33,10 +35,10 @@ package edu.mccc.cos210.ds;
 	 * @param to - The destination vertex 
 	 * @param w - The weight 
 	 */ 
-	 public Edge(int source, int dest, double w) { 
+	 public Edge(int source, int dest, char[] w) { 
 		 this.source = source; 
 		 this.dest = dest; 
-		 weight = w; 
+		 this.weight = w; 
 	 } 
 	 
 	 // Methods 
@@ -57,7 +59,7 @@ package edu.mccc.cos210.ds;
 	 /** Get the weight 
 	 * @return the value of weight 
 	 */ 
-	 public double getWeight() { 
+	 public char[] getWeight() { 
 		return weight; 
 	 } 
 	 
@@ -71,7 +73,7 @@ package edu.mccc.cos210.ds;
 		 sb.append(", "); 
 		 sb.append(Integer.toString(dest)); 
 		 sb.append("): "); 
-		 sb.append(Double.toString(weight)); 
+		 sb.append(weight.toString()); 
 		 sb.append("]"); 
 		 return sb.toString(); 
 	 } 

@@ -1,5 +1,6 @@
 package edu.mccc.cos210.ds;
-public class ArrayList<E>{
+import java.util.Iterator;
+public class ArrayList<E>  implements Cloneable, Iterable{
 
 	// Data fields
 	/** The default initial capacity */
@@ -76,8 +77,8 @@ public class ArrayList<E>{
 		}else if(index == size-1){
 			this.pop();
 		}else{
-			for(int i = index; i < size; i++){
-				theData[i-1] = theData[i];
+			for(int i = index; i < size-1; i++){
+				theData[i] = theData[i+1];
 			}
 			size--;
 		}
@@ -86,7 +87,7 @@ public class ArrayList<E>{
 
 	public E shift(){ // removes the first item in the list
 		E returnValue = theData[0];
-		for(int i = 0; i < size; i++){
+		for(int i = 0; i < size-1; i++){
 				theData[i] = theData[i+1];
 			}
 		size--;
@@ -131,6 +132,17 @@ public class ArrayList<E>{
 		theData = newData;
 	}
 
+	 public Object clone(){
+        try{
+            ArrayList<E> cloned = (ArrayList<E>) super.clone();
+            cloned.theData = (E[]) theData.clone();
+            return cloned;
+        }catch(CloneNotSupportedException ex){
+            throw new InternalError();
+        }
+    }
+
+
 	public String toString(){
 		String res = "";
 		for(int i = 0; i < size; i++) {
@@ -141,6 +153,64 @@ public class ArrayList<E>{
 		return res;
 
 	}
+	@Override
+	public Iterator<E> iterator(){
+		return new Iter();
+	};
+	private class Iter implements Iterator<E> {
+        // Data Fields
+        // Index of next element */
+
+        private int index;
+        // Count of elements accessed so far */
+        private int count = 0;
+
+        // Methods
+        // Constructor
+        /**
+         * Initializes the Iter object to reference the
+         * first queue element.
+         */
+        public Iter() {
+            count = 0;
+        }
+
+        /**
+         * Returns true if there are more elements in the queue to access.
+         * @return true if there are more elements in the queue to access.
+         */
+        @Override
+        public boolean hasNext() {
+            return count < size;
+        }
+
+        /**
+         * Returns the next element in the queue.
+         * @pre index references the next element to access.
+         * @post index and count are incremented.
+         * @return The element with subscript index
+         */
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+            E returnValue = theData[index];
+            index = (index + 1) % capacity;
+            count++;
+            
+            return returnValue;
+        }
+
+        /**
+         * Remove the item accessed by the Iter object -- not implemented.
+         * @throws UnsupportedOperationException when called
+         */
+        @Override
+        public void remove() {
+        	throw new UnsupportedOperationException();
+        }
+    }
 }
 
 

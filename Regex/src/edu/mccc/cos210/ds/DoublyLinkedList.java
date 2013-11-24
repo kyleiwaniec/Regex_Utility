@@ -1,7 +1,7 @@
 package edu.mccc.cos210.ds;
+import java.util.Iterator;
 
-
-public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
+public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 	private DNode<E> head;
 	private DNode<E> tail;
 	private DNode<E> current;
@@ -304,6 +304,62 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>{
 		}
 	}
 	
+	@Override
+	public Iterator<E> iterator(){
+		return new Iter();
+	};
+	
+	private class Iter extends DoublyLinkedList<E> implements Iterator<E> {
+        // Data Fields
+        // Index of next element */
 
+        private int index;
+        // Count of elements accessed so far */
+        private int count = 0;
+
+        // Methods
+        // Constructor
+        /**
+         * Initializes the Iter object to reference the
+         * first queue element.
+         */
+        public Iter() {
+           count = 0;
+           DoublyLinkedList.this.current = DoublyLinkedList.this.head;
+        }
+
+        /**
+         * Returns true if there are more elements in the queue to access.
+         * @return true if there are more elements in the queue to access.
+         */
+        @Override
+        public boolean hasNext() {
+            return count < DoublyLinkedList.this.getSize();
+        }
+
+        /**
+         * Returns the next element in the queue.
+         * @pre index references the next element to access.
+         * @post index and count are incremented.
+         * @return The element with subscript index
+         */
+        @Override
+        public E next() {
+        	
+			count++;
+			E element = DoublyLinkedList.this.current.element;
+			DoublyLinkedList.this.current = DoublyLinkedList.this.current.next;
+			return element;
+        }
+
+        /**
+         * Remove the item accessed by the Iter object -- not implemented.
+         * @throws UnsupportedOperationException when called
+         */
+        @Override
+        public void remove() {
+        	throw new UnsupportedOperationException();
+        }
+    }
 
 }
