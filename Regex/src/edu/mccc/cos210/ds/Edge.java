@@ -68,16 +68,20 @@ package edu.mccc.cos210.ds;
 	 */ 
 	 @Override 
 	 public String toString() { 
-		 StringBuilder sb = new StringBuilder("[("); 
+		 StringBuilder sb = new StringBuilder(", [("); 
 		 sb.append(Integer.toString(source)); 
 		 sb.append(", "); 
 		 sb.append(Integer.toString(dest)); 
 		 sb.append("): "); 
-		 sb.append(weight.toString()); 
+		 sb.append(String.valueOf(weight)); 
 		 sb.append("]"); 
+
+		
+
 		 return sb.toString(); 
 	 } 
 	 
+	
 	 /** Return true if two edges are equal. Edges 
 	 * are equal if the source and destination Programming Exercise Solutions Page 51 of 64
 	 * are equal. Weight is not conidered.

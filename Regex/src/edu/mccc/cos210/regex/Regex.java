@@ -8,6 +8,7 @@ public class Regex{
 	}
 	
 	private void doIt() throws Exception {
+
 		
 	}
 

@@ -1,15 +1,22 @@
 package edu.mccc.cos210.ds;
 import java.util.Iterator;
 
-/** A ListGraph is an extention of the AbstractGraph 
-	abstract class that uses an array of lists to represent the edges
+/** A ListGraph is a class that uses an array of lists to represent the edges
 */
-public class ListGraph extends AbstractGraph implements Iterable{
+public class ListGraph implements Iterable, Graph{
 	// Data field
-	/** A List of Lists to contain the edges that originate with each vertex
+	/** An array of Lists to contain the edges that originate with each vertex
 		
 	*/
 	private DoublyLinkedList<Edge>[] edges;
+
+	// Data Fields
+    /** The number of vertices */
+    private int numV;
+    /** Flag to indicate whether this is a directed graph */
+    private boolean directed;
+
+
 
 	/** Construct a graph with the specified number of vertices
 		and directionality
@@ -17,13 +24,15 @@ public class ListGraph extends AbstractGraph implements Iterable{
 		@param directed The directionality flag
 	*/	
 	public ListGraph(int numV, boolean isDirected){
-		super(numV, isDirected);
+		this.numV = numV;
+        this.directed = isDirected;
 		edges = new DoublyLinkedList[numV];
 		for(int i = 0; i < numV; i++){
 			edges[i] = new DoublyLinkedList<Edge>();
 		}
 	}
-
+	public ListGraph(){
+	}
 	/** Inset a new edge into the graph.
 		a new Edge is created in AbstractGraph when read in from file
 		@param edge The new edge
@@ -31,15 +40,34 @@ public class ListGraph extends AbstractGraph implements Iterable{
 	*/	
 	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char[] weight))
 		// add the edge to the end of the list for the given source vertex
+		System.out.println("directed"+isDirected());
 		edges[edge.getSource()].addLast(edge);
 
 		if(!isDirected()){
+
 			edges[edge.getDest()].addLast(new Edge(edge.getDest(),
 												edge.getSource(),
 												edge.getWeight()));
 		}
 	}
+	 // Accessor Methods
+    /**
+     * Return the number of vertices.
+     * @return The number of vertices
+     */
+    @Override
+    public int getNumV() {
+        return numV;
+    }
 
+    /**
+     * Return whether this is a directed graph.
+     * @return true if this is a directed graph
+     */
+    @Override
+    public boolean isDirected() {
+        return directed;
+    }
 
 	/** Determine whether an edge exists.
 		@param source The source vertex
@@ -89,6 +117,16 @@ public class ListGraph extends AbstractGraph implements Iterable{
 
 		//Assert: All edges for source checked. desired edge not found;
 		return target;
+	}
+	public String toString(){
+		StringBuilder sb = new StringBuilder(); 
+		for(int i = 0; i < edges.length; i++){
+			for(Object e : edges[i]){
+				sb.append(e); 
+			}
+		}
+		if(sb.length()>2){sb.deleteCharAt(0);};
+		return sb.toString();
 	}
 
 	@Override
