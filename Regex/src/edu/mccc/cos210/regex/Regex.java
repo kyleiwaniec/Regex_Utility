@@ -3,28 +3,40 @@ import java.io.*;
 import edu.mccc.cos210.ds.DoublyLinkedList;
 
 public class Regex{
-	public static void main(String[] sa) throws Exception {
-		new Regex("sally").doIt();
-	}
+	// public static void main(String[] sa) throws Exception {
+	// 	new Regex("sally").doIt();
+	// }
 	
-	private void doIt() throws Exception {
+	// private void doIt() throws Exception {
 
 		
+	// }
+
+	String regExpr;
+	String target;
+
+	public Regex(){
+	}
+	public Regex(String regularExpression){
+	}
+	public Regex(String regExpr, String target){
+		this.regExpr = regExpr;
+		this.target = target;
 	}
 
-	public Regex(String regularExpression) throws IOException {
 
-		BufferedReader br = stringToBR(regularExpression);
+	public void evaluate(String regExpr, String target) throws IOException {
+		BufferedReader br = stringToBR(regExpr);
 		int c;
+
 		while ((c = br.read()) != -1) {
 			// TODO process Regex depending on char to build graph
 			System.out.println((char) c);
 		}
 		br.close();
-
-		
-
 	}
+
+
 
 	// private helper methods:
 	private static BufferedReader stringToBR(String str){
