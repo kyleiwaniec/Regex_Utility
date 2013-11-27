@@ -96,7 +96,8 @@ public class KHRETester extends JFrame {
 					// URL url = getClass().getResource("grumpycat.jpg");
 					// File file = new File(url.getPath());
 
-					File f = new File("/Volumes/Victoria/Rosemary/COS210/Regex_Utility/Regex/src/edu/mccc/cos210/regex/grumpycat.jpg");
+					//File f = new File("/Volumes/Victoria/Rosemary/COS210/Regex_Utility/Regex/src/edu/mccc/cos210/regex/grumpycat.jpg");
+					File f = new File(sa[0]);
 					BufferedImage img = ImageIO.read(f);
 					// int w = img.getWidth(null);
 					// int h = img.getHeight(null);
