@@ -10,7 +10,7 @@ public class DoublyLinkedListTest{
 	private void doIt() throws Exception {
 		//@SuppressWarnings("unchecked")
 		int i = 0;
-		DoublyLinkedList<String> dlls = new DoublyLinkedList <String>();
+		DoublyLinkedList<String> dlls = new DoublyLinkedList<String>();
 
 		System.out.println(++i+". "+dlls);
 		dlls.addNext("A");
@@ -30,7 +30,8 @@ public class DoublyLinkedListTest{
 			System.out.println("item: "+item);
 		}
 
-
+		System.out.println("toString: ");
+		System.out.println(dlls.toString());
 		//System.out.println("current 2: "+dlls.getCurrent());
 
 

@@ -184,28 +184,24 @@ public class PriorityQueue<E> extends QueueSingle<E> implements Cloneable{
     }
 
     public String toStringDesc(){
-
         PriorityQueue<E> theCopy = (PriorityQueue<E>) this.clone();
         int size = theCopy.theData.size();
-        String res = "";
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < size; i++) {
-            res += ", "+theCopy.poll();
+            sb.append(", "+theCopy.poll());
         }
-        res = res.substring(2, res.length()); // get rid of leading comma and space (2 characters)
-        return res;
+        if(sb.length()>=2){sb.delete(0,2);};
+        return sb.toString();
     }
-
-
-
 
     @Override
     public String toString(){
-        String res = "";
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < theData.size(); i++) {
-            res += ", "+theData.get(i);
+            sb.append(", "+theData.get(i));
         }
-        res = res.substring(2, res.length()); // get rid of leading comma and space (2 characters)
-        return res;
+        if(sb.length()>=2){sb.delete(0,2);};
+        return sb.toString();
     }
     /**
      * Compare two items using either a Comparator object�s compare method

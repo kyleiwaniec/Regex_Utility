@@ -29,13 +29,12 @@ public class Stack<E> implements StackInt<E> {
      */
     @Override
     public E push(E obj) {
-        if (topOfStack == theData.length - 1) {
+        if (topOfStack == theData.length-1) {
             reallocate();
         }
         topOfStack++;
         theData[topOfStack] = obj;
         size++;
-        
         return obj;
     }
 
@@ -84,18 +83,18 @@ public class Stack<E> implements StackInt<E> {
     private void reallocate(){
         capacity = 2*theData.length;
         E[] newData = (E[]) new Object[capacity];
-        System.arraycopy(theData, 0, newData, 0, topOfStack);
+        System.arraycopy(theData, 0, newData, 0, topOfStack+1);
         theData = newData;
     }
 
     public String toString(){
-        String res = "";
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < size; i++) {
-            res += ", "+theData[i];
+            sb.append(", "+theData[i]);
         }
-        res = res.substring(2, res.length());
-
-        return res;
+        if(sb.length()>=2){sb.delete(0,2);};
+        if(size == 0){sb.append("* empty stack *");};
+        return sb.toString();
 
     }
 

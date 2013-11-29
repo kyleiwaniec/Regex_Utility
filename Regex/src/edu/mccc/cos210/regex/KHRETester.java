@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.*;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,9 +20,7 @@ import javax.swing.JTextField;
 import javax.imageio.ImageIO;
 
 import java.net.URL;
-
 import java.io.*;
-// import com.sun.image.codec.jpeg.*;
 
 public class KHRETester extends JFrame {
 
@@ -36,13 +35,16 @@ public class KHRETester extends JFrame {
 			new MyJPanel(),
 			BorderLayout.CENTER
 		);
-		setSize(512, 512);
+		setSize(734, 734);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 	}
+	public static String[] sa;
+	 
 
 	public static void main(String[] sa) {
+		KHRETester.sa = sa;
 		new KHRETester();
 	}
 
@@ -50,21 +52,60 @@ public class KHRETester extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private boolean result = false;
-		private JTextField jtfRegex = new JTextField("RegularExpression", 32);
-		private JTextField jtfString = new JTextField("TestString", 32);
-		private JButton jButton = new JButton("Match");
-		private JLabel jLabel = new JLabel(new MyIcon());
+		private JTextField jtfRegex = new JTextField("cat", 32);
+		private JTextField jtfString = new JTextField("12cat", 32);
+
+		private JButton jBtn_Match = new JButton("Match");
+		private JButton jBtn_Find = new JButton("Find Next");
+		private JButton jBtn_Reset = new JButton("Reset");
+		
+		private URL grumpy = getClass().getResource("/img/grumpycat.jpg");
+		private URL dancing = getClass().getResource("/img/dancingCat.gif");
+		private JLabel jLabel1 = new JLabel(new ImageIcon(grumpy));
+		private JLabel jLabel2 = new JLabel(new ImageIcon(dancing));
+		private int icon;
+
 		public MyJPanel() {
 			super();
-			jButton.addActionListener(this);
+			jBtn_Match.addActionListener(this);
+			jBtn_Find.addActionListener(this);
+			jBtn_Reset.addActionListener(this);
+
+			jLabel1.setVisible(false);
+			jLabel2.setVisible(false);
+
 			add(jtfRegex);
 			add(jtfString);
-			add(jLabel);
-			add(jButton);
+			add(jBtn_Match);
+			add(jBtn_Find);
+			add(jBtn_Reset);
+			add(jLabel1);
+			add(jLabel2);
+			
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == jBtn_Match){
+				try{
+					result = reEvaluator.match(jtfRegex.getText(), jtfString.getText());
+					icon = result ? 1 : 2;
+				}catch (IOException ioe){
+					ioe.printStackTrace();
+				}
+			}else if (e.getSource() == jBtn_Find){
+				try{
+					result = reEvaluator.find(jtfRegex.getText(), jtfString.getText(), reEvaluator.getStart());
+					icon = result ? 1 : 2;
+				}catch (IOException ioe){
+					ioe.printStackTrace();
+				}
+			}else if (e.getSource() == jBtn_Reset){
+				reEvaluator.reset();
+				icon = 3;
+			}
+
 			System.out.println(
 				"Evaluating '" +
 				jtfRegex.getText() +
@@ -72,48 +113,60 @@ public class KHRETester extends JFrame {
 				jtfString.getText() +
 				"'"
 			);
-
-			//result = reEvaluator.evaluate(jtfRegex, jtfString);
-			try{
-				reEvaluator.evaluate(jtfRegex.getText(), jtfString.getText());
-			}catch (IOException ioe){
-				ioe.printStackTrace();
+			switch(icon){
+				case 1 : jLabel1.setVisible(false);
+						 jLabel2.setVisible(true);
+				break;
+				case 2 : jLabel1.setVisible(true);
+						 jLabel2.setVisible(false);
+				break;
+				case 3 : jLabel1.setVisible(false);
+						 jLabel2.setVisible(false);				 
 			}
-			
-			result = !result;	// fake code
-
 			repaint();
 		}
 
-		private class MyIcon implements Icon {
 
+		private class MyIcon implements Icon {
 			@Override
 			public void paintIcon(Component c, Graphics g, int x, int y) {
+
+				// URL grumpy = getClass().getResource("/img/grumpycat.jpg");
+				// URL dancing = getClass().getResource("/img/dancingCat.gif");
+
+				// ImageIcon img;
+
+				// 	if(result){
+				// 		img = new ImageIcon(dancing);
+				// 	}else{
+				// 		img = new ImageIcon(grumpy);
+				// 	}
+
+
 				Graphics2D g2d = (Graphics2D) g.create();
 
 				try{
 
-					// URL url = getClass().getResource("grumpycat.jpg");
-					// File file = new File(url.getPath());
-
-					//File f = new File("/Volumes/Victoria/Rosemary/COS210/Regex_Utility/Regex/src/edu/mccc/cos210/regex/grumpycat.jpg");
-					File f = new File(sa[0]);
-					BufferedImage img = ImageIO.read(f);
+					URL dancing = getClass().getResource("/img/dancingCat.gif");
+					BufferedImage img2 = ImageIO.read(dancing);
 					// int w = img.getWidth(null);
 					// int h = img.getHeight(null);
 
-					if(!result){
-						g2d.setColor(Color.BLUE);
-						g2d.fillRect(0, 0, getIconWidth(), getIconHeight());
-						//g2d.fillRect(0, 0, w, h);
+					URL grumpy = getClass().getResource("/img/grumpycat.jpg");
+	    			BufferedImage img1 = ImageIO.read(grumpy);
+
+					if(result){
+						g2d.drawImage(img2, null, 0,0);
 					}else{
-						g2d.drawImage(img, null, 0,0);
+						g2d.drawImage(img1, null, 0,0);
 					}
 		
 				}catch(IOException e){
 					e.printStackTrace();
 				}
 				g2d.dispose();
+				
+		       
 			}
 
 			@Override

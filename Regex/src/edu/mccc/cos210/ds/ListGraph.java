@@ -15,7 +15,7 @@ public class ListGraph implements Iterable, Graph{
     private int numV;
     /** Flag to indicate whether this is a directed graph */
     private boolean directed;
-
+    private int size;
 
 
 	/** Construct a graph with the specified number of vertices
@@ -40,7 +40,6 @@ public class ListGraph implements Iterable, Graph{
 	*/	
 	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char[] weight))
 		// add the edge to the end of the list for the given source vertex
-		System.out.println("directed"+isDirected());
 		edges[edge.getSource()].addLast(edge);
 
 		if(!isDirected()){
@@ -49,15 +48,21 @@ public class ListGraph implements Iterable, Graph{
 												edge.getSource(),
 												edge.getWeight()));
 		}
+		size++;
 	}
 	 // Accessor Methods
+
+	public int numEdges() {
+        return ListGraph.this.size;
+    }
+
     /**
      * Return the number of vertices.
      * @return The number of vertices
      */
     @Override
     public int getNumV() {
-        return numV;
+        return ListGraph.this.numV;
     }
 
     /**
@@ -125,7 +130,7 @@ public class ListGraph implements Iterable, Graph{
 				sb.append(e); 
 			}
 		}
-		if(sb.length()>2){sb.deleteCharAt(0);};
+		if(sb.length()>=2){sb.delete(0,2);};
 		return sb.toString();
 	}
 
@@ -166,10 +171,11 @@ public class ListGraph implements Iterable, Graph{
         @Override
         public boolean hasNext() {
             return count < edges[source].getSize();
+
         }
 
         /**
-         * Returns the next element in the queue.
+         * Returns the next element in the list.
          * @pre index references the next element to access.
          * @post index and count are incremented.
          * @return The element with subscript index
@@ -178,7 +184,7 @@ public class ListGraph implements Iterable, Graph{
         public Edge next() {
             count++;
 			Edge edge = edges[source].getCurrent();
-			edges[source].getNext();
+			if(edges[source].hasNext()){edges[source].getNext();}
 			return edge;
             
         }

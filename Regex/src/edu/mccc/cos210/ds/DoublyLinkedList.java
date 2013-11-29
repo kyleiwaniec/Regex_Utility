@@ -286,7 +286,7 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			}
 			node = node.next;
 		}
-		if(sb.length()>2){sb.deleteCharAt(1);};
+		if(sb.length()>=2){sb.deleteCharAt(1);};
 		sb.append(" >");
 		return sb.toString();
 	}

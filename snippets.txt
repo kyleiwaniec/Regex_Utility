@@ -90,3 +90,49 @@ class MyIterable implements Iterable {
         void remove();
     }
 }
+
+
+
+
+
+
+
+
+private class MyIcon implements Icon {
+            ImageIcon imgIcon1 = null;
+            ImageIcon imgIcon2 = null;
+
+            public MyIcon(){
+                    try{
+
+                        URL dancing = getClass().getResource("/img/dancingCat.gif");
+                        imgIcon2 = new ImageIcon(dancing);
+
+                        URL grumpy = getClass().getResource("/img/grumpycat.jpg");
+                        imgIcon1 = new ImageIcon(grumpy);
+            
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+            }
+
+            @Override
+            public void paintIcon(Component c, Graphics g, int x, int y) {
+                    if(result){
+                        imgIcon2.paintIcon(c, g, x, y);
+                    }else{
+                        imgIcon1.paintIcon(c, g, x, y);
+                    }
+               
+            }
+            @Override
+            public int getIconWidth() {
+                return 284;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return 426;
+            }
+        }

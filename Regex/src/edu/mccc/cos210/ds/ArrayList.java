@@ -142,16 +142,13 @@ public class ArrayList<E>  implements Cloneable, Iterable{
         }
     }
 
-
 	public String toString(){
-		String res = "";
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < size; i++) {
-			res += ", "+theData[i];
+			sb.append(", "+theData[i]);
 		}
-		res = res.substring(2, res.length());
-
-		return res;
-
+		if(sb.length()>=2){sb.delete(0,2);};
+		return sb.toString();
 	}
 	@Override
 	public Iterator<E> iterator(){
