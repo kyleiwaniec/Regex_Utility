@@ -34,6 +34,11 @@ public class Regex{
 
 	// public methods:
 	public boolean match(String regExpr, String target) throws IOException {
+
+		InfixToPostfix itp = new InfixToPostfix(regExpr);
+		String result = itp.convert(regExpr);
+
+		System.out.println(result);
 		return true;
 	}
 	public boolean find(String regExpr, String target) throws IOException, NullPointerException{

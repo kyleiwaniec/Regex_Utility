@@ -71,7 +71,7 @@ public class Stack<E> implements StackInt<E> {
     */
     @Override
     public boolean empty(){
-        if(theData.length == 0){
+        if(size == 0){
             return true;
         }else{
             return false;
