@@ -13,7 +13,7 @@ package edu.mccc.cos210.ds;
 	 /** The weight */ 
 	 //private double weight; 
 
-	 private char[] weight; 
+	 private char weight; 
 	 
 	 // Constructor 
 	 /** Construct an Edge with a source of from 
@@ -25,7 +25,8 @@ package edu.mccc.cos210.ds;
 	 public Edge(int source, int dest) { 
 		 this.source = source; 
 		 this.dest = dest; 
-		 weight = new char[128];  // the ASCII set we're working with.
+		 //weight = new Character();
+		// weight = new char[128];  // the ASCII set we're working with.
 	 } 
 	 
 	 /** Construct a weighted edge with a source 
@@ -35,7 +36,7 @@ package edu.mccc.cos210.ds;
 	 * @param to - The destination vertex 
 	 * @param w - The weight 
 	 */ 
-	 public Edge(int source, int dest, char[] w) { 
+	 public Edge(int source, int dest, char w) { 
 		 this.source = source; 
 		 this.dest = dest; 
 		 this.weight = w; 
@@ -59,7 +60,7 @@ package edu.mccc.cos210.ds;
 	 /** Get the weight 
 	 * @return the value of weight 
 	 */ 
-	 public char[] getWeight() { 
+	 public char getWeight() { 
 		return weight; 
 	 } 
 	 
@@ -99,14 +100,14 @@ package edu.mccc.cos210.ds;
 		} 
 	 } 
 	 
-	 public boolean contains(char c){
-	 	for(int i = 0; i < weight.length; i++){
-	 		if(c == weight[i]){
-	 			return true;
-	 		}
-	 	}
-	 	return false;
-	 }
+	 // public boolean contains(char c){
+	 // 	for(int i = 0; i < weight.length; i++){
+	 // 		if(c == weight[i]){
+	 // 			return true;
+	 // 		}
+	 // 	}
+	 // 	return false;
+	 // }
 
 	 /** Return a hash code for an edge. The hash 
 	 * code is the source shifted left 16 bits 

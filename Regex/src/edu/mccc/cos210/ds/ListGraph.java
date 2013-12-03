@@ -38,7 +38,7 @@ public class ListGraph implements Iterable, Graph{
 		@param edge The new edge
 
 	*/	
-	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char[] weight))
+	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char weight))
 		// add the edge to the end of the list for the given source vertex
 		edges[edge.getSource()].addLast(edge);
 
@@ -49,6 +49,7 @@ public class ListGraph implements Iterable, Graph{
 												edge.getWeight()));
 		}
 		size++;
+		//System.out.println(toString());
 	}
 	 // Accessor Methods
 
@@ -106,7 +107,8 @@ public class ListGraph implements Iterable, Graph{
 		@return the edge between these two vertices
 	*/
 	public Edge getEdge(int source, int dest){
-		Edge target = new Edge(source, dest, new char[128]);
+		//Edge target = new Edge(source, dest, new char[128]);
+		Edge target = new Edge(source, dest);
 		// loop over edges[source] (DLL) => return edge if exists
 
 
@@ -140,7 +142,7 @@ public class ListGraph implements Iterable, Graph{
 	};
 	@Override
 	public Iterator<Edge> edgeIterator(int source){
-		return new Iter(source);
+		return edges[source].iterator();
 	};
 
 	private class Iter implements Iterator<Edge> {
@@ -162,6 +164,7 @@ public class ListGraph implements Iterable, Graph{
         public Iter(int source) {
         	this.source = source;
             count = 0;
+            edges[source].getFirst();
         }
 
         /**
@@ -170,7 +173,7 @@ public class ListGraph implements Iterable, Graph{
          */
         @Override
         public boolean hasNext() {
-            return count < edges[source].getSize();
+            return edges[source].hasNext();
 
         }
 
@@ -183,9 +186,7 @@ public class ListGraph implements Iterable, Graph{
         @Override
         public Edge next() {
             count++;
-			Edge edge = edges[source].getCurrent();
-			if(edges[source].hasNext()){edges[source].getNext();}
-			return edge;
+			return edges[source].getNext();
             
         }
 
