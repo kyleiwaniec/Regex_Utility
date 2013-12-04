@@ -1,11 +1,16 @@
 package edu.mccc.cos210.regex;
+
 import java.io.*;
 import edu.mccc.cos210.ds.DoublyLinkedList;
 import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.Edge;
-import edu.mccc.cos210.ds.ListGraph;
+import edu.mccc.cos210.ds.ArrayListGraph;
+import edu.mccc.cos210.regex.NFA;
+
 import java.util.Iterator;
+
+import edu.mccc.cos210.ex.GrumpyCatError;
 
 public class Regex{
 	// public static void main(String[] sa) throws Exception {
@@ -33,14 +38,14 @@ public class Regex{
 	}
 
 	// public methods:
-	public boolean match(String regExpr, String target) throws IOException {
+	public boolean match(String regExpr, String target) throws IOException, GrumpyCatError {
 
 		InfixToPostfix itp = new InfixToPostfix(regExpr);
-		String result = itp.convert(regExpr);
-		System.out.println(result);
+		String posix = itp.convert(regExpr);
+		System.out.println(posix);
 
-		// ListGraph dfa = parseRegex(regExpr);
-		// return matchString(dfa, target);
+		NFA nfa = new NFA(posix);
+
 		return true;
 	}
 	public boolean find(String regExpr, String target) throws IOException, NullPointerException{
@@ -49,10 +54,10 @@ public class Regex{
 	public boolean find(String regExpr, String target, int start) throws IOException, NullPointerException{
 
 		// JUST SOME STUBS:
-		ListGraph dfa = parseRegex(regExpr);
+		ArrayListGraph dfa = parseRegex(regExpr);
 		//reset();
-		//return eatString(dfa, target, start);
-		return true;
+		return eatString(dfa, target, start);
+		//return true;
 	};
 	public int getStart(){
 		return this.start;
@@ -80,12 +85,12 @@ public class Regex{
 	// private methods:
 
 	// parse the regex string: make edges. edge has vertices and weight. list indexes are vertices. stack is weight.
-	private ListGraph parseRegex(String regExpr) throws IOException {  
+	private ArrayListGraph parseRegex(String regExpr) throws IOException {  
 
 		BufferedReader br = stringToBR(regExpr);
 		int c;
 
-		ListGraph listGraph = new ListGraph(100, true);
+		ArrayListGraph listGraph = new ArrayListGraph();
 
 		//ArrayList<Stack<String>> list = new ArrayList<Stack<String>>();
 
@@ -140,11 +145,11 @@ public class Regex{
 			}
 			counter++;
 		}
-		
+
 		br.close();
 		return listGraph;
 	}
-	private boolean matchString(ListGraph dfa, String target) throws IOException{
+	private boolean matchString(ArrayListGraph dfa, String target) throws IOException{
 		BufferedReader br = stringToBR(target);
 		int c; 
 		int srcV = 0;
@@ -172,50 +177,50 @@ public class Regex{
 	}
 
 
-	// private boolean eatString(ListGraph dfa, String target, int start) throws IOException{
-	// 	System.out.println("eatme: "+start);
-	// 	marker = start;
-	// 	if(marker >= target.length()){
-	// 		System.out.println("it's too big - oh no!!!!!");
-	// 		return false;
-	// 	};
-	// 	BufferedReader br = stringToBR(target.substring(start));
-	// 	int c; 
-	// 	int srcV = 0;
-	// 	int destV;
+	private boolean eatString(ArrayListGraph dfa, String target, int start) throws IOException{
+		System.out.println("eatme: "+start);
+		marker = start;
+		if(marker >= target.length()){
+			System.out.println("it's too big - oh no!!!!!");
+			return false;
+		};
+		BufferedReader br = stringToBR(target.substring(start));
+		int c; 
+		int srcV = 0;
+		int destV;
 
-	// 	while (((c = br.read()) != -1) && marker < target.length()) {
-	// 		marker++;
-	// 		char targetChar = (char)c;
-	// 		System.out.println("marker: "+marker+", srcV: "+srcV+", char-c: "+targetChar);
+		while (((c = br.read()) != -1) && marker < target.length()) {
+			marker++;
+			char targetChar = (char)c;
+			System.out.println("marker: "+marker+", srcV: "+srcV+", char-c: "+targetChar);
 
-	// 		Iterator<Edge> it = dfa.edgeIterator(srcV); // todo: reset iterator after successful find.
+			Iterator<Edge> it = dfa.edgeIterator(srcV); // todo: reset iterator after successful find.
 
-	// 		while(it.hasNext()){
-	// 			Edge next = it.next();
-	// 			System.out.println("hasnext: "+next);
-	// 			if(next.contains(targetChar)){
-	// 				System.out.println("woohoo! a match!: "+next);
-	// 				srcV = next.getDest();
-	// 				setStart(marker);
-	// 				break;
+			while(it.hasNext()){
+				Edge next = it.next();
+				System.out.println("hasnext: "+next);
+				if(next.contains(targetChar)){
+					System.out.println("woohoo! a match!: "+next);
+					srcV = next.getDest();
+					setStart(marker);
+					break;
 
-	// 			}else{
-	// 				System.out.println("oh, how sad: "+next+" marker: "+marker);
-	// 				if(!eatString(dfa, target, marker)){
-	// 					//reset(); // marker to 0
-	// 					return false; // this means: it's too big - oh no!!!!!
-	// 				} 
-	// 			}
-	// 		}
+				}else{
+					System.out.println("oh, how sad: "+next+" marker: "+marker);
+					if(!eatString(dfa, target, marker)){
+						//reset(); // marker to 0
+						return false; // this means: it's too big - oh no!!!!!
+					} 
+				}
+			}
 
-	// 		// if(!eatString(dfa, target, marker)){
-	// 		// 	return false; // this means: it's too big - oh no!!!!!
-	// 		// }
-	// 	}
-	// 	//reset(); // marker to 0
-	// 	return true; // modify to true here, which means that target.length is still within marker
-	// }
+			// if(!eatString(dfa, target, marker)){
+			// 	return false; // this means: it's too big - oh no!!!!!
+			// }
+		}
+		//reset(); // marker to 0
+		return true; // modify to true here, which means that target.length is still within marker
+	}
 	
 	private boolean findInEdge(){
 		return true;

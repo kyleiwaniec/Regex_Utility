@@ -1,14 +1,15 @@
 package edu.mccc.cos210.ds;
 import java.util.Iterator;
 
-/** A ListGraph is a class that uses an array of lists to represent the edges
+/** A ArrayListGraph is a class that uses a list of lists to represent the edges
 */
-public class ListGraph implements Iterable, Graph{
+public class ArrayListGraph implements Iterable, Graph{
 	// Data field
-	/** An array of Lists to contain the edges that originate with each vertex
+	/** An list of Lists to contain the edges that originate with each vertex
 		
 	*/
-	private DoublyLinkedList<Edge>[] edges;
+
+	private ArrayList<DoublyLinkedList<Edge>> edges;
 
 	// Data Fields
     /** The number of vertices */
@@ -18,44 +19,37 @@ public class ListGraph implements Iterable, Graph{
     private int size;
 
 
-	/** Construct a graph with the specified number of vertices
-		and directionality
-		@param numV The number of vertices
-		@param directed The directionality flag
-	*/	
-	public ListGraph(int numV, boolean isDirected){
-		this.numV = numV;
-        this.directed = isDirected;
-		edges = new DoublyLinkedList[numV];
-		for(int i = 0; i < numV; i++){
-			edges[i] = new DoublyLinkedList<Edge>();
-		}
+	public ArrayListGraph(){
+		this.directed = true;
+		edges = new ArrayList<DoublyLinkedList<Edge>>();
 	}
-	public ListGraph(){
-
+	public ArrayListGraph(Edge edge){
+		this.directed = true;
+		edges = new ArrayList<DoublyLinkedList<Edge>>();
+		this.insert(edge);
 	}
-	/** Inset a new edge into the graph.
-		a new Edge is created in AbstractGraph when read in from file
-		@param edge The new edge
-
-	*/	
 	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char weight))
 		// add the edge to the end of the list for the given source vertex
-		edges[edge.getSource()].addLast(edge);
 
-		if(!isDirected()){
-
-			edges[edge.getDest()].addLast(new Edge(edge.getDest(),
-												edge.getSource(),
-												edge.getWeight()));
-		}
+		if(edges.find(edge.getSource()) != null){
+			edges.get(edge.getSource()).addLast(edge);
+		}else{
+			System.out.println("edge.getSource(): "+edge.getSource());
+			edges.add(edge.getSource(), new DoublyLinkedList<Edge>());
+			edges.get(edge.getSource()).addLast(edge);
+		};
 		size++;
-		//System.out.println(toString());
 	}
 	 // Accessor Methods
-
 	public int numEdges() {
-        return ListGraph.this.size;
+
+		int ne = 0;
+		for(Object list : (ArrayList) edges){
+			DoublyLinkedList<Edge> l = (DoublyLinkedList<Edge>) list;
+			ne += l.getSize();
+		}
+
+        return ne;
     }
 
     /**
@@ -64,7 +58,7 @@ public class ListGraph implements Iterable, Graph{
      */
     @Override
     public int getNumV() {
-        return ListGraph.this.numV;
+        return edges.size() +1; // adding 1 for final destination vertex.
     }
 
     /**
@@ -83,17 +77,17 @@ public class ListGraph implements Iterable, Graph{
 	*/
 	public boolean isEdge(int source, int dest){
 		Edge target = new Edge(source, dest);
-		// loop over edges[source] (DLL) => return edge if exists
+		// loop over edges.get(source) (DLL) => return edge if exists
 		// this should be re-written back to the original using the iterator, but I don't have that kind of time.
 
 
-		Edge nextItem = (Edge) edges[source].getFirst();
-        for(int i = 0; i < edges[source].getSize(); i++){
+		Edge nextItem = (Edge) edges.get(source).getFirst();
+        for(int i = 0; i < edges.get(source).getSize(); i++){
             if (nextItem.equals(target)) {
                  return true;
             }
-            while(edges[source].hasNext()){
-                nextItem = (Edge) edges[source].getNext();
+            while(edges.get(source).hasNext()){
+                nextItem = (Edge) edges.get(source).getNext();
             }
         }
 
@@ -110,16 +104,16 @@ public class ListGraph implements Iterable, Graph{
 	public Edge getEdge(int source, int dest){
 		//Edge target = new Edge(source, dest, new char[128]);
 		Edge target = new Edge(source, dest);
-		// loop over edges[source] (DLL) => return edge if exists
+		// loop over edges.get(source) (DLL) => return edge if exists
 
 
-		Edge nextItem = (Edge) edges[source].getFirst();
-        for(int i = 0; i < edges[source].getSize(); i++){
+		Edge nextItem = (Edge) edges.get(source).getFirst();
+        for(int i = 0; i < edges.get(source).getSize(); i++){
             if (nextItem.equals(target)) {
                  return nextItem;
             }
-            while(edges[source].hasNext()){
-                nextItem = (Edge) edges[source].getNext();
+            while(edges.get(source).hasNext()){
+                nextItem = (Edge) edges.get(source).getNext();
             }
         }
 
@@ -128,8 +122,8 @@ public class ListGraph implements Iterable, Graph{
 	}
 	public String toString(){
 		StringBuilder sb = new StringBuilder(); 
-		for(int i = 0; i < edges.length; i++){
-			for(Object e : edges[i]){
+		for(int i = 0; i < edges.size(); i++){
+			for(Object e : edges.get(i)){
 				sb.append(e); 
 			}
 		}
@@ -143,7 +137,7 @@ public class ListGraph implements Iterable, Graph{
 	};
 	@Override
 	public Iterator<Edge> edgeIterator(int source){
-		return edges[source].iterator();
+		return edges.get(source).iterator();
 	};
 
 	private class Iter implements Iterator<Edge> {
@@ -165,7 +159,7 @@ public class ListGraph implements Iterable, Graph{
         public Iter(int source) {
         	this.source = source;
             count = 0;
-            edges[source].getFirst();
+            edges.get(source).getFirst();
         }
 
         /**
@@ -174,7 +168,7 @@ public class ListGraph implements Iterable, Graph{
          */
         @Override
         public boolean hasNext() {
-            return edges[source].hasNext();
+            return edges.get(source).hasNext();
 
         }
 
@@ -187,7 +181,7 @@ public class ListGraph implements Iterable, Graph{
         @Override
         public Edge next() {
             count++;
-			return edges[source].getNext();
+			return edges.get(source).getNext();
             
         }
 

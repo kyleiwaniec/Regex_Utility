@@ -7,7 +7,7 @@ public class InfixToPostfix{
     /** The operator stack */
     private Stack<Character> operatorStack;
     /** The operators */
-    private static final String OPERATORS = "\\[](){}*+?•^$|.";
+    private static final String OPERATORS = "[](){}*+?•^$|.";
     /** The precedence of the operators, matches order in OPERATORS. 
 
     The order of precedence for of operators is as follows:
@@ -20,7 +20,7 @@ public class InfixToPostfix{
 		Anchoring ^$
 		Alternation |
 	*/
-    private static final int[] PRECEDENCE = {7,6,6,5,5,4,4,4,4,4,3,2,2,1,1};
+    private static final int[] PRECEDENCE = {6,6,5,5,4,4,4,4,4,3,2,2,1,1};
 	private StringBuilder postfix;
 
 	public InfixToPostfix(String infix){

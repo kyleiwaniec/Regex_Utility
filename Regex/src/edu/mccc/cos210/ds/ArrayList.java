@@ -38,7 +38,7 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 	}
 
 	public void add(int index, E anEntry){
-		if(index < 0 || index > size){
+		if(index < 0 || index > capacity){
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		if(size == capacity){
@@ -53,13 +53,20 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 		size++;
 	}
 	public E get(int index){
-		if(index < 0 || index >= size){
+		System.out.println("size: "+size);
+		if(index < 0 || (size != 0 && index >= capacity)){
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return theData[index];
 	}
+	public E find(int index){
+		if(index < 0 || (size != 0 && index >= capacity)){
+			return null;
+		}
+		return theData[index];
+	}
 	public E set(int index, E newValue){
-		if(index < 0 || index >= size){
+		if(index < 0 || (size != 0 && index >= capacity)){
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		E oldValue = theData[index];
@@ -67,7 +74,7 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 		return oldValue;
 	}
 	public E remove(int index){
-		if(index < 0 || index >= size){
+		if(index < 0 || (size != 0 && index >= capacity)){
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		E returnValue = theData[index];
@@ -123,7 +130,7 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 		return false;	
 	}
 	public int size(){
-		return size;
+		return ArrayList.this.size;
 	}
 	private void reallocate(){
 		capacity = 2*capacity;

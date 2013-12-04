@@ -22,6 +22,8 @@ import javax.imageio.ImageIO;
 import java.net.URL;
 import java.io.*;
 
+import edu.mccc.cos210.ex.GrumpyCatError;
+
 public class KHRETester extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -93,6 +95,9 @@ public class KHRETester extends JFrame {
 					icon = result ? 1 : 2;
 				}catch (IOException ioe){
 					ioe.printStackTrace();
+				}catch (GrumpyCatError gce){
+					System.out.println(gce.getDescription());
+					icon = 2;
 				}
 			}else if (e.getSource() == jBtn_Find){
 				try{

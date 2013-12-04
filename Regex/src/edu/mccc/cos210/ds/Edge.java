@@ -100,14 +100,9 @@ package edu.mccc.cos210.ds;
 		} 
 	 } 
 	 
-	 // public boolean contains(char c){
-	 // 	for(int i = 0; i < weight.length; i++){
-	 // 		if(c == weight[i]){
-	 // 			return true;
-	 // 		}
-	 // 	}
-	 // 	return false;
-	 // }
+	 public boolean contains(char c){
+	 	return (c == weight);
+	 }
 
 	 /** Return a hash code for an edge. The hash 
 	 * code is the source shifted left 16 bits 
