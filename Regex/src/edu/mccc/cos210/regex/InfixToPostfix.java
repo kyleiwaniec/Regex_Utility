@@ -7,8 +7,7 @@ public class InfixToPostfix{
     /** The operator stack */
     private Stack<Character> operatorStack;
     /** The operators */
-    private static final String OPERATORS = "\\[](){}*+?~^$|.";
-    private static final String CONCATTOKENS = "[](){}."; // STUFF GETS CONCATENATED TO THESE, but only on the outsides. ???
+    private static final String OPERATORS = "\\[](){}*+?•^$|.";
     /** The precedence of the operators, matches order in OPERATORS. 
 
     The order of precedence for of operators is as follows:
@@ -17,7 +16,7 @@ public class InfixToPostfix{
 		Character set (bracket expression) []
 		Grouping ()
 		Single-character-ERE duplication * + ? {m,n}
-		Concatenation -- will need to insert some arbitrary character to use for concat ~
+		Concatenation -- will need to insert some arbitrary character to use for concat • (bullet symbol - not within the 128 ascii we're suporting.)
 		Anchoring ^$
 		Alternation |
 	*/
@@ -34,13 +33,13 @@ public class InfixToPostfix{
 		StringBuilder sb = new StringBuilder(); 
 		int c;
 		boolean isToken = false; // this is to keep track of tokens and only insert concat operators between tokens
+		boolean closingBracket = false; // this is to keep track of closing brackets and insert concat if the next token is NOT an operator.
 		boolean bracketExp = false;
 		boolean range = false;
 		boolean dashFlag = false;
-		int sbIdx = 0;
+		int sbIdx = 0; // keeps track of number of charcters in converted regex sring
 
 		while ((c = br.read()) != -1){
-			
 			if(bracketExp && !dashFlag && (char)c == '-'){ // the dash is not the first character after the bracket
 				// process range
 				// we need to know the PREVIOUS charcter and NEXT character to build range
@@ -48,7 +47,6 @@ public class InfixToPostfix{
 				char prev = sb.charAt(sbIdx-1);
 				int n = br.read(); //*********** CAREFUL - WE ARE ADVANCING THE READER ***********
 				char next = (char)n;
-				System.out.println("length: "+sb.length()+", prev: "+prev+", next: "+next);
 
 				//INSERT range of characters including prev and next with | operators
 				while(prev < next){
@@ -70,10 +68,13 @@ public class InfixToPostfix{
 			if((char)c == ']'){
 				bracketExp = false;
 			}
-
 			if(bracketExp){ // tokens inside bracket expressions use alternation, NOT concatenation.
 				if(!isOperator((char)c) && isToken){
 					sb.append('|');
+					sbIdx++;
+				}else if((char)c == '[' && isToken){
+					System.out.println((char)c);
+					sb.append('•');
 					sbIdx++;
 				}
 				if(isOperator((char)c)){ 
@@ -83,7 +84,11 @@ public class InfixToPostfix{
 				}
 			}else{
 				if(!isOperator((char)c) && isToken){
-					sb.append('~');
+					sb.append('•');
+					sbIdx++;
+				}else if((char)c == '(' && isToken){
+					System.out.println((char)c);
+					sb.append('•');
 					sbIdx++;
 				}
 				if(isOperator((char)c)){
@@ -91,9 +96,23 @@ public class InfixToPostfix{
 				}else{
 					isToken = true;
 				}
+				if(closingBracket && isToken){
+					sb.append('•');
+					sbIdx++;
+				}
 			}
-				
-			sb.append((char)c);
+			if((char)c == ']' || (char)c == ')'){
+				closingBracket = true;
+			}else{
+				closingBracket = false;
+			}
+			if((char)c == '['){
+				sb.append('(');
+			}else if((char)c == ']'){
+				sb.append(')');
+			}else{
+				sb.append((char)c);
+			}
 			sbIdx++;
 		}
 		return sb.toString();
@@ -135,25 +154,19 @@ public class InfixToPostfix{
      * @throws EmptyStackException
      */
     private void processOperator(char op) {
-    	System.out.println("0 stack: "+operatorStack.toString());
-    	System.out.println("op: "+op);
+
         if (operatorStack.empty()) {
             operatorStack.push(op);
         } else {
             // Peek the operator stack and
             // let topOp be top operator.
             char topOp = operatorStack.peek();
-            System.out.println("topop: "+topOp);
             if(op == '('){
             	operatorStack.push(op);
             }else if ((topOp == '(' || precedence(op) > precedence(topOp)) && op != ')') {
-
                 operatorStack.push(op);
-                System.out.println("1 stack: "+operatorStack.toString());
             }else if(op == ')'){
-
             	while(topOp != '('){
-            		System.out.println("2 stack: "+operatorStack.toString());
             		operatorStack.pop();
             		postfix.append(topOp);
             		if (!operatorStack.empty()) {
@@ -162,10 +175,7 @@ public class InfixToPostfix{
                     }
             	}
             	operatorStack.pop();
-            	
-
-            } else {
-            	System.out.println("3 stack: "+operatorStack.toString());
+        	} else {
                 // Pop all stacked operators with equal
                 // or higher precedence than op.
                 while (!operatorStack.empty() && precedence(op) <= precedence(topOp) && topOp != '(') {

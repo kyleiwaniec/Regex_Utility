@@ -35,18 +35,20 @@ public class Regex{
 	// public methods:
 	public boolean match(String regExpr, String target) throws IOException {
 
-		// InfixToPostfix itp = new InfixToPostfix(regExpr);
-		// String result = itp.convert(regExpr);
+		InfixToPostfix itp = new InfixToPostfix(regExpr);
+		String result = itp.convert(regExpr);
+		System.out.println(result);
 
-		// System.out.println(result);
-		ListGraph dfa = parseRegex(regExpr);
-		return matchString(dfa, target);
-		//return true;
+		// ListGraph dfa = parseRegex(regExpr);
+		// return matchString(dfa, target);
+		return true;
 	}
 	public boolean find(String regExpr, String target) throws IOException, NullPointerException{
 		return true;
 	};
 	public boolean find(String regExpr, String target, int start) throws IOException, NullPointerException{
+
+		// JUST SOME STUBS:
 		ListGraph dfa = parseRegex(regExpr);
 		//reset();
 		//return eatString(dfa, target, start);
