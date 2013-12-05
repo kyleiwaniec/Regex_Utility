@@ -11,7 +11,7 @@ package edu.mccc.cos210.ds;
 	 /** The destination vertex */ 
 	 private int dest; 
 
-	 private int epsilon;
+	 private boolean epsilon;
 
 	 /** The weight */ 
 	 //private double weight; 
@@ -19,15 +19,11 @@ package edu.mccc.cos210.ds;
 	 private char weight; 
 	 
 	 // Constructor 
-	 /** Construct an Edge with a source of from 
-	 * and a destination of to. Set the weight 
-	 * to 1.0. 
-	 * @param from - The source vertex 
-	 * @param to - The destination vertex 
-	 */ 
+	 /** epsilon edge */ 
 	 public Edge(int source, int dest) { 
 		 this.source = source; 
 		 this.dest = dest; 
+		 this.epsilon = true;
 		 //weight = new Character();
 		// weight = new char[128];  // the ASCII set we're working with.
 	 } 
@@ -46,7 +42,7 @@ package edu.mccc.cos210.ds;
 	 } 
 	 
 	 /** epsilon edge */
-	 public Edge(int source, int dest, int e) { 
+	 public Edge(int source, int dest, boolean e) { 
 		 this.source = source; 
 		 this.dest = dest; 
 		 this.epsilon = e; 
@@ -74,6 +70,12 @@ package edu.mccc.cos210.ds;
 		return weight; 
 	 } 
 	 
+	 /** Get the weight 
+	 * @return the value of weight 
+	 */ 
+	 public boolean isEpsilon() { 
+		return this.epsilon; 
+	 } 
 
 
 	 /** Return a String representation of the edge 

@@ -107,6 +107,10 @@ public class ListGraph implements Iterable, Graph{
 		return target;
 	}
 
+    public int numEdgesInSource(int source){
+        return edges[source].getSize();
+    }
+
     public void setStartState(int startState){
         this.startState = startState;
     }

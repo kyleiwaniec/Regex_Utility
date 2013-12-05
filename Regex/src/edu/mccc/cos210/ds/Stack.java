@@ -77,6 +77,14 @@ public class Stack<E> implements StackInt<E> {
             return false;
         }
     }
+    public boolean contains(E elem){
+        for(int i = 0; i < this.size; i++){
+            if(elem == theData[i]){
+                return true;
+            }
+        }
+        return false;
+    }
     public int getSize(){
         return this.size;
     }

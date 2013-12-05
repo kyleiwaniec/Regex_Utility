@@ -11,13 +11,14 @@ import java.util.Iterator;
 
 import edu.mccc.cos210.ex.GrumpyCatError;
 
-/**
-* Example posix expression: ca•t•ab|c|d|*•
+/** Takes a posix expression, and builds NFA.
+*	Example posix expression: ca•t•ab|c|d|*•
+*	Equivalent infix: cat[a-d]
 *
 */
 
 
-public class NFA{
+public class NFA extends ListGraph{
 	private static final String OPERATORS = "[](){}*+?•^$|.";
 	private Stack<ListGraph> nfaStack;
 	private String posixRegexp;
@@ -68,18 +69,83 @@ public class NFA{
         		nfa.setAcceptState(top.getAcceptState());
 
         		nfaStack.push(nfa);
-        		System.out.println("new NFA: "+nfa.toString());
+        		System.out.println("• NFA: "+nfa.toString());
         		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
 
         	}else if(c == '*'){
+        		// pop 1 nfa off stack,
+        		// modyfy
+        		// push on stack;
+        		ListGraph top = nfaStack.pop();
+
+        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		for(int j = 0; j < top.getNumV(); j++){
+        			for(Object e1 : top.get(j)){
+        				nfa.insert((Edge) e1);
+        			}
+        		}
+
+        		nfa.insert(new Edge(++state, top.getStartState()));
+        		nfa.setStartState(state);
+        		nfa.insert(new Edge(top.getAcceptState(), ++state));
+        		nfa.setAcceptState(state);
+        		nfa.insert(new Edge(nfa.getStartState(), nfa.getAcceptState()));
+
+        		nfa.insert(new Edge(nfa.getAcceptState(), top.getStartState()));
+        		nfaStack.push(nfa);
+        		System.out.println("* NFA: "+nfa.toString());
+        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
 
         	}else if(c == '+'){
+        		// pop 1 nfa off stack,
+        		// modyfy
+        		// push on stack;
+        		ListGraph top = nfaStack.pop();
 
+        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		for(int j = 0; j < top.getNumV(); j++){
+        			for(Object e1 : top.get(j)){
+        				nfa.insert((Edge) e1);
+        			}
+        		}
+        		nfa.insert(new Edge(top.getAcceptState(), top.getStartState()));
+
+        		nfa.insert(new Edge(++state, top.getStartState()));
+        		nfa.setStartState(state);
+
+        		nfa.insert(new Edge(top.getAcceptState(), ++state));
+        		nfa.setAcceptState(state);
+
+        		nfaStack.push(nfa);
+
+        		System.out.println("+ NFA: "+nfa.toString());
+        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
         	}else if(c == '?'){
+        		// pop 1 nfa off stack,
+        		// modyfy
+        		// push on stack;
+        		ListGraph top = nfaStack.pop();
+
+        		ListGraph nfa = new ListGraph(numV, true);
+        		for(int j = 0; j < top.getNumV(); j++){
+        			for(Object e1 : top.get(j)){
+        				nfa.insert((Edge) e1);
+        			}
+        		}
+        		nfa.insert(new Edge(top.getStartState(), top.getAcceptState()));
+        		// start and accept states don't change
+        		nfa.setStartState(top.getStartState());
+        		nfa.setAcceptState(top.getAcceptState());
+        		nfaStack.push(nfa);
+
+        		System.out.println("? NFA: "+nfa.toString());
+        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
 
         	}else if(c == '^'){
+        		// set flag to say match must start at begginning of input string
 
         	}else if(c == '$'){
+        		// set flag to say match must end at end of input string
 
         	}else if(c == '|'){
         		// pop 2 nfas off stack,
@@ -113,15 +179,19 @@ public class NFA{
 
 
         		nfaStack.push(nfa);
-        		System.out.println("new NFA: "+nfa.toString());
+        		System.out.println("| NFA: "+nfa.toString());
         		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
 
         	}else{
-        		throw new GrumpyCatError("STOP TRYING TO BREAK ME.. CAN'T YOU SEE I'M FRAGILE?");	
+        		throw new GrumpyCatError("STOP TRYING TO BREAK ME.. CAN'T YOU SEE I'M FRAGILE?!");
         	}
         	
         }
+
 	}
+    public ListGraph getGraph(){
+        return nfaStack.pop();
+    }
 	/**
      * Determine whether a character is an operator.
      * @param ch The character to be tested

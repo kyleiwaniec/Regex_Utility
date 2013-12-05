@@ -6,6 +6,7 @@ import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.Edge;
 import edu.mccc.cos210.ds.ArrayListGraph;
+import edu.mccc.cos210.ds.ListGraph;
 import edu.mccc.cos210.regex.NFA;
 
 import java.util.Iterator;
@@ -45,6 +46,7 @@ public class Regex{
 		System.out.println(posix);
 
 		NFA nfa = new NFA(posix);
+		DFA dfa = new DFA(nfa);
 
 		return true;
 	}

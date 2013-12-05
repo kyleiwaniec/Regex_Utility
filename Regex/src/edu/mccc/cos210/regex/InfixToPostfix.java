@@ -1,6 +1,7 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
 import edu.mccc.cos210.ds.Stack;
+import edu.mccc.cos210.ex.GrumpyCatError;
 
 public class InfixToPostfix{
 	// Data Fields
@@ -116,7 +117,7 @@ public class InfixToPostfix{
 		return sb.toString();
 	}
 
-	public String convert(String infix) throws IOException{
+	public String convert(String infix) throws IOException, GrumpyCatError{
 		operatorStack = new Stack<Character>();
         postfix = new StringBuilder();
         BufferedReader br = stringToBR(insertConcatOps(infix));
@@ -151,9 +152,8 @@ public class InfixToPostfix{
      * @param op The operator
      * @throws EmptyStackException
      */
-    private void processOperator(char op) {
-
-        if (operatorStack.empty()) {
+    private void processOperator(char op) throws GrumpyCatError{
+    	if (operatorStack.empty()) {
             operatorStack.push(op);
         } else {
             // Peek the operator stack and
