@@ -17,7 +17,8 @@ public class ListGraph implements Iterable, Graph{
     private boolean directed;
     private int size;
 
-
+    private int startState;
+    private int acceptState;
 	/** Construct a graph with the specified number of vertices
 		and directionality
 		@param numV The number of vertices
@@ -57,7 +58,9 @@ public class ListGraph implements Iterable, Graph{
 	public int numEdges() {
         return ListGraph.this.size;
     }
-
+    public DoublyLinkedList<Edge> get(int i){
+        return edges[i];
+    }
     /**
      * Return the number of vertices.
      * @return The number of vertices
@@ -83,22 +86,7 @@ public class ListGraph implements Iterable, Graph{
 	*/
 	public boolean isEdge(int source, int dest){
 		Edge target = new Edge(source, dest);
-		// loop over edges[source] (DLL) => return edge if exists
-		// this should be re-written back to the original using the iterator, but I don't have that kind of time.
-
-
-		Edge nextItem = (Edge) edges[source].getFirst();
-        for(int i = 0; i < edges[source].getSize(); i++){
-            if (nextItem.equals(target)) {
-                 return true;
-            }
-            while(edges[source].hasNext()){
-                nextItem = (Edge) edges[source].getNext();
-            }
-        }
-
-		//Assert: All edges for source checked. desired edge not found;
-		return false;
+        return edges[source].contains(new Edge(source, dest));
 	}
 
 	/** Get the edge between two vertices. If an edge does not exist, 
@@ -108,45 +96,53 @@ public class ListGraph implements Iterable, Graph{
 		@return the edge between these two vertices
 	*/
 	public Edge getEdge(int source, int dest){
-		//Edge target = new Edge(source, dest, new char[128]);
 		Edge target = new Edge(source, dest);
-		// loop over edges[source] (DLL) => return edge if exists
 
-
-		Edge nextItem = (Edge) edges[source].getFirst();
-        for(int i = 0; i < edges[source].getSize(); i++){
-            if (nextItem.equals(target)) {
-                 return nextItem;
-            }
-            while(edges[source].hasNext()){
-                nextItem = (Edge) edges[source].getNext();
+        for(Object edge : edges[source]){
+            if(edge.equals(target)){
+                return (Edge)edge;
             }
         }
-
 		//Assert: All edges for source checked. desired edge not found;
 		return target;
 	}
+
+    public void setStartState(int startState){
+        this.startState = startState;
+    }
+    public void setAcceptState(int acceptState){
+        this.acceptState = acceptState;
+    }
+
+    public int getStartState(){
+        return this.startState;
+    }
+    public int getAcceptState(){
+        return this.acceptState;
+    }
+
 	public String toString(){
 		StringBuilder sb = new StringBuilder(); 
-		for(int i = 0; i < edges.length; i++){
-			for(Object e : edges[i]){
-				sb.append(e); 
-			}
-		}
-		if(sb.length()>=2){sb.delete(0,2);};
-		return sb.toString();
+        for(int i = 0; i < edges.length; i++){
+                for(Object e : edges[i]){
+                        sb.append(e); 
+                }
+        }
+        if(sb.length()>=2){sb.delete(0,2);};
+        return sb.toString();
 	}
 
-	@Override
-	public Iterator<Edge> iterator(){
-		return new Iter();
-	};
-	@Override
-	public Iterator<Edge> edgeIterator(int source){
-		return edges[source].iterator();
-	};
 
-	private class Iter implements Iterator<Edge> {
+    
+    @Override
+    public Iterator<Edge> edgeIterator(int source){
+            return edges[source].iterator();
+    };
+    @Override
+    public Iterator<Edge> iterator(){
+            return new Iter();
+    };
+    private class Iter implements Iterator<Edge> {
         // Data Fields
 
         // Count of elements accessed so far */
@@ -160,10 +156,10 @@ public class ListGraph implements Iterable, Graph{
          * first  element.
          */
         public Iter(){
-        	//super(source);
+                //super(source);
         }
         public Iter(int source) {
-        	this.source = source;
+            this.source = source;
             count = 0;
             edges[source].getFirst();
         }
@@ -187,7 +183,7 @@ public class ListGraph implements Iterable, Graph{
         @Override
         public Edge next() {
             count++;
-			return edges[source].getNext();
+            return edges[source].getNext();
             
         }
 
@@ -197,9 +193,10 @@ public class ListGraph implements Iterable, Graph{
          */
         @Override
         public void remove() {
-        	throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException();
         }
     }
+	
 
 
 }

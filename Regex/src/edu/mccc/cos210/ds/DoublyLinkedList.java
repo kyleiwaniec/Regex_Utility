@@ -304,6 +304,17 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		}
 	}
 	
+	public boolean contains(E el){
+		DNode<E> node = head;
+		while (node != null) {
+			if (node.element != null) {
+				 if(el.equals(node.element)){return true;};
+			}
+			node = node.next;
+		}
+		return false;
+	}
+
 	@Override
 	public Iterator<E> iterator(){
 		return new Iter();

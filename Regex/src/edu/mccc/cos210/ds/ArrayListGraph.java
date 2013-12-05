@@ -18,6 +18,9 @@ public class ArrayListGraph implements Iterable, Graph{
     private boolean directed;
     private int size;
 
+    private int startState;
+    private int acceptState;
+
 
 	public ArrayListGraph(){
 		this.directed = true;
@@ -34,7 +37,6 @@ public class ArrayListGraph implements Iterable, Graph{
 		if(edges.find(edge.getSource()) != null){
 			edges.get(edge.getSource()).addLast(edge);
 		}else{
-			System.out.println("edge.getSource(): "+edge.getSource());
 			edges.add(edge.getSource(), new DoublyLinkedList<Edge>());
 			edges.get(edge.getSource()).addLast(edge);
 		};
@@ -46,12 +48,27 @@ public class ArrayListGraph implements Iterable, Graph{
 		int ne = 0;
 		for(Object list : (ArrayList) edges){
 			DoublyLinkedList<Edge> l = (DoublyLinkedList<Edge>) list;
-			ne += l.getSize();
+			if(l != null){
+				ne += l.getSize();
+			}
+			
 		}
 
         return ne;
     }
+    public void setStartState(int startState){
+    	this.startState = startState;
+    }
+    public void setAcceptState(int acceptState){
+    	this.acceptState = acceptState;
+    }
 
+    public int getStartState(){
+    	return this.startState;
+    }
+    public int getAcceptState(){
+    	return this.acceptState;
+    }
     /**
      * Return the number of vertices.
      * @return The number of vertices
@@ -122,11 +139,24 @@ public class ArrayListGraph implements Iterable, Graph{
 	}
 	public String toString(){
 		StringBuilder sb = new StringBuilder(); 
-		for(int i = 0; i < edges.size(); i++){
-			for(Object e : edges.get(i)){
-				sb.append(e); 
+
+
+		for(Object dll : edges){
+			System.out.println("dll "+edges);
+			Iterator<DoublyLinkedList<Edge>> iter = edges.iterator();
+
+			while(iter.hasNext()){
+				DoublyLinkedList<Edge> next = iter.next();
+				System.out.println("next.toString() "+next);
 			}
 		}
+			
+
+		// for(Object list : edges){
+		// 	for(Object e : list){
+		// 		sb.append(e); 
+		// 	}
+		// }
 		if(sb.length()>=2){sb.delete(0,2);};
 		return sb.toString();
 	}
@@ -154,7 +184,6 @@ public class ArrayListGraph implements Iterable, Graph{
          * first  element.
          */
         public Iter(){
-        	//super(source);
         }
         public Iter(int source) {
         	this.source = source;
@@ -168,6 +197,10 @@ public class ArrayListGraph implements Iterable, Graph{
          */
         @Override
         public boolean hasNext() {
+        	System.out.println("source: "+source);
+        	System.out.println("edges: "+edges.toString());
+        	System.out.println("edges.get(source): "+edges.get(source));
+        	System.out.println("edges.get(source).hasNext(): "+edges.get(source).hasNext());
             return edges.get(source).hasNext();
 
         }

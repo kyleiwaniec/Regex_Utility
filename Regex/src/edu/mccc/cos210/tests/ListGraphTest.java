@@ -15,10 +15,15 @@ public class ListGraphTest{
 		Edge e3 = new Edge(1,2, 'c');
 
 		ListGraph lg = new ListGraph(3, true);
-		lg.insert(e1);
-		lg.insert(e2);
+		// lg.insert(e1);
+		// lg.insert(e2);
 		lg.insert(e3);
 
 		System.out.println(lg.toString());
+		System.out.println(lg.isEdge(0,1));
+		System.out.println(lg.isEdge(0,2));
+
+		System.out.println(lg.getEdge(1,2));
+		System.out.println(lg.getEdge(0,1));
 	}
 }

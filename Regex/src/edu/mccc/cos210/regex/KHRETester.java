@@ -54,7 +54,7 @@ public class KHRETester extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private boolean result = false;
-		private JTextField jtfRegex = new JTextField("cat(a-d)", 32);
+		private JTextField jtfRegex = new JTextField("cattle", 32);
 		private JTextField jtfString = new JTextField("12cat", 32);
 
 		private JButton jBtn_Match = new JButton("Match");

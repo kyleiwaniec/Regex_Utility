@@ -73,7 +73,6 @@ public class InfixToPostfix{
 					sb.append('|');
 					sbIdx++;
 				}else if((char)c == '[' && isToken){
-					System.out.println((char)c);
 					sb.append('•');
 					sbIdx++;
 				}
@@ -87,7 +86,6 @@ public class InfixToPostfix{
 					sb.append('•');
 					sbIdx++;
 				}else if((char)c == '(' && isToken){
-					System.out.println((char)c);
 					sb.append('•');
 					sbIdx++;
 				}

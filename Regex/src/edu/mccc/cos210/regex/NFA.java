@@ -5,6 +5,7 @@ import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.Edge;
 import edu.mccc.cos210.ds.ArrayListGraph;
+import edu.mccc.cos210.ds.ListGraph;
 
 import java.util.Iterator;
 
@@ -18,31 +19,58 @@ import edu.mccc.cos210.ex.GrumpyCatError;
 
 public class NFA{
 	private static final String OPERATORS = "[](){}*+?•^$|.";
-	private Stack<ArrayListGraph> nfaStack;
+	private Stack<ListGraph> nfaStack;
 	private String posixRegexp;
     private int rgl; 
 	public NFA(String posixRegexp) throws GrumpyCatError{
 		this.posixRegexp = posixRegexp;
         rgl = posixRegexp.length();
-        nfaStack = new Stack<ArrayListGraph>();
-        int state = 0; // vertices
+        nfaStack = new Stack<ListGraph>();
+        int state = -1; // vertices
         int startState;
         int acceptSate;
+        int numV = 0;
 
         for(int i = 0; i < rgl; i++){
         	char c = posixRegexp.charAt(i);
         	if(!isOperator(c)){
-        		// make nfa and push on stack
-        		System.out.println("state: "+state);
-        		nfaStack.push(new ArrayListGraph(new Edge(state, ++state, c)));
+        		// make edge to nfa and push on stack
+        		ListGraph nfa = new ListGraph(numV+=2,true);
+
+        		nfa.setStartState(++state);
+        		nfa.setAcceptState(++state);
+
+        		nfa.insert(new Edge(nfa.getStartState(), nfa.getAcceptState(), c));
+        		nfaStack.push(nfa);
         	}else if(c == '•'){
         		// pop 2 nfas off stack,
         		// modyfy
         		// push on stack;
+        		ListGraph top = nfaStack.pop();
+        		ListGraph bot = nfaStack.pop();
 
-        		//nfaStack.pop();
-        		// process
-        		//nfaStack.push();
+        		ListGraph nfa = new ListGraph(numV, true);
+
+        		for(int j = 0; j < top.getNumV(); j++){
+        			for(Object e1 : top.get(j)){
+        				nfa.insert((Edge) e1);
+        			}
+        		}
+        		for(int k = 0; k < bot.getNumV(); k++){
+        			for(Object e2 : bot.get(k)){
+        				nfa.insert((Edge) e2);
+        			}
+        		}
+        		// insert epilon edge
+        		nfa.insert(new Edge(bot.getAcceptState(), top.getStartState()));
+
+        		nfa.setStartState(bot.getStartState());
+        		nfa.setAcceptState(top.getAcceptState());
+
+        		nfaStack.push(nfa);
+        		System.out.println("new NFA: "+nfa.toString());
+        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
         	}else if(c == '*'){
 
         	}else if(c == '+'){
@@ -54,6 +82,39 @@ public class NFA{
         	}else if(c == '$'){
 
         	}else if(c == '|'){
+        		// pop 2 nfas off stack,
+        		// modyfy
+        		// push on stack;
+        		ListGraph top = nfaStack.pop();
+        		ListGraph bot = nfaStack.pop();
+
+        		ListGraph nfa = new ListGraph(numV+=2, true);
+
+        		for(int j = 0; j < top.getNumV(); j++){
+        			for(Object e1 : top.get(j)){
+        				nfa.insert((Edge) e1);
+        			}
+        		}
+        		for(int k = 0; k < bot.getNumV(); k++){
+        			for(Object e2 : bot.get(k)){
+        				nfa.insert((Edge) e2);
+        			}
+        		}
+
+        		// new vertex and two epsilon edges to the left
+        		nfa.insert(new Edge(++state, top.getStartState()));
+        		nfa.insert(new Edge(state, bot.getStartState()));
+        		nfa.setStartState(state);
+
+        		// new vertex and two epsilon edges to the right
+        		nfa.insert(new Edge(top.getAcceptState(), ++state));
+        		nfa.insert(new Edge(bot.getAcceptState(), state));
+        		nfa.setAcceptState(state);
+
+
+        		nfaStack.push(nfa);
+        		System.out.println("new NFA: "+nfa.toString());
+        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
 
         	}else{
         		throw new GrumpyCatError("STOP TRYING TO BREAK ME.. CAN'T YOU SEE I'M FRAGILE?");	

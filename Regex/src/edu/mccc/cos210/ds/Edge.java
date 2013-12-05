@@ -10,6 +10,9 @@ package edu.mccc.cos210.ds;
 	 private int source; 
 	 /** The destination vertex */ 
 	 private int dest; 
+
+	 private int epsilon;
+
 	 /** The weight */ 
 	 //private double weight; 
 
@@ -42,6 +45,13 @@ package edu.mccc.cos210.ds;
 		 this.weight = w; 
 	 } 
 	 
+	 /** epsilon edge */
+	 public Edge(int source, int dest, int e) { 
+		 this.source = source; 
+		 this.dest = dest; 
+		 this.epsilon = e; 
+	 } 
+
 	 // Methods 
 	 /** Get the source 
 	 * @return The value of source 
@@ -64,6 +74,8 @@ package edu.mccc.cos210.ds;
 		return weight; 
 	 } 
 	 
+
+
 	 /** Return a String representation of the edge 
 	 * @return A String representation of the edge 
 	 */ 
