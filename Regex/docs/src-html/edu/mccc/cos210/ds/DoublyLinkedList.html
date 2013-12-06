@@ -312,65 +312,76 @@
 <span class="sourceLineNo">304</span>                }<a name="line.304"></a>
 <span class="sourceLineNo">305</span>        }<a name="line.305"></a>
 <span class="sourceLineNo">306</span>        <a name="line.306"></a>
-<span class="sourceLineNo">307</span>        @Override<a name="line.307"></a>
-<span class="sourceLineNo">308</span>        public Iterator&lt;E&gt; iterator(){<a name="line.308"></a>
-<span class="sourceLineNo">309</span>                return new Iter();<a name="line.309"></a>
-<span class="sourceLineNo">310</span>        };<a name="line.310"></a>
-<span class="sourceLineNo">311</span>        <a name="line.311"></a>
-<span class="sourceLineNo">312</span>        private class Iter extends DoublyLinkedList&lt;E&gt; implements Iterator&lt;E&gt; {<a name="line.312"></a>
-<span class="sourceLineNo">313</span>        // Data Fields<a name="line.313"></a>
-<span class="sourceLineNo">314</span>        // Index of next element */<a name="line.314"></a>
-<span class="sourceLineNo">315</span><a name="line.315"></a>
-<span class="sourceLineNo">316</span>        private int index;<a name="line.316"></a>
-<span class="sourceLineNo">317</span>        // Count of elements accessed so far */<a name="line.317"></a>
-<span class="sourceLineNo">318</span>        private int count = 0;<a name="line.318"></a>
-<span class="sourceLineNo">319</span><a name="line.319"></a>
-<span class="sourceLineNo">320</span>        // Methods<a name="line.320"></a>
-<span class="sourceLineNo">321</span>        // Constructor<a name="line.321"></a>
-<span class="sourceLineNo">322</span>        /**<a name="line.322"></a>
-<span class="sourceLineNo">323</span>         * Initializes the Iter object to reference the<a name="line.323"></a>
-<span class="sourceLineNo">324</span>         * first queue element.<a name="line.324"></a>
-<span class="sourceLineNo">325</span>         */<a name="line.325"></a>
-<span class="sourceLineNo">326</span>        public Iter() {<a name="line.326"></a>
-<span class="sourceLineNo">327</span>           count = 0;<a name="line.327"></a>
-<span class="sourceLineNo">328</span>           DoublyLinkedList.this.current = DoublyLinkedList.this.head;<a name="line.328"></a>
-<span class="sourceLineNo">329</span>        }<a name="line.329"></a>
+<span class="sourceLineNo">307</span>        public boolean contains(E el){<a name="line.307"></a>
+<span class="sourceLineNo">308</span>                DNode&lt;E&gt; node = head;<a name="line.308"></a>
+<span class="sourceLineNo">309</span>                while (node != null) {<a name="line.309"></a>
+<span class="sourceLineNo">310</span>                        if (node.element != null) {<a name="line.310"></a>
+<span class="sourceLineNo">311</span>                                 if(el.equals(node.element)){return true;};<a name="line.311"></a>
+<span class="sourceLineNo">312</span>                        }<a name="line.312"></a>
+<span class="sourceLineNo">313</span>                        node = node.next;<a name="line.313"></a>
+<span class="sourceLineNo">314</span>                }<a name="line.314"></a>
+<span class="sourceLineNo">315</span>                return false;<a name="line.315"></a>
+<span class="sourceLineNo">316</span>        }<a name="line.316"></a>
+<span class="sourceLineNo">317</span><a name="line.317"></a>
+<span class="sourceLineNo">318</span>        @Override<a name="line.318"></a>
+<span class="sourceLineNo">319</span>        public Iterator&lt;E&gt; iterator(){<a name="line.319"></a>
+<span class="sourceLineNo">320</span>                return new Iter();<a name="line.320"></a>
+<span class="sourceLineNo">321</span>        };<a name="line.321"></a>
+<span class="sourceLineNo">322</span>        <a name="line.322"></a>
+<span class="sourceLineNo">323</span>        private class Iter extends DoublyLinkedList&lt;E&gt; implements Iterator&lt;E&gt; {<a name="line.323"></a>
+<span class="sourceLineNo">324</span>        // Data Fields<a name="line.324"></a>
+<span class="sourceLineNo">325</span>        // Index of next element */<a name="line.325"></a>
+<span class="sourceLineNo">326</span><a name="line.326"></a>
+<span class="sourceLineNo">327</span>        private int index;<a name="line.327"></a>
+<span class="sourceLineNo">328</span>        // Count of elements accessed so far */<a name="line.328"></a>
+<span class="sourceLineNo">329</span>        private int count = 0;<a name="line.329"></a>
 <span class="sourceLineNo">330</span><a name="line.330"></a>
-<span class="sourceLineNo">331</span>        /**<a name="line.331"></a>
-<span class="sourceLineNo">332</span>         * Returns true if there are more elements in the queue to access.<a name="line.332"></a>
-<span class="sourceLineNo">333</span>         * @return true if there are more elements in the queue to access.<a name="line.333"></a>
-<span class="sourceLineNo">334</span>         */<a name="line.334"></a>
-<span class="sourceLineNo">335</span>        @Override<a name="line.335"></a>
-<span class="sourceLineNo">336</span>        public boolean hasNext() {<a name="line.336"></a>
-<span class="sourceLineNo">337</span>            return count &lt; DoublyLinkedList.this.getSize();<a name="line.337"></a>
-<span class="sourceLineNo">338</span>        }<a name="line.338"></a>
-<span class="sourceLineNo">339</span><a name="line.339"></a>
-<span class="sourceLineNo">340</span>        /**<a name="line.340"></a>
-<span class="sourceLineNo">341</span>         * Returns the next element in the queue.<a name="line.341"></a>
-<span class="sourceLineNo">342</span>         * @pre index references the next element to access.<a name="line.342"></a>
-<span class="sourceLineNo">343</span>         * @post index and count are incremented.<a name="line.343"></a>
-<span class="sourceLineNo">344</span>         * @return The element with subscript index<a name="line.344"></a>
+<span class="sourceLineNo">331</span>        // Methods<a name="line.331"></a>
+<span class="sourceLineNo">332</span>        // Constructor<a name="line.332"></a>
+<span class="sourceLineNo">333</span>        /**<a name="line.333"></a>
+<span class="sourceLineNo">334</span>         * Initializes the Iter object to reference the<a name="line.334"></a>
+<span class="sourceLineNo">335</span>         * first queue element.<a name="line.335"></a>
+<span class="sourceLineNo">336</span>         */<a name="line.336"></a>
+<span class="sourceLineNo">337</span>        public Iter() {<a name="line.337"></a>
+<span class="sourceLineNo">338</span>           count = 0;<a name="line.338"></a>
+<span class="sourceLineNo">339</span>           DoublyLinkedList.this.current = DoublyLinkedList.this.head;<a name="line.339"></a>
+<span class="sourceLineNo">340</span>        }<a name="line.340"></a>
+<span class="sourceLineNo">341</span><a name="line.341"></a>
+<span class="sourceLineNo">342</span>        /**<a name="line.342"></a>
+<span class="sourceLineNo">343</span>         * Returns true if there are more elements in the queue to access.<a name="line.343"></a>
+<span class="sourceLineNo">344</span>         * @return true if there are more elements in the queue to access.<a name="line.344"></a>
 <span class="sourceLineNo">345</span>         */<a name="line.345"></a>
 <span class="sourceLineNo">346</span>        @Override<a name="line.346"></a>
-<span class="sourceLineNo">347</span>        public E next() {<a name="line.347"></a>
-<span class="sourceLineNo">348</span>                <a name="line.348"></a>
-<span class="sourceLineNo">349</span>                        count++;<a name="line.349"></a>
-<span class="sourceLineNo">350</span>                        E element = DoublyLinkedList.this.current.element;<a name="line.350"></a>
-<span class="sourceLineNo">351</span>                        DoublyLinkedList.this.current = DoublyLinkedList.this.current.next;<a name="line.351"></a>
-<span class="sourceLineNo">352</span>                        return element;<a name="line.352"></a>
-<span class="sourceLineNo">353</span>        }<a name="line.353"></a>
-<span class="sourceLineNo">354</span><a name="line.354"></a>
-<span class="sourceLineNo">355</span>        /**<a name="line.355"></a>
-<span class="sourceLineNo">356</span>         * Remove the item accessed by the Iter object -- not implemented.<a name="line.356"></a>
-<span class="sourceLineNo">357</span>         * @throws UnsupportedOperationException when called<a name="line.357"></a>
-<span class="sourceLineNo">358</span>         */<a name="line.358"></a>
-<span class="sourceLineNo">359</span>        @Override<a name="line.359"></a>
-<span class="sourceLineNo">360</span>        public void remove() {<a name="line.360"></a>
-<span class="sourceLineNo">361</span>                throw new UnsupportedOperationException();<a name="line.361"></a>
-<span class="sourceLineNo">362</span>        }<a name="line.362"></a>
-<span class="sourceLineNo">363</span>    }<a name="line.363"></a>
-<span class="sourceLineNo">364</span><a name="line.364"></a>
-<span class="sourceLineNo">365</span>}<a name="line.365"></a>
+<span class="sourceLineNo">347</span>        public boolean hasNext() {<a name="line.347"></a>
+<span class="sourceLineNo">348</span>            return count &lt; DoublyLinkedList.this.getSize();<a name="line.348"></a>
+<span class="sourceLineNo">349</span>        }<a name="line.349"></a>
+<span class="sourceLineNo">350</span><a name="line.350"></a>
+<span class="sourceLineNo">351</span>        /**<a name="line.351"></a>
+<span class="sourceLineNo">352</span>         * Returns the next element in the queue.<a name="line.352"></a>
+<span class="sourceLineNo">353</span>         * @pre index references the next element to access.<a name="line.353"></a>
+<span class="sourceLineNo">354</span>         * @post index and count are incremented.<a name="line.354"></a>
+<span class="sourceLineNo">355</span>         * @return The element with subscript index<a name="line.355"></a>
+<span class="sourceLineNo">356</span>         */<a name="line.356"></a>
+<span class="sourceLineNo">357</span>        @Override<a name="line.357"></a>
+<span class="sourceLineNo">358</span>        public E next() {<a name="line.358"></a>
+<span class="sourceLineNo">359</span>                <a name="line.359"></a>
+<span class="sourceLineNo">360</span>                        count++;<a name="line.360"></a>
+<span class="sourceLineNo">361</span>                        E element = DoublyLinkedList.this.current.element;<a name="line.361"></a>
+<span class="sourceLineNo">362</span>                        DoublyLinkedList.this.current = DoublyLinkedList.this.current.next;<a name="line.362"></a>
+<span class="sourceLineNo">363</span>                        return element;<a name="line.363"></a>
+<span class="sourceLineNo">364</span>        }<a name="line.364"></a>
+<span class="sourceLineNo">365</span><a name="line.365"></a>
+<span class="sourceLineNo">366</span>        /**<a name="line.366"></a>
+<span class="sourceLineNo">367</span>         * Remove the item accessed by the Iter object -- not implemented.<a name="line.367"></a>
+<span class="sourceLineNo">368</span>         * @throws UnsupportedOperationException when called<a name="line.368"></a>
+<span class="sourceLineNo">369</span>         */<a name="line.369"></a>
+<span class="sourceLineNo">370</span>        @Override<a name="line.370"></a>
+<span class="sourceLineNo">371</span>        public void remove() {<a name="line.371"></a>
+<span class="sourceLineNo">372</span>                throw new UnsupportedOperationException();<a name="line.372"></a>
+<span class="sourceLineNo">373</span>        }<a name="line.373"></a>
+<span class="sourceLineNo">374</span>    }<a name="line.374"></a>
+<span class="sourceLineNo">375</span><a name="line.375"></a>
+<span class="sourceLineNo">376</span>}<a name="line.376"></a>
 
 
 

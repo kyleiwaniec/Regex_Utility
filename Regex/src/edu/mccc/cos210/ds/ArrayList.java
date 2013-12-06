@@ -53,7 +53,7 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 		size++;
 	}
 	public E get(int index){
-		System.out.println("size: "+size);
+		//System.out.println("size: "+size);
 		if(index < 0 || (size != 0 && index >= capacity)){
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
@@ -133,7 +133,7 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 		return false;	
 	}
 	public int size(){
-		return ArrayList.this.size;
+		return this.size;
 	}
 	private void reallocate(){
 		capacity = 2*capacity;
@@ -151,13 +151,31 @@ public class ArrayList<E>  implements Cloneable, Iterable{
             throw new InternalError();
         }
     }
-
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof ArrayList) { 
+             ArrayList list = (ArrayList) obj; 
+             if(this.size == list.size()){ // first of all, are they the same size?
+                for(int i = 0; i < this.size; i++){ // iterate over all elements in this
+                    if(list.get(i) != theData[i]){ // if the list doesn't contain the element, return false. 
+                    								// THIS ASSUMES THAT ITEMS ARE UNIQUE and in the same order - for this project, we don't care.
+                        return false;
+                    }
+                 }
+             }else{
+                return false;
+             }
+        }
+        return true; 
+    }
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
+		sb.append("[");
 		for(int i = 0; i < size; i++) {
 			sb.append(", "+theData[i]);
 		}
-		if(sb.length()>=2){sb.delete(0,2);};
+		sb.append("]");
+		if(sb.length()>=3){sb.delete(1,3);};
 		return sb.toString();
 	}
 	@Override
