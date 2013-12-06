@@ -77,6 +77,22 @@ public class Stack<E> implements StackInt<E> {
             return false;
         }
     }
+    @Override
+    public boolean equals(Object obj){
+        if (obj instanceof Stack) { 
+             Stack stack = (Stack) obj; 
+             if(this.size == stack.getSize()){ // first of all, are they the same size?
+                for(int i = 0; i < this.size; i++){ // iterate over all elements in this
+                    if(!stack.contains(theData[i])){ // if the stack doesn't contain the element, return false. THIS ASSUMES THAT ITEMS ARE UNIQUE
+                        return false;
+                    }
+                 }
+             }else{
+                return false;
+             }
+        }
+        return true; 
+    }
     public boolean contains(E elem){
         for(int i = 0; i < this.size; i++){
             if(elem == theData[i]){

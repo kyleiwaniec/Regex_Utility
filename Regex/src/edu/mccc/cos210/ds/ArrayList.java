@@ -100,8 +100,11 @@ public class ArrayList<E>  implements Cloneable, Iterable{
 		size--;
 		return returnValue;	
 	}
-
-	public E pop(){ // removes the last item in the list
+	public E getLast(){ // returns the last item in the list
+		E returnValue = theData[size-1];
+		return returnValue;	
+	}
+	public E pop(){ // removes the last item in the list and returns it.
 		E returnValue = theData[size-1];
 		size--;
 		return returnValue;	

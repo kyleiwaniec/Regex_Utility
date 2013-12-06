@@ -4,6 +4,7 @@ import java.io.*;
 import edu.mccc.cos210.ds.DoublyLinkedList;
 import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.Stack;
+import edu.mccc.cos210.ds.DFAStack;
 import edu.mccc.cos210.ds.Edge;
 import edu.mccc.cos210.ds.ArrayListGraph;
 import edu.mccc.cos210.ds.ListGraph;
@@ -14,15 +15,7 @@ import java.util.Iterator;
 import edu.mccc.cos210.ex.GrumpyCatError;
 
 public class Regex{
-	// public static void main(String[] sa) throws Exception {
-	// 	new Regex("sally").doIt();
-	// }
 	
-	// private void doIt() throws Exception {
-
-		
-	// }
-
 	String regExpr;
 	String target;
 	private int start;
@@ -43,10 +36,11 @@ public class Regex{
 
 		InfixToPostfix itp = new InfixToPostfix(regExpr);
 		String posix = itp.convert(regExpr);
-		System.out.println(posix);
-
+		char[] language = itp.getLanguage();
+		System.out.println("posix: "+posix);
+		System.out.println("language: "+language.length);
 		NFA nfa = new NFA(posix);
-		DFA dfa = new DFA(nfa);
+		DFA dfa = new DFA(nfa, language);
 
 		return true;
 	}
@@ -82,7 +76,8 @@ public class Regex{
 	public void reset(){
 		this.start = 0;
 	};
-
+	
+	
 
 	// private methods:
 
@@ -256,6 +251,7 @@ public class Regex{
         }
         return result;
     }
+    
 }
 
 	

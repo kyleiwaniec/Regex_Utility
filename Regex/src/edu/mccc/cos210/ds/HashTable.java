@@ -75,6 +75,9 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         table = new DoublyLinkedList[CAPACITY];
     }
 
+    public HashTable(int capcity) {
+        table = new DoublyLinkedList[capcity];
+    }
     /**
      * Method get for class HashTable.
      * @param key The key being sought

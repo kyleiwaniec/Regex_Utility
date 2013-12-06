@@ -1,10 +1,12 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
 import edu.mccc.cos210.ds.Stack;
+import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ex.GrumpyCatError;
 
 public class InfixToPostfix{
 	// Data Fields
+	private ArrayList<Character> language = new ArrayList<Character>();
     /** The operator stack */
     private Stack<Character> operatorStack;
     /** The operators */
@@ -124,11 +126,11 @@ public class InfixToPostfix{
         int c;
         while ((c = br.read()) != -1){
         	char firstChar = (char)c;
-
         	if (isOperator(firstChar)) {
                     processOperator(firstChar);
                 }else{
-                	postfix.append((char)c);
+                	postfix.append(firstChar);
+                	buildLanguage(firstChar);
                 }
         }
         // Pop any remaining operators and
@@ -191,7 +193,21 @@ public class InfixToPostfix{
             }
         }
     }
+    public char[] getLanguage(){
+		int length = this.language.size();
+		char[] lang = new char[length];
+		for(int i = 0; i < length; i++){
+			lang[i] = this.language.get(i);
+		}
 
+		return lang;
+	}
+	private void setLanguage(){
+		this.language = language;
+	}
+	private void buildLanguage(char c){
+		this.language.add(c);
+	}
 	/**
      * Determine whether a character is an operator.
      * @param ch The character to be tested
