@@ -5,7 +5,7 @@ import edu.mccc.cos210.ex.NoSuchElementException;
  *  by building a heap in an ArrayList. The heap is structured
  *  so that the "smallest" item is at the top.
  */
-public class PriorityQueue<E> extends QueueSingle<E>{
+public class PriorityQueue<E> extends QueueSingle<E> implements Cloneable{
 
     // Data Fields
     /** The ArrayList to hold the data. */
@@ -28,8 +28,10 @@ public class PriorityQueue<E> extends QueueSingle<E>{
     // Methods
     // Constructor
     public PriorityQueue() {
-        theData = new ArrayList<E>();
+       theData = new ArrayList<E>();
     }
+
+
 
     /**
      * Creates a heap-based priority queue with the specified initial
@@ -105,7 +107,7 @@ public class PriorityQueue<E> extends QueueSingle<E>{
         }
         // Remove the last item from the ArrayList and place it into
         // the first position.
-        theData.set(0, theData.remove(theData.size() - 1));
+        theData.set(0, theData.pop());
         // The parent starts at the top.
         
         int parent = 0;
@@ -171,21 +173,35 @@ public class PriorityQueue<E> extends QueueSingle<E>{
     // 3. Enqueue it's children left to right until Queue is empty.
     // }
 
+    public Object clone(){
+        try{
+            PriorityQueue<E> cloned = (PriorityQueue<E>) super.clone();
+            cloned.theData = (ArrayList<E>) theData.clone();
+            return cloned;
+        }catch(CloneNotSupportedException ex){
+            throw new InternalError();
+        }
+    }
 
-
-
-
-
-
+    public String toStringDesc(){
+        PriorityQueue<E> theCopy = (PriorityQueue<E>) this.clone();
+        int size = theCopy.theData.size();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < size; i++) {
+            sb.append(", "+theCopy.poll());
+        }
+        if(sb.length()>=2){sb.delete(0,2);};
+        return sb.toString();
+    }
 
     @Override
     public String toString(){
-        String res = "";
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < theData.size(); i++) {
-            res += ", "+theData.get(i);
+            sb.append(", "+theData.get(i));
         }
-        res = res.substring(2, res.length()); // get rid of leading comma and space (2 characters)
-        return res;
+        if(sb.length()>=2){sb.delete(0,2);};
+        return sb.toString();
     }
     /**
      * Compare two items using either a Comparator object�s compare method

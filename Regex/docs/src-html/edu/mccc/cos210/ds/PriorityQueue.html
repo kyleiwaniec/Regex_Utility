@@ -13,7 +13,7 @@
 <span class="sourceLineNo">005</span> *  by building a heap in an ArrayList. The heap is structured<a name="line.5"></a>
 <span class="sourceLineNo">006</span> *  so that the "smallest" item is at the top.<a name="line.6"></a>
 <span class="sourceLineNo">007</span> */<a name="line.7"></a>
-<span class="sourceLineNo">008</span>public class PriorityQueue&lt;E&gt; extends QueueSingle&lt;E&gt;{<a name="line.8"></a>
+<span class="sourceLineNo">008</span>public class PriorityQueue&lt;E&gt; extends QueueSingle&lt;E&gt; implements Cloneable{<a name="line.8"></a>
 <span class="sourceLineNo">009</span><a name="line.9"></a>
 <span class="sourceLineNo">010</span>    // Data Fields<a name="line.10"></a>
 <span class="sourceLineNo">011</span>    /** The ArrayList to hold the data. */<a name="line.11"></a>
@@ -36,57 +36,57 @@
 <span class="sourceLineNo">028</span>    // Methods<a name="line.28"></a>
 <span class="sourceLineNo">029</span>    // Constructor<a name="line.29"></a>
 <span class="sourceLineNo">030</span>    public PriorityQueue() {<a name="line.30"></a>
-<span class="sourceLineNo">031</span>        theData = new ArrayList&lt;E&gt;();<a name="line.31"></a>
+<span class="sourceLineNo">031</span>       theData = new ArrayList&lt;E&gt;();<a name="line.31"></a>
 <span class="sourceLineNo">032</span>    }<a name="line.32"></a>
 <span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>    /**<a name="line.34"></a>
-<span class="sourceLineNo">035</span>     * Creates a heap-based priority queue with the specified initial<a name="line.35"></a>
-<span class="sourceLineNo">036</span>     * capacity that orders its elements according to the specified<a name="line.36"></a>
-<span class="sourceLineNo">037</span>     * comparator.<a name="line.37"></a>
-<span class="sourceLineNo">038</span>     * @param cap The initial capacity for this priority queue<a name="line.38"></a>
-<span class="sourceLineNo">039</span>     * @param comp The comparator used to order this priority queue<a name="line.39"></a>
-<span class="sourceLineNo">040</span>     * @throws IllegalArgumentException if cap is less than 1<a name="line.40"></a>
-<span class="sourceLineNo">041</span>     */<a name="line.41"></a>
-<span class="sourceLineNo">042</span><a name="line.42"></a>
-<span class="sourceLineNo">043</span>    // TODO: implement comparator<a name="line.43"></a>
-<span class="sourceLineNo">044</span>    public PriorityQueue(int cap, Comparator&lt;E&gt; comp) {<a name="line.44"></a>
-<span class="sourceLineNo">045</span>        if (cap &lt; 1) {<a name="line.45"></a>
-<span class="sourceLineNo">046</span>            throw new IllegalArgumentException();<a name="line.46"></a>
-<span class="sourceLineNo">047</span>        }<a name="line.47"></a>
-<span class="sourceLineNo">048</span>        theData = new ArrayList&lt;E&gt;(cap + 1);<a name="line.48"></a>
-<span class="sourceLineNo">049</span>        comparator = comp;<a name="line.49"></a>
-<span class="sourceLineNo">050</span>    }<a name="line.50"></a>
-<span class="sourceLineNo">051</span><a name="line.51"></a>
-<span class="sourceLineNo">052</span>    /**<a name="line.52"></a>
-<span class="sourceLineNo">053</span>     * Insert an item into the priority queue.<a name="line.53"></a>
-<span class="sourceLineNo">054</span>     * @pre The ArrayList theData is in heap order.<a name="line.54"></a>
-<span class="sourceLineNo">055</span>     * @post The item is in the priority queue and<a name="line.55"></a>
-<span class="sourceLineNo">056</span>     *       theData is in heap order.<a name="line.56"></a>
-<span class="sourceLineNo">057</span>     * @param item The item to be inserted<a name="line.57"></a>
-<span class="sourceLineNo">058</span>     * @throws NullPointerException if the item to be inserted is null.<a name="line.58"></a>
-<span class="sourceLineNo">059</span>     */<a name="line.59"></a>
-<span class="sourceLineNo">060</span>    @Override<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    public boolean offer(E item) {<a name="line.61"></a>
-<span class="sourceLineNo">062</span>        // Add the item to the heap.<a name="line.62"></a>
-<span class="sourceLineNo">063</span>        theData.add(item);<a name="line.63"></a>
-<span class="sourceLineNo">064</span>        // child is newly inserted item.<a name="line.64"></a>
-<span class="sourceLineNo">065</span>        int child = theData.size() - 1;<a name="line.65"></a>
-<span class="sourceLineNo">066</span>        int parent = (child - 1) / 2; // Find child's parent.<a name="line.66"></a>
-<span class="sourceLineNo">067</span>        // Reheap<a name="line.67"></a>
-<span class="sourceLineNo">068</span><a name="line.68"></a>
-<span class="sourceLineNo">069</span>        while (parent &gt;= 0 &amp;&amp; compare(theData.get(parent), theData.get(child)) &gt; 0) {<a name="line.69"></a>
-<span class="sourceLineNo">070</span>            swap(parent, child);<a name="line.70"></a>
-<span class="sourceLineNo">071</span>            child = parent;<a name="line.71"></a>
-<span class="sourceLineNo">072</span>            parent = (child - 1) / 2;<a name="line.72"></a>
-<span class="sourceLineNo">073</span>        }<a name="line.73"></a>
-<span class="sourceLineNo">074</span>        return true;<a name="line.74"></a>
-<span class="sourceLineNo">075</span>    }<a name="line.75"></a>
-<span class="sourceLineNo">076</span>    public void swap(int a, int b){<a name="line.76"></a>
-<span class="sourceLineNo">077</span>        E tempb = (E) theData.get(b);<a name="line.77"></a>
-<span class="sourceLineNo">078</span>        E tempa = (E) theData.get(a);<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>        theData.set(b, tempa);<a name="line.80"></a>
-<span class="sourceLineNo">081</span>        theData.set(a, tempb);<a name="line.81"></a>
+<span class="sourceLineNo">034</span><a name="line.34"></a>
+<span class="sourceLineNo">035</span><a name="line.35"></a>
+<span class="sourceLineNo">036</span>    /**<a name="line.36"></a>
+<span class="sourceLineNo">037</span>     * Creates a heap-based priority queue with the specified initial<a name="line.37"></a>
+<span class="sourceLineNo">038</span>     * capacity that orders its elements according to the specified<a name="line.38"></a>
+<span class="sourceLineNo">039</span>     * comparator.<a name="line.39"></a>
+<span class="sourceLineNo">040</span>     * @param cap The initial capacity for this priority queue<a name="line.40"></a>
+<span class="sourceLineNo">041</span>     * @param comp The comparator used to order this priority queue<a name="line.41"></a>
+<span class="sourceLineNo">042</span>     * @throws IllegalArgumentException if cap is less than 1<a name="line.42"></a>
+<span class="sourceLineNo">043</span>     */<a name="line.43"></a>
+<span class="sourceLineNo">044</span><a name="line.44"></a>
+<span class="sourceLineNo">045</span>    // TODO: implement comparator<a name="line.45"></a>
+<span class="sourceLineNo">046</span>    public PriorityQueue(int cap, Comparator&lt;E&gt; comp) {<a name="line.46"></a>
+<span class="sourceLineNo">047</span>        if (cap &lt; 1) {<a name="line.47"></a>
+<span class="sourceLineNo">048</span>            throw new IllegalArgumentException();<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        }<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        theData = new ArrayList&lt;E&gt;(cap + 1);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>        comparator = comp;<a name="line.51"></a>
+<span class="sourceLineNo">052</span>    }<a name="line.52"></a>
+<span class="sourceLineNo">053</span><a name="line.53"></a>
+<span class="sourceLineNo">054</span>    /**<a name="line.54"></a>
+<span class="sourceLineNo">055</span>     * Insert an item into the priority queue.<a name="line.55"></a>
+<span class="sourceLineNo">056</span>     * @pre The ArrayList theData is in heap order.<a name="line.56"></a>
+<span class="sourceLineNo">057</span>     * @post The item is in the priority queue and<a name="line.57"></a>
+<span class="sourceLineNo">058</span>     *       theData is in heap order.<a name="line.58"></a>
+<span class="sourceLineNo">059</span>     * @param item The item to be inserted<a name="line.59"></a>
+<span class="sourceLineNo">060</span>     * @throws NullPointerException if the item to be inserted is null.<a name="line.60"></a>
+<span class="sourceLineNo">061</span>     */<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    @Override<a name="line.62"></a>
+<span class="sourceLineNo">063</span>    public boolean offer(E item) {<a name="line.63"></a>
+<span class="sourceLineNo">064</span>        // Add the item to the heap.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>        theData.add(item);<a name="line.65"></a>
+<span class="sourceLineNo">066</span>        // child is newly inserted item.<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        int child = theData.size() - 1;<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        int parent = (child - 1) / 2; // Find child's parent.<a name="line.68"></a>
+<span class="sourceLineNo">069</span>        // Reheap<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>        while (parent &gt;= 0 &amp;&amp; compare(theData.get(parent), theData.get(child)) &gt; 0) {<a name="line.71"></a>
+<span class="sourceLineNo">072</span>            swap(parent, child);<a name="line.72"></a>
+<span class="sourceLineNo">073</span>            child = parent;<a name="line.73"></a>
+<span class="sourceLineNo">074</span>            parent = (child - 1) / 2;<a name="line.74"></a>
+<span class="sourceLineNo">075</span>        }<a name="line.75"></a>
+<span class="sourceLineNo">076</span>        return true;<a name="line.76"></a>
+<span class="sourceLineNo">077</span>    }<a name="line.77"></a>
+<span class="sourceLineNo">078</span>    public void swap(int a, int b){<a name="line.78"></a>
+<span class="sourceLineNo">079</span>        E temp = theData.get(a); <a name="line.79"></a>
+<span class="sourceLineNo">080</span>        theData.set(a, theData.get(b)); <a name="line.80"></a>
+<span class="sourceLineNo">081</span>        theData.set(b, temp);<a name="line.81"></a>
 <span class="sourceLineNo">082</span>    }<a name="line.82"></a>
 <span class="sourceLineNo">083</span>    public boolean isEmpty(){<a name="line.83"></a>
 <span class="sourceLineNo">084</span>        if(theData.size() == 0){<a name="line.84"></a>
@@ -115,7 +115,7 @@
 <span class="sourceLineNo">107</span>        }<a name="line.107"></a>
 <span class="sourceLineNo">108</span>        // Remove the last item from the ArrayList and place it into<a name="line.108"></a>
 <span class="sourceLineNo">109</span>        // the first position.<a name="line.109"></a>
-<span class="sourceLineNo">110</span>        theData.set(0, theData.remove(theData.size() - 1));<a name="line.110"></a>
+<span class="sourceLineNo">110</span>        theData.set(0, theData.pop());<a name="line.110"></a>
 <span class="sourceLineNo">111</span>        // The parent starts at the top.<a name="line.111"></a>
 <span class="sourceLineNo">112</span>        <a name="line.112"></a>
 <span class="sourceLineNo">113</span>        int parent = 0;<a name="line.113"></a>
@@ -181,42 +181,56 @@
 <span class="sourceLineNo">173</span>    // 3. Enqueue it's children left to right until Queue is empty.<a name="line.173"></a>
 <span class="sourceLineNo">174</span>    // }<a name="line.174"></a>
 <span class="sourceLineNo">175</span><a name="line.175"></a>
-<span class="sourceLineNo">176</span><a name="line.176"></a>
-<span class="sourceLineNo">177</span><a name="line.177"></a>
-<span class="sourceLineNo">178</span><a name="line.178"></a>
-<span class="sourceLineNo">179</span><a name="line.179"></a>
-<span class="sourceLineNo">180</span><a name="line.180"></a>
-<span class="sourceLineNo">181</span><a name="line.181"></a>
-<span class="sourceLineNo">182</span><a name="line.182"></a>
-<span class="sourceLineNo">183</span>    @Override<a name="line.183"></a>
-<span class="sourceLineNo">184</span>    public String toString(){<a name="line.184"></a>
-<span class="sourceLineNo">185</span>        String res = "";<a name="line.185"></a>
-<span class="sourceLineNo">186</span>        for(int i = 0; i &lt; theData.size(); i++) {<a name="line.186"></a>
-<span class="sourceLineNo">187</span>            res += ", "+theData.get(i);<a name="line.187"></a>
-<span class="sourceLineNo">188</span>        }<a name="line.188"></a>
-<span class="sourceLineNo">189</span>        res = res.substring(2, res.length()); // get rid of leading comma and space (2 characters)<a name="line.189"></a>
-<span class="sourceLineNo">190</span>        return res;<a name="line.190"></a>
-<span class="sourceLineNo">191</span>    }<a name="line.191"></a>
-<span class="sourceLineNo">192</span>    /**<a name="line.192"></a>
-<span class="sourceLineNo">193</span>     * Compare two items using either a Comparator object�s compare method<a name="line.193"></a>
-<span class="sourceLineNo">194</span>     * or their natural ordering using method compareTo.<a name="line.194"></a>
-<span class="sourceLineNo">195</span>     * @pre If comparator is null, left and right implement Comparable&lt;E&gt;.<a name="line.195"></a>
-<span class="sourceLineNo">196</span>     * @param left One item<a name="line.196"></a>
-<span class="sourceLineNo">197</span>     * @param right The other item<a name="line.197"></a>
-<span class="sourceLineNo">198</span>     * @return Negative int if left less than right,<a name="line.198"></a>
-<span class="sourceLineNo">199</span>     *         0 if left equals right,<a name="line.199"></a>
-<span class="sourceLineNo">200</span>     *         positive int if left &gt; right<a name="line.200"></a>
-<span class="sourceLineNo">201</span>     * @throws ClassCastException if items are not Comparable<a name="line.201"></a>
-<span class="sourceLineNo">202</span>     */<a name="line.202"></a>
-<span class="sourceLineNo">203</span>    @SuppressWarnings("unchecked")<a name="line.203"></a>
-<span class="sourceLineNo">204</span>    private int compare(E left, E right) {<a name="line.204"></a>
-<span class="sourceLineNo">205</span>        if (comparator != null) { // A Comparator is defined.<a name="line.205"></a>
-<span class="sourceLineNo">206</span>            return comparator.compare(left, right);<a name="line.206"></a>
-<span class="sourceLineNo">207</span>        } else { // Use left�s compareTo method.<a name="line.207"></a>
-<span class="sourceLineNo">208</span>            return ((Comparable&lt;E&gt;) left).compareTo(right);<a name="line.208"></a>
-<span class="sourceLineNo">209</span>        }<a name="line.209"></a>
-<span class="sourceLineNo">210</span>    }<a name="line.210"></a>
-<span class="sourceLineNo">211</span>}<a name="line.211"></a>
+<span class="sourceLineNo">176</span>    public Object clone(){<a name="line.176"></a>
+<span class="sourceLineNo">177</span>        try{<a name="line.177"></a>
+<span class="sourceLineNo">178</span>            PriorityQueue&lt;E&gt; cloned = (PriorityQueue&lt;E&gt;) super.clone();<a name="line.178"></a>
+<span class="sourceLineNo">179</span>            cloned.theData = (ArrayList&lt;E&gt;) theData.clone();<a name="line.179"></a>
+<span class="sourceLineNo">180</span>            return cloned;<a name="line.180"></a>
+<span class="sourceLineNo">181</span>        }catch(CloneNotSupportedException ex){<a name="line.181"></a>
+<span class="sourceLineNo">182</span>            throw new InternalError();<a name="line.182"></a>
+<span class="sourceLineNo">183</span>        }<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    }<a name="line.184"></a>
+<span class="sourceLineNo">185</span><a name="line.185"></a>
+<span class="sourceLineNo">186</span>    public String toStringDesc(){<a name="line.186"></a>
+<span class="sourceLineNo">187</span>        PriorityQueue&lt;E&gt; theCopy = (PriorityQueue&lt;E&gt;) this.clone();<a name="line.187"></a>
+<span class="sourceLineNo">188</span>        int size = theCopy.theData.size();<a name="line.188"></a>
+<span class="sourceLineNo">189</span>        StringBuilder sb = new StringBuilder();<a name="line.189"></a>
+<span class="sourceLineNo">190</span>        for(int i = 0; i &lt; size; i++) {<a name="line.190"></a>
+<span class="sourceLineNo">191</span>            sb.append(", "+theCopy.poll());<a name="line.191"></a>
+<span class="sourceLineNo">192</span>        }<a name="line.192"></a>
+<span class="sourceLineNo">193</span>        if(sb.length()&gt;=2){sb.delete(0,2);};<a name="line.193"></a>
+<span class="sourceLineNo">194</span>        return sb.toString();<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    }<a name="line.195"></a>
+<span class="sourceLineNo">196</span><a name="line.196"></a>
+<span class="sourceLineNo">197</span>    @Override<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    public String toString(){<a name="line.198"></a>
+<span class="sourceLineNo">199</span>        StringBuilder sb = new StringBuilder();<a name="line.199"></a>
+<span class="sourceLineNo">200</span>        for(int i = 0; i &lt; theData.size(); i++) {<a name="line.200"></a>
+<span class="sourceLineNo">201</span>            sb.append(", "+theData.get(i));<a name="line.201"></a>
+<span class="sourceLineNo">202</span>        }<a name="line.202"></a>
+<span class="sourceLineNo">203</span>        if(sb.length()&gt;=2){sb.delete(0,2);};<a name="line.203"></a>
+<span class="sourceLineNo">204</span>        return sb.toString();<a name="line.204"></a>
+<span class="sourceLineNo">205</span>    }<a name="line.205"></a>
+<span class="sourceLineNo">206</span>    /**<a name="line.206"></a>
+<span class="sourceLineNo">207</span>     * Compare two items using either a Comparator object�s compare method<a name="line.207"></a>
+<span class="sourceLineNo">208</span>     * or their natural ordering using method compareTo.<a name="line.208"></a>
+<span class="sourceLineNo">209</span>     * @pre If comparator is null, left and right implement Comparable&lt;E&gt;.<a name="line.209"></a>
+<span class="sourceLineNo">210</span>     * @param left One item<a name="line.210"></a>
+<span class="sourceLineNo">211</span>     * @param right The other item<a name="line.211"></a>
+<span class="sourceLineNo">212</span>     * @return Negative int if left less than right,<a name="line.212"></a>
+<span class="sourceLineNo">213</span>     *         0 if left equals right,<a name="line.213"></a>
+<span class="sourceLineNo">214</span>     *         positive int if left &gt; right<a name="line.214"></a>
+<span class="sourceLineNo">215</span>     * @throws ClassCastException if items are not Comparable<a name="line.215"></a>
+<span class="sourceLineNo">216</span>     */<a name="line.216"></a>
+<span class="sourceLineNo">217</span>    @SuppressWarnings("unchecked")<a name="line.217"></a>
+<span class="sourceLineNo">218</span>    private int compare(E left, E right) {<a name="line.218"></a>
+<span class="sourceLineNo">219</span>        if (comparator != null) { // A Comparator is defined.<a name="line.219"></a>
+<span class="sourceLineNo">220</span>            return comparator.compare(left, right);<a name="line.220"></a>
+<span class="sourceLineNo">221</span>        } else { // Use left�s compareTo method.<a name="line.221"></a>
+<span class="sourceLineNo">222</span>            return ((Comparable&lt;E&gt;) left).compareTo(right);<a name="line.222"></a>
+<span class="sourceLineNo">223</span>        }<a name="line.223"></a>
+<span class="sourceLineNo">224</span>    }<a name="line.224"></a>
+<span class="sourceLineNo">225</span>}<a name="line.225"></a>
 
 
 

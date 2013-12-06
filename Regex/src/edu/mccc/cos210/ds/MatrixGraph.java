@@ -1,4 +1,4 @@
-package edu.mccc.soc210.ds;
+package edu.mccc.cos210.ds;
 
 /** A ListGraph is an extention of the AbstractGraph 
 	abstract class that uses an array of lists to represent the edges

@@ -1,5 +1,6 @@
 package edu.mccc.cos210.tests;
 import edu.mccc.cos210.ds.DoublyLinkedList;
+import java.util.Iterator;
 
 public class DoublyLinkedListTest{
 	public static void main(String[] sa) throws Exception {
@@ -9,7 +10,7 @@ public class DoublyLinkedListTest{
 	private void doIt() throws Exception {
 		//@SuppressWarnings("unchecked")
 		int i = 0;
-		DoublyLinkedList<String> dlls = new DoublyLinkedList <String>();
+		DoublyLinkedList<String> dlls = new DoublyLinkedList<String>();
 
 		System.out.println(++i+". "+dlls);
 		dlls.addNext("A");
@@ -22,6 +23,18 @@ public class DoublyLinkedListTest{
 		System.out.println(++i+". "+dlls);
 		dlls.addPrevious("x");
 		System.out.println(++i+". "+dlls);
+
+		System.out.println("current: "+dlls.getCurrent());
+
+		for(Object item : dlls){
+			System.out.println("item: "+item);
+		}
+
+		System.out.println("toString: ");
+		System.out.println(dlls.toString());
+		//System.out.println("current 2: "+dlls.getCurrent());
+
+
 		System.out.println("first: "+dlls.getFirst());
 		System.out.println("last: "+dlls.getLast());
 		System.out.println(++i+". "+dlls);

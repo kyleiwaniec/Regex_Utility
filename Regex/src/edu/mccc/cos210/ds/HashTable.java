@@ -1,8 +1,7 @@
 package edu.mccc.cos210.ds;
-
+import java.util.Iterator;
 /**
  * Hash table implementation using chaining.
- *  @author Koffman and Wolfgang
  **/
 public class HashTable<K, V> implements HashMapInt<K, V> {
 
@@ -76,16 +75,15 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         table = new DoublyLinkedList[CAPACITY];
     }
 
+    public HashTable(int capcity) {
+        table = new DoublyLinkedList[capcity];
+    }
     /**
      * Method get for class HashTable.
      * @param key The key being sought
      * @return The value associated with this key if found;
      *         otherwise, null
      */
-    // private int hashCode(){
-    //     // TODO
-    // }
-
     @Override
     public V get(Object key) {
         int index = key.hashCode() % table.length;
@@ -118,7 +116,9 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         
         return null;
     }
-
+    // private int hashCode(){
+    //     // TODO
+    // }
     
     /**
      * Method put for class HashTable.
@@ -169,17 +169,15 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
     }
 
     public String toString(){
-        String res = "";
-        for(int i = 0; i < table.length; i++){
+
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < table.length; i++) {
             if(table[i] != null){
-                res += ", "+table[i].toString();
+                sb.append(", "+table[i].toString());
             }
         }
-        if(res.length() > 2){
-            res = res.substring(2, res.length());
-        }
-        
-        return res;
+        if(sb.length()>=2){sb.delete(0,2);};
+        return sb.toString();
     }
 
 // Insert solution to programming exercise 5, section 4, chapter 7 here

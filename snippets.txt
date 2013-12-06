@@ -50,3 +50,89 @@ int	compare(T o1, T o2)
 Compares its two arguments for order.
 boolean	equals(Object obj)
 Indicates whether some other object is "equal to" this comparator.
+
+
+
+An Iterator as an inner class would look like this:
+
+class MyIterable implements Iterable {
+    public Iterator iterator() {
+        return new Iterator() {
+            public boolean hasNext() {...}
+            public Object next() {...}
+            void remove();
+        }
+    }
+}
+In contrast, an Iterator that's not an inner class might look more like:
+
+class MyIterable implements Iterable {
+    public Iterator iterator() {
+        return new MyIterator();
+    }
+}
+
+class MyIterator {
+    public boolean hasNext() {...}
+    public Object next() {...}
+    void remove();
+}
+This is another way that's technically speaking not an inner class, but some people will look at you funny if you say that:
+
+class MyIterable implements Iterable {
+    public Iterator iterator() {
+        return new MyIterator();
+    }
+
+    static class MyIterator {
+        public boolean hasNext() {...}
+        public Object next() {...}
+        void remove();
+    }
+}
+
+
+
+
+
+
+
+
+private class MyIcon implements Icon {
+            ImageIcon imgIcon1 = null;
+            ImageIcon imgIcon2 = null;
+
+            public MyIcon(){
+                    try{
+
+                        URL dancing = getClass().getResource("/img/dancingCat.gif");
+                        imgIcon2 = new ImageIcon(dancing);
+
+                        URL grumpy = getClass().getResource("/img/grumpycat.jpg");
+                        imgIcon1 = new ImageIcon(grumpy);
+            
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+            }
+
+            @Override
+            public void paintIcon(Component c, Graphics g, int x, int y) {
+                    if(result){
+                        imgIcon2.paintIcon(c, g, x, y);
+                    }else{
+                        imgIcon1.paintIcon(c, g, x, y);
+                    }
+               
+            }
+            @Override
+            public int getIconWidth() {
+                return 284;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return 426;
+            }
+        }

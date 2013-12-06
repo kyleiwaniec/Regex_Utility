@@ -10,20 +10,22 @@ package edu.mccc.cos210.ds;
 	 private int source; 
 	 /** The destination vertex */ 
 	 private int dest; 
+
+	 private boolean epsilon;
+
 	 /** The weight */ 
-	 private double weight; 
+	 //private double weight; 
+
+	 private char weight; 
 	 
 	 // Constructor 
-	 /** Construct an Edge with a source of from 
-	 * and a destination of to. Set the weight 
-	 * to 1.0. 
-	 * @param from - The source vertex 
-	 * @param to - The destination vertex 
-	 */ 
+	 /** epsilon edge */ 
 	 public Edge(int source, int dest) { 
 		 this.source = source; 
 		 this.dest = dest; 
-		 weight = 1.0; 
+		 this.epsilon = true;
+		 //weight = new Character();
+		// weight = new char[128];  // the ASCII set we're working with.
 	 } 
 	 
 	 /** Construct a weighted edge with a source 
@@ -33,12 +35,19 @@ package edu.mccc.cos210.ds;
 	 * @param to - The destination vertex 
 	 * @param w - The weight 
 	 */ 
-	 public Edge(int source, int dest, double w) { 
+	 public Edge(int source, int dest, char w) { 
 		 this.source = source; 
 		 this.dest = dest; 
-		 weight = w; 
+		 this.weight = w; 
 	 } 
 	 
+	 /** epsilon edge */
+	 public Edge(int source, int dest, boolean e) { 
+		 this.source = source; 
+		 this.dest = dest; 
+		 this.epsilon = e; 
+	 } 
+
 	 // Methods 
 	 /** Get the source 
 	 * @return The value of source 
@@ -57,25 +66,37 @@ package edu.mccc.cos210.ds;
 	 /** Get the weight 
 	 * @return the value of weight 
 	 */ 
-	 public double getWeight() { 
+	 public char getWeight() { 
 		return weight; 
 	 } 
 	 
+	 /** Get the weight 
+	 * @return the value of weight 
+	 */ 
+	 public boolean isEpsilon() { 
+		return this.epsilon; 
+	 } 
+
+
 	 /** Return a String representation of the edge 
 	 * @return A String representation of the edge 
 	 */ 
 	 @Override 
 	 public String toString() { 
-		 StringBuilder sb = new StringBuilder("[("); 
+		 StringBuilder sb = new StringBuilder(", [("); 
 		 sb.append(Integer.toString(source)); 
 		 sb.append(", "); 
 		 sb.append(Integer.toString(dest)); 
 		 sb.append("): "); 
-		 sb.append(Double.toString(weight)); 
+		 sb.append(String.valueOf(weight)); 
 		 sb.append("]"); 
+
+		
+
 		 return sb.toString(); 
 	 } 
 	 
+	
 	 /** Return true if two edges are equal. Edges 
 	 * are equal if the source and destination Programming Exercise Solutions Page 51 of 64
 	 * are equal. Weight is not conidered.
@@ -93,6 +114,10 @@ package edu.mccc.cos210.ds;
 		} 
 	 } 
 	 
+	 public boolean contains(char c){
+	 	return (c == weight);
+	 }
+
 	 /** Return a hash code for an edge. The hash 
 	 * code is the source shifted left 16 bits 
 	 * exclusive or with the dest 

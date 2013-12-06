@@ -6,114 +6,136 @@
 </head>
 <body>
 <div class="sourceContainer">
-<pre><span class="sourceLineNo">001</span>//Solution to programming exercise 1, Section 2, Chapter 10<a name="line.1"></a>
-<span class="sourceLineNo">002</span> //File: \KW\CH10\Edge.java startLine: 0 endLine 108 <a name="line.2"></a>
-<span class="sourceLineNo">003</span> package edu.mccc.cos210.ds; <a name="line.3"></a>
-<span class="sourceLineNo">004</span> <a name="line.4"></a>
-<span class="sourceLineNo">005</span> /** An Edge represents a relationship between two <a name="line.5"></a>
-<span class="sourceLineNo">006</span> * vertices. <a name="line.6"></a>
-<span class="sourceLineNo">007</span> * @author Koffman and Wolfgang <a name="line.7"></a>
-<span class="sourceLineNo">008</span> */ <a name="line.8"></a>
-<span class="sourceLineNo">009</span> public class Edge { <a name="line.9"></a>
-<span class="sourceLineNo">010</span> // Data Fields <a name="line.10"></a>
-<span class="sourceLineNo">011</span> <a name="line.11"></a>
-<span class="sourceLineNo">012</span> /** The source vertix */ <a name="line.12"></a>
-<span class="sourceLineNo">013</span> private int source; <a name="line.13"></a>
-<span class="sourceLineNo">014</span> /** The destination vertix */ <a name="line.14"></a>
-<span class="sourceLineNo">015</span> private int dest; <a name="line.15"></a>
-<span class="sourceLineNo">016</span> /** The weight */ <a name="line.16"></a>
-<span class="sourceLineNo">017</span> private double weight; <a name="line.17"></a>
-<span class="sourceLineNo">018</span> <a name="line.18"></a>
-<span class="sourceLineNo">019</span> // Constructor <a name="line.19"></a>
-<span class="sourceLineNo">020</span> /** Construct an Edge with a source of from <a name="line.20"></a>
-<span class="sourceLineNo">021</span> * and a destination of to. Set the weight <a name="line.21"></a>
-<span class="sourceLineNo">022</span> * to 1.0. <a name="line.22"></a>
-<span class="sourceLineNo">023</span> * @param from - The source vertix <a name="line.23"></a>
-<span class="sourceLineNo">024</span> * @param to - The destination vertix <a name="line.24"></a>
-<span class="sourceLineNo">025</span> */ <a name="line.25"></a>
-<span class="sourceLineNo">026</span> public Edge(int source, int dest) { <a name="line.26"></a>
-<span class="sourceLineNo">027</span> this.source = source; <a name="line.27"></a>
-<span class="sourceLineNo">028</span> this.dest = dest; <a name="line.28"></a>
-<span class="sourceLineNo">029</span> weight = 1.0; <a name="line.29"></a>
-<span class="sourceLineNo">030</span> } <a name="line.30"></a>
-<span class="sourceLineNo">031</span> <a name="line.31"></a>
-<span class="sourceLineNo">032</span> /** Construct a weighted edge with a source <a name="line.32"></a>
-<span class="sourceLineNo">033</span> * of from and a destination of to. Set the <a name="line.33"></a>
-<span class="sourceLineNo">034</span> * weight to w. <a name="line.34"></a>
-<span class="sourceLineNo">035</span> * @param from - The source vertix <a name="line.35"></a>
-<span class="sourceLineNo">036</span> * @param to - The destination vertix <a name="line.36"></a>
-<span class="sourceLineNo">037</span> * @param w - The weight <a name="line.37"></a>
-<span class="sourceLineNo">038</span> */ <a name="line.38"></a>
-<span class="sourceLineNo">039</span> public Edge(int source, int dest, double w) { <a name="line.39"></a>
-<span class="sourceLineNo">040</span> this.source = source; <a name="line.40"></a>
-<span class="sourceLineNo">041</span> this.dest = dest; <a name="line.41"></a>
-<span class="sourceLineNo">042</span> weight = w; <a name="line.42"></a>
-<span class="sourceLineNo">043</span> } <a name="line.43"></a>
-<span class="sourceLineNo">044</span> <a name="line.44"></a>
-<span class="sourceLineNo">045</span> // Methods <a name="line.45"></a>
-<span class="sourceLineNo">046</span> /** Get the source <a name="line.46"></a>
-<span class="sourceLineNo">047</span> * @return The value of source <a name="line.47"></a>
-<span class="sourceLineNo">048</span> */ <a name="line.48"></a>
-<span class="sourceLineNo">049</span> public int getSource() { <a name="line.49"></a>
-<span class="sourceLineNo">050</span> return source; <a name="line.50"></a>
-<span class="sourceLineNo">051</span> } <a name="line.51"></a>
-<span class="sourceLineNo">052</span> <a name="line.52"></a>
-<span class="sourceLineNo">053</span> /** Get the destination <a name="line.53"></a>
-<span class="sourceLineNo">054</span> * @return The value of dest <a name="line.54"></a>
-<span class="sourceLineNo">055</span> */ <a name="line.55"></a>
-<span class="sourceLineNo">056</span> public int getDest() { <a name="line.56"></a>
-<span class="sourceLineNo">057</span> return dest; <a name="line.57"></a>
-<span class="sourceLineNo">058</span> } <a name="line.58"></a>
-<span class="sourceLineNo">059</span> <a name="line.59"></a>
-<span class="sourceLineNo">060</span> /** Get the weight <a name="line.60"></a>
-<span class="sourceLineNo">061</span> * @return the value of weight <a name="line.61"></a>
-<span class="sourceLineNo">062</span> */ <a name="line.62"></a>
-<span class="sourceLineNo">063</span> public double getWeight() { <a name="line.63"></a>
-<span class="sourceLineNo">064</span> return weight; <a name="line.64"></a>
-<span class="sourceLineNo">065</span> } <a name="line.65"></a>
-<span class="sourceLineNo">066</span> <a name="line.66"></a>
-<span class="sourceLineNo">067</span> /** Return a String representation of the edge <a name="line.67"></a>
-<span class="sourceLineNo">068</span> * @return A String representation of the edge <a name="line.68"></a>
-<span class="sourceLineNo">069</span> */ <a name="line.69"></a>
-<span class="sourceLineNo">070</span> @Override <a name="line.70"></a>
-<span class="sourceLineNo">071</span> public String toString() { <a name="line.71"></a>
-<span class="sourceLineNo">072</span> StringBuilder sb = new StringBuilder("[("); <a name="line.72"></a>
-<span class="sourceLineNo">073</span> sb.append(Integer.toString(source)); <a name="line.73"></a>
-<span class="sourceLineNo">074</span> sb.append(", "); <a name="line.74"></a>
-<span class="sourceLineNo">075</span> sb.append(Integer.toString(dest)); <a name="line.75"></a>
-<span class="sourceLineNo">076</span> sb.append("): "); <a name="line.76"></a>
-<span class="sourceLineNo">077</span> sb.append(Double.toString(weight)); <a name="line.77"></a>
-<span class="sourceLineNo">078</span> sb.append("]"); <a name="line.78"></a>
-<span class="sourceLineNo">079</span> return sb.toString(); <a name="line.79"></a>
-<span class="sourceLineNo">080</span> } <a name="line.80"></a>
-<span class="sourceLineNo">081</span> <a name="line.81"></a>
-<span class="sourceLineNo">082</span> /** Return true if two edges are equal. Edges <a name="line.82"></a>
-<span class="sourceLineNo">083</span> * are equal if the source and destination Programming Exercise Solutions Page 51 of 64<a name="line.83"></a>
-<span class="sourceLineNo">084</span> * are equal. Weight is not conidered.<a name="line.84"></a>
-<span class="sourceLineNo">085</span> * @param obj The object to compare to <a name="line.85"></a>
-<span class="sourceLineNo">086</span> * @return true if the edges have the same source <a name="line.86"></a>
-<span class="sourceLineNo">087</span> * and destination <a name="line.87"></a>
-<span class="sourceLineNo">088</span> */ <a name="line.88"></a>
-<span class="sourceLineNo">089</span> @Override <a name="line.89"></a>
-<span class="sourceLineNo">090</span> public boolean equals(Object obj) { <a name="line.90"></a>
-<span class="sourceLineNo">091</span> if (obj instanceof Edge) { <a name="line.91"></a>
-<span class="sourceLineNo">092</span> Edge edge = (Edge) obj; <a name="line.92"></a>
-<span class="sourceLineNo">093</span> return (source == edge.source &amp;&amp; dest == edge.dest); <a name="line.93"></a>
-<span class="sourceLineNo">094</span> } else { <a name="line.94"></a>
-<span class="sourceLineNo">095</span> return false; <a name="line.95"></a>
-<span class="sourceLineNo">096</span> } <a name="line.96"></a>
-<span class="sourceLineNo">097</span> } <a name="line.97"></a>
-<span class="sourceLineNo">098</span> <a name="line.98"></a>
-<span class="sourceLineNo">099</span> /** Return a hash code for an edge. The hash <a name="line.99"></a>
-<span class="sourceLineNo">100</span> * code is the source shifted left 16 bits <a name="line.100"></a>
-<span class="sourceLineNo">101</span> * exclusive or with the dest <a name="line.101"></a>
-<span class="sourceLineNo">102</span> * @return a hash code for an edge <a name="line.102"></a>
-<span class="sourceLineNo">103</span> */ <a name="line.103"></a>
-<span class="sourceLineNo">104</span> @Override <a name="line.104"></a>
-<span class="sourceLineNo">105</span> public int hashCode() { <a name="line.105"></a>
-<span class="sourceLineNo">106</span> return (source &lt;&lt; 16) ^ dest; <a name="line.106"></a>
-<span class="sourceLineNo">107</span> } <a name="line.107"></a>
-<span class="sourceLineNo">108</span>} <a name="line.108"></a>
+<pre><span class="sourceLineNo">001</span>package edu.mccc.cos210.ds;<a name="line.1"></a>
+<span class="sourceLineNo">002</span> <a name="line.2"></a>
+<span class="sourceLineNo">003</span> /** An Edge represents a relationship between two <a name="line.3"></a>
+<span class="sourceLineNo">004</span> * vertices. <a name="line.4"></a>
+<span class="sourceLineNo">005</span> */ <a name="line.5"></a>
+<span class="sourceLineNo">006</span> public class Edge{ <a name="line.6"></a>
+<span class="sourceLineNo">007</span>         // Data Fields <a name="line.7"></a>
+<span class="sourceLineNo">008</span>         <a name="line.8"></a>
+<span class="sourceLineNo">009</span>         /** The source vertex */ <a name="line.9"></a>
+<span class="sourceLineNo">010</span>         private int source; <a name="line.10"></a>
+<span class="sourceLineNo">011</span>         /** The destination vertex */ <a name="line.11"></a>
+<span class="sourceLineNo">012</span>         private int dest; <a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>         private boolean epsilon;<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>         /** The weight */ <a name="line.16"></a>
+<span class="sourceLineNo">017</span>         //private double weight; <a name="line.17"></a>
+<span class="sourceLineNo">018</span><a name="line.18"></a>
+<span class="sourceLineNo">019</span>         private char weight; <a name="line.19"></a>
+<span class="sourceLineNo">020</span>         <a name="line.20"></a>
+<span class="sourceLineNo">021</span>         // Constructor <a name="line.21"></a>
+<span class="sourceLineNo">022</span>         /** epsilon edge */ <a name="line.22"></a>
+<span class="sourceLineNo">023</span>         public Edge(int source, int dest) { <a name="line.23"></a>
+<span class="sourceLineNo">024</span>                 this.source = source; <a name="line.24"></a>
+<span class="sourceLineNo">025</span>                 this.dest = dest; <a name="line.25"></a>
+<span class="sourceLineNo">026</span>                 this.epsilon = true;<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                 //weight = new Character();<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                // weight = new char[128];  // the ASCII set we're working with.<a name="line.28"></a>
+<span class="sourceLineNo">029</span>         } <a name="line.29"></a>
+<span class="sourceLineNo">030</span>         <a name="line.30"></a>
+<span class="sourceLineNo">031</span>         /** Construct a weighted edge with a source <a name="line.31"></a>
+<span class="sourceLineNo">032</span>         * of from and a destination of to. Set the <a name="line.32"></a>
+<span class="sourceLineNo">033</span>         * weight to w. <a name="line.33"></a>
+<span class="sourceLineNo">034</span>         * @param from - The source vertex <a name="line.34"></a>
+<span class="sourceLineNo">035</span>         * @param to - The destination vertex <a name="line.35"></a>
+<span class="sourceLineNo">036</span>         * @param w - The weight <a name="line.36"></a>
+<span class="sourceLineNo">037</span>         */ <a name="line.37"></a>
+<span class="sourceLineNo">038</span>         public Edge(int source, int dest, char w) { <a name="line.38"></a>
+<span class="sourceLineNo">039</span>                 this.source = source; <a name="line.39"></a>
+<span class="sourceLineNo">040</span>                 this.dest = dest; <a name="line.40"></a>
+<span class="sourceLineNo">041</span>                 this.weight = w; <a name="line.41"></a>
+<span class="sourceLineNo">042</span>         } <a name="line.42"></a>
+<span class="sourceLineNo">043</span>         <a name="line.43"></a>
+<span class="sourceLineNo">044</span>         /** epsilon edge */<a name="line.44"></a>
+<span class="sourceLineNo">045</span>         public Edge(int source, int dest, boolean e) { <a name="line.45"></a>
+<span class="sourceLineNo">046</span>                 this.source = source; <a name="line.46"></a>
+<span class="sourceLineNo">047</span>                 this.dest = dest; <a name="line.47"></a>
+<span class="sourceLineNo">048</span>                 this.epsilon = e; <a name="line.48"></a>
+<span class="sourceLineNo">049</span>         } <a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>         // Methods <a name="line.51"></a>
+<span class="sourceLineNo">052</span>         /** Get the source <a name="line.52"></a>
+<span class="sourceLineNo">053</span>         * @return The value of source <a name="line.53"></a>
+<span class="sourceLineNo">054</span>         */ <a name="line.54"></a>
+<span class="sourceLineNo">055</span>         public int getSource() { <a name="line.55"></a>
+<span class="sourceLineNo">056</span>                return source; <a name="line.56"></a>
+<span class="sourceLineNo">057</span>         } <a name="line.57"></a>
+<span class="sourceLineNo">058</span>         <a name="line.58"></a>
+<span class="sourceLineNo">059</span>         /** Get the destination <a name="line.59"></a>
+<span class="sourceLineNo">060</span>         * @return The value of dest <a name="line.60"></a>
+<span class="sourceLineNo">061</span>         */ <a name="line.61"></a>
+<span class="sourceLineNo">062</span>         public int getDest() { <a name="line.62"></a>
+<span class="sourceLineNo">063</span>                return dest; <a name="line.63"></a>
+<span class="sourceLineNo">064</span>         } <a name="line.64"></a>
+<span class="sourceLineNo">065</span>         <a name="line.65"></a>
+<span class="sourceLineNo">066</span>         /** Get the weight <a name="line.66"></a>
+<span class="sourceLineNo">067</span>         * @return the value of weight <a name="line.67"></a>
+<span class="sourceLineNo">068</span>         */ <a name="line.68"></a>
+<span class="sourceLineNo">069</span>         public char getWeight() { <a name="line.69"></a>
+<span class="sourceLineNo">070</span>                return weight; <a name="line.70"></a>
+<span class="sourceLineNo">071</span>         } <a name="line.71"></a>
+<span class="sourceLineNo">072</span>         <a name="line.72"></a>
+<span class="sourceLineNo">073</span>         /** Get the weight <a name="line.73"></a>
+<span class="sourceLineNo">074</span>         * @return the value of weight <a name="line.74"></a>
+<span class="sourceLineNo">075</span>         */ <a name="line.75"></a>
+<span class="sourceLineNo">076</span>         public boolean isEpsilon() { <a name="line.76"></a>
+<span class="sourceLineNo">077</span>                return this.epsilon; <a name="line.77"></a>
+<span class="sourceLineNo">078</span>         } <a name="line.78"></a>
+<span class="sourceLineNo">079</span><a name="line.79"></a>
+<span class="sourceLineNo">080</span><a name="line.80"></a>
+<span class="sourceLineNo">081</span>         /** Return a String representation of the edge <a name="line.81"></a>
+<span class="sourceLineNo">082</span>         * @return A String representation of the edge <a name="line.82"></a>
+<span class="sourceLineNo">083</span>         */ <a name="line.83"></a>
+<span class="sourceLineNo">084</span>         @Override <a name="line.84"></a>
+<span class="sourceLineNo">085</span>         public String toString() { <a name="line.85"></a>
+<span class="sourceLineNo">086</span>                 StringBuilder sb = new StringBuilder(", [("); <a name="line.86"></a>
+<span class="sourceLineNo">087</span>                 sb.append(Integer.toString(source)); <a name="line.87"></a>
+<span class="sourceLineNo">088</span>                 sb.append(", "); <a name="line.88"></a>
+<span class="sourceLineNo">089</span>                 sb.append(Integer.toString(dest)); <a name="line.89"></a>
+<span class="sourceLineNo">090</span>                 sb.append("): "); <a name="line.90"></a>
+<span class="sourceLineNo">091</span>                 sb.append(String.valueOf(weight)); <a name="line.91"></a>
+<span class="sourceLineNo">092</span>                 sb.append("]"); <a name="line.92"></a>
+<span class="sourceLineNo">093</span><a name="line.93"></a>
+<span class="sourceLineNo">094</span>                <a name="line.94"></a>
+<span class="sourceLineNo">095</span><a name="line.95"></a>
+<span class="sourceLineNo">096</span>                 return sb.toString(); <a name="line.96"></a>
+<span class="sourceLineNo">097</span>         } <a name="line.97"></a>
+<span class="sourceLineNo">098</span>         <a name="line.98"></a>
+<span class="sourceLineNo">099</span>        <a name="line.99"></a>
+<span class="sourceLineNo">100</span>         /** Return true if two edges are equal. Edges <a name="line.100"></a>
+<span class="sourceLineNo">101</span>         * are equal if the source and destination Programming Exercise Solutions Page 51 of 64<a name="line.101"></a>
+<span class="sourceLineNo">102</span>         * are equal. Weight is not conidered.<a name="line.102"></a>
+<span class="sourceLineNo">103</span>         * @param obj The object to compare to <a name="line.103"></a>
+<span class="sourceLineNo">104</span>         * @return true if the edges have the same source <a name="line.104"></a>
+<span class="sourceLineNo">105</span>         * and destination <a name="line.105"></a>
+<span class="sourceLineNo">106</span>         */ <a name="line.106"></a>
+<span class="sourceLineNo">107</span>         @Override <a name="line.107"></a>
+<span class="sourceLineNo">108</span>         public boolean equals(Object obj) { <a name="line.108"></a>
+<span class="sourceLineNo">109</span>                 if (obj instanceof Edge) { <a name="line.109"></a>
+<span class="sourceLineNo">110</span>                         Edge edge = (Edge) obj; <a name="line.110"></a>
+<span class="sourceLineNo">111</span>                         return (source == edge.source &amp;&amp; dest == edge.dest); <a name="line.111"></a>
+<span class="sourceLineNo">112</span>                } else { <a name="line.112"></a>
+<span class="sourceLineNo">113</span>                        return false; <a name="line.113"></a>
+<span class="sourceLineNo">114</span>                } <a name="line.114"></a>
+<span class="sourceLineNo">115</span>         } <a name="line.115"></a>
+<span class="sourceLineNo">116</span>         <a name="line.116"></a>
+<span class="sourceLineNo">117</span>         public boolean contains(char c){<a name="line.117"></a>
+<span class="sourceLineNo">118</span>                return (c == weight);<a name="line.118"></a>
+<span class="sourceLineNo">119</span>         }<a name="line.119"></a>
+<span class="sourceLineNo">120</span><a name="line.120"></a>
+<span class="sourceLineNo">121</span>         /** Return a hash code for an edge. The hash <a name="line.121"></a>
+<span class="sourceLineNo">122</span>         * code is the source shifted left 16 bits <a name="line.122"></a>
+<span class="sourceLineNo">123</span>         * exclusive or with the dest <a name="line.123"></a>
+<span class="sourceLineNo">124</span>         * @return a hash code for an edge <a name="line.124"></a>
+<span class="sourceLineNo">125</span>         */ <a name="line.125"></a>
+<span class="sourceLineNo">126</span>         @Override <a name="line.126"></a>
+<span class="sourceLineNo">127</span>         public int hashCode() { <a name="line.127"></a>
+<span class="sourceLineNo">128</span>                return (source &lt;&lt; 16) ^ dest; <a name="line.128"></a>
+<span class="sourceLineNo">129</span>         } <a name="line.129"></a>
+<span class="sourceLineNo">130</span>} <a name="line.130"></a>
 
 
 
