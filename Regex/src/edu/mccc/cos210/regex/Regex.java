@@ -37,14 +37,25 @@ public class Regex{
 		InfixToPostfix itp = new InfixToPostfix(regExpr);
 		String posix = itp.convert(regExpr);
 		char[] language = itp.getLanguage();
+
+     	String langStr = new String(language);
+
 		System.out.println("infix: "+regExpr);
 		System.out.println("posix: "+posix);
-		System.out.println("language: "+itp.languageToString());
+		//System.out.println("language: "+itp.languageToString());
+		System.out.println("langStr: "+langStr);
+
+		
+
+
 		NFA nfa = new NFA(posix);
 		DFA dfa = new DFA(nfa, language);
-		System.out.println("dfa final states: "+dfa.getfinalStates());
-		
-		return true;
+
+		System.out.println("dfa final states: "+dfa.getfinalStates()); // Arraylist
+		//ArrayList<Integer> finalStates = dfa.getfinalStates();
+
+		//return eatDFA(int[][] table, String lang, ArrayList<Integer> fs, String target);
+		return eatDFA(dfa.getTransitionTable(), langStr, dfa.getfinalStates(), target);
 	}
 	public boolean find(String regExpr, String target) throws IOException, NullPointerException{
 		return true;
@@ -79,7 +90,30 @@ public class Regex{
 		this.start = 0;
 	};
 	
-	
+	private boolean eatDFA(int[][] table, String lang, ArrayList<Integer> fs, String target) throws IOException{
+
+		BufferedReader br = stringToBR(target);
+		int c; 
+		int state = 0;
+		while (((c = br.read()) != -1)) {
+			int input = lang.indexOf((char)c);
+			System.out.println("input: "+input); 
+			System.out.println("current state: "+state); 
+			if(input != -1){     
+				if (table[state][input] == -1){
+					return false; // Table indicates that this is not a valid input
+				}else if (fs.contains(table[state][input])){ // fs => final states in DFA
+					return true; // Table indicates that for this state, we accept the input given
+				}
+			// Advance to next state.
+		    state = table[state][input];	
+		    }else{
+		    	break;
+		    }  
+		    
+		}
+		return false;
+	}
 
 	// private methods:
 
