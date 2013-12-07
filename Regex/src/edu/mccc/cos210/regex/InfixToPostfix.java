@@ -75,7 +75,7 @@ public class InfixToPostfix{
 				if(!isOperator((char)c) && isToken){
 					sb.append('|');
 					sbIdx++;
-				}else if((char)c == '[' && isToken){
+				}else if((char)c == '[' && (isToken || closingBracket)){
 					sb.append('•');
 					sbIdx++;
 				}
@@ -88,7 +88,7 @@ public class InfixToPostfix{
 				if(!isOperator((char)c) && isToken){
 					sb.append('•');
 					sbIdx++;
-				}else if((char)c == '(' && isToken){
+				}else if((char)c == '(' && (isToken || closingBracket)){
 					sb.append('•');
 					sbIdx++;
 				}
@@ -202,11 +202,20 @@ public class InfixToPostfix{
 
 		return lang;
 	}
+	public String languageToString(){
+		StringBuilder sb = new StringBuilder();
+	        for(int i = 0; i < this.language.size(); i++) {
+	            sb.append(language.get(i));
+	        }
+	    return sb.toString();    
+	}
 	private void setLanguage(){
 		this.language = language;
 	}
 	private void buildLanguage(char c){
-		this.language.add(c);
+		if(!this.language.contains(c)){
+			this.language.add(c);
+		}
 	}
 	/**
      * Determine whether a character is an operator.

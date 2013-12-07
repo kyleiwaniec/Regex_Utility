@@ -37,11 +37,13 @@ public class Regex{
 		InfixToPostfix itp = new InfixToPostfix(regExpr);
 		String posix = itp.convert(regExpr);
 		char[] language = itp.getLanguage();
+		System.out.println("infix: "+regExpr);
 		System.out.println("posix: "+posix);
-		System.out.println("language: "+language.length);
+		System.out.println("language: "+itp.languageToString());
 		NFA nfa = new NFA(posix);
 		DFA dfa = new DFA(nfa, language);
-
+		System.out.println("dfa final states: "+dfa.getfinalStates());
+		
 		return true;
 	}
 	public boolean find(String regExpr, String target) throws IOException, NullPointerException{

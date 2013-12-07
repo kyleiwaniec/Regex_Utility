@@ -23,6 +23,7 @@ public class NFA extends ListGraph{
 	private Stack<ListGraph> nfaStack;
 	private String posixRegexp;
     private int rgl; 
+    private ListGraph nfa;
 	public NFA(String posixRegexp) throws GrumpyCatError{
 		this.posixRegexp = posixRegexp;
         rgl = posixRegexp.length();
@@ -36,7 +37,7 @@ public class NFA extends ListGraph{
         	char c = posixRegexp.charAt(i);
         	if(!isOperator(c)){
         		// make edge to nfa and push on stack
-        		ListGraph nfa = new ListGraph(numV+=2,true);
+        		nfa = new ListGraph(numV+=2,true);
 
         		nfa.setStartState(++state);
         		nfa.setAcceptState(++state);
@@ -50,7 +51,7 @@ public class NFA extends ListGraph{
         		ListGraph top = nfaStack.pop();
         		ListGraph bot = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV, true);
+        		nfa = new ListGraph(numV, true);
 
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
@@ -78,7 +79,7 @@ public class NFA extends ListGraph{
         		// push on stack;
         		ListGraph top = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		nfa = new ListGraph(numV+=2, true);
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
         				nfa.insert((Edge) e1);
@@ -102,7 +103,7 @@ public class NFA extends ListGraph{
         		// push on stack;
         		ListGraph top = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		nfa = new ListGraph(numV+=2, true);
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
         				nfa.insert((Edge) e1);
@@ -126,7 +127,7 @@ public class NFA extends ListGraph{
         		// push on stack;
         		ListGraph top = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV, true);
+        		nfa = new ListGraph(numV, true);
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
         				nfa.insert((Edge) e1);
@@ -154,7 +155,7 @@ public class NFA extends ListGraph{
         		ListGraph top = nfaStack.pop();
         		ListGraph bot = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		nfa = new ListGraph(numV+=2, true);
 
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
@@ -187,8 +188,11 @@ public class NFA extends ListGraph{
         	}
         	
         }
-
+    
 	}
+    public int nfaAcceptState(){
+        return nfa.getAcceptState();
+    }
     public ListGraph getGraph(){
         return nfaStack.pop();
     }
@@ -200,4 +204,5 @@ public class NFA extends ListGraph{
     private boolean isOperator(char ch) {
         return OPERATORS.indexOf(ch) != -1;
     }
+
 }
