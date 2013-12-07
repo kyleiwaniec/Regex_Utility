@@ -1,1 +1,2 @@
-java -cp bin; edu.mccc.cos210.regex.KHRETester ../src/edu/mccc/cos210/regex/grumpycat.jpg ../src/edu/mccc/cos210/regex/dancingCat.gif
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
+java -cp bin; edu.mccc.cos210.regex.KHRETester
