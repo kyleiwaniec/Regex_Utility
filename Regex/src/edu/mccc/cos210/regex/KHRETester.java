@@ -57,8 +57,8 @@ public class KHRETester extends JFrame {
 		private JTextField jtfRegex = new JTextField("[a-c]", 32);
 		private JTextField jtfString = new JTextField("12cat", 32);
 
-		private JButton jBtn_Match = new JButton("Match");
-		private JButton jBtn_Find = new JButton("Find Next");
+		private JButton jBtn_Match = new JButton("Exact Match");
+		private JButton jBtn_Find = new JButton("Find");
 		private JButton jBtn_Reset = new JButton("Reset");
 		
 		private URL grumpy = getClass().getResource("/img/grumpycat.jpg");
@@ -101,10 +101,13 @@ public class KHRETester extends JFrame {
 				}
 			}else if (e.getSource() == jBtn_Find){
 				try{
-					result = reEvaluator.find(jtfRegex.getText(), jtfString.getText(), reEvaluator.getStart());
+					result = reEvaluator.find(jtfRegex.getText(), jtfString.getText());
 					icon = result ? 1 : 2;
 				}catch (IOException ioe){
 					ioe.printStackTrace();
+				}catch (GrumpyCatError gce){
+					System.out.println(gce.getDescription());
+					icon = 2;
 				}
 			}else if (e.getSource() == jBtn_Reset){
 				reEvaluator.reset();

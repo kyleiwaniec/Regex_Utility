@@ -41,8 +41,8 @@ public class Regex{
      	String langStr = new String(language);
 
 		System.out.println("infix: "+regExpr);
-		System.out.println("posix: "+posix);
-		System.out.println("langStr: "+langStr);
+		System.out.println("postfix: "+posix);
+		System.out.println("alphabet: "+langStr);
 
 		NFA nfa = new NFA(posix);
 		DFA dfa = new DFA(nfa, language);
@@ -51,10 +51,27 @@ public class Regex{
 		//ArrayList<Integer> finalStates = dfa.getfinalStates();
 
 		//return eatDFA(int[][] table, String lang, ArrayList<Integer> fs, String target);
-		return eatDFA(dfa.getTransitionTable(), langStr, dfa.getfinalStates(), target);
+		return exactMatch(dfa.getTransitionTable(), langStr, dfa.getfinalStates(), target);
 	}
-	public boolean find(String regExpr, String target) throws IOException, NullPointerException{
-		return true;
+	public boolean find(String regExpr, String target) throws IOException, GrumpyCatError{
+		InfixToPostfix itp = new InfixToPostfix(regExpr);
+		String posix = itp.convert(regExpr);
+		char[] language = itp.getLanguage();
+
+     	String langStr = new String(language);
+
+		System.out.println("infix: "+regExpr);
+		System.out.println("postfix: "+posix);
+		System.out.println("alphabet: "+langStr);
+
+		NFA nfa = new NFA(posix);
+		DFA dfa = new DFA(nfa, language);
+
+		System.out.println("dfa final states: "+dfa.getfinalStates()); // Arraylist
+		//ArrayList<Integer> finalStates = dfa.getfinalStates();
+
+		//return eatDFA(int[][] table, String lang, ArrayList<Integer> fs, String target);
+		return findMatch(dfa.getTransitionTable(), langStr, dfa.getfinalStates(), target);
 	};
 	public boolean find(String regExpr, String target, int start) throws IOException, NullPointerException{
 
@@ -85,7 +102,7 @@ public class Regex{
 	
 	// private methods:
 	// exact match:
-	private boolean eatDFA(int[][] table, String lang, ArrayList<Integer> fs, String target) throws IOException{
+	private boolean exactMatch(int[][] table, String lang, ArrayList<Integer> fs, String target) throws IOException{
 
 		BufferedReader br = stringToBR(target);
 		int c; 
@@ -103,6 +120,29 @@ public class Regex{
 		    }else{
 		    	break;
 		    }  
+		}
+		return false;
+	}
+	// exact match:
+	private boolean findMatch(int[][] table, String lang, ArrayList<Integer> fs, String target) throws IOException{
+
+		BufferedReader br = stringToBR(target);
+		int c; 
+		int state = 0;
+		while (((c = br.read()) != -1)) {
+			int input = lang.indexOf((char)c);
+			if(input == -1){
+				state = 0;
+				continue;
+			}else{ // if it's not in the language, then total fail
+				if (table[state][input] == -1){ // unreachable state
+					return false; 
+				}else if (fs.contains(table[state][input])){ // fs => final states in DFA
+					return true; // Table indicates that for this state, we accept the input given
+				}
+			// Advance to next state.
+		    state = table[state][input];	
+		    }
 		}
 		return false;
 	}
