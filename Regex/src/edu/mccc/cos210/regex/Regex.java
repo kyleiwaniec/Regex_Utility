@@ -136,7 +136,8 @@ public class Regex{
 				continue;
 			}else{ // if it's not in the language, then total fail
 				if (table[state][input] == -1){ // unreachable state
-					return false; 
+					state = 0;
+					continue;
 				}else if (fs.contains(table[state][input])){ // fs => final states in DFA
 					return true; // Table indicates that for this state, we accept the input given
 				}
