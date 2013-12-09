@@ -51,7 +51,7 @@ public class KHRETester extends JFrame {
          
         //Print the jvm heap size.
         System.out.println("Heap Size = " + heapSize);
-        
+
 		KHRETester.sa = sa;
 		new KHRETester();
 	}
@@ -60,8 +60,8 @@ public class KHRETester extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private boolean result = false;
-		private JTextField jtfRegex = new JTextField("[a-g]+@[a-c]com", 32);
-		private JTextField jtfString = new JTextField("abc@abcom", 32);
+		private JTextField jtfRegex = new JTextField("kyle@[a-z]*.com", 32);
+		private JTextField jtfString = new JTextField("kyle@gmail.com whatever", 32);
 
 		private JButton jBtn_Match = new JButton("Exact Match");
 		private JButton jBtn_Find = new JButton("Find");
