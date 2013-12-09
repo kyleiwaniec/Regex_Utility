@@ -1,10 +1,7 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
-import edu.mccc.cos210.ds.DoublyLinkedList;
-import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.Edge;
-import edu.mccc.cos210.ds.ArrayListGraph;
 import edu.mccc.cos210.ds.ListGraph;
 
 import java.util.Iterator;
@@ -16,8 +13,6 @@ import edu.mccc.cos210.ex.GrumpyCatError;
 *	Equivalent infix: cat[a-d]
 *
 */
-
-
 public class NFA extends ListGraph{
 	private static final String OPERATORS = "[](){}*+?•^$|";
 	private Stack<ListGraph> nfaStack;
@@ -214,6 +209,7 @@ public class NFA extends ListGraph{
             }
             
         }
+       // System.out.println("final NFA: ");
         System.out.println("final NFA: "+nfa.toString());
 
 	}

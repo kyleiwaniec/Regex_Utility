@@ -6,7 +6,6 @@ import edu.mccc.cos210.ds.DFAStatesList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.DFAList;
 import edu.mccc.cos210.ds.Edge;
-import edu.mccc.cos210.ds.ArrayListGraph;
 import edu.mccc.cos210.ds.ListGraph;
 
 import edu.mccc.cos210.regex.NFA;
@@ -112,15 +111,15 @@ public class DFA{
 		System.out.println("DFA Transitions:");
 		
 		while(!dfaTransitionStack.empty()){
-			//TODO : use buffer instead of string
-			String str = "[ ";
+			StringBuilder sb = new StringBuilder();
+			sb.append("[ ");
 			int[] trans = dfaTransitionStack.pop();
 				dfaTransTable[trans[0]][trans[1]] = trans[2];
 				for(int j = 0; j<3; j++){
-					str += trans[j]+" ";
+					sb.append(trans[j]+" ");
 				}
-			str += "]";
-			System.out.println(str);
+			sb.append("]");	
+			System.out.println(sb);
 		}
 		System.out.println("DFA Transition Table (2D array of: DFA States x Alphabet)");
 		System.out.println("(-1 denotes unreachable states)");

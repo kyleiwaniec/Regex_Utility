@@ -86,9 +86,6 @@ public class InfixToPostfix{
 				}else{
 					isToken = true;
 				}
-				// if(curr == '*' || curr == '+' || curr == '?'){
-				// 	isToken = true;
-				// }
 			}else{
 				if(!isOperator((char)c) && isToken){
 					sb.append('•');
@@ -150,7 +147,6 @@ public class InfixToPostfix{
                 	postfix.append(firstChar);
                 	buildLanguage(firstChar);
                 }
-            //System.out.println("postfix--: "+postfix);    
         }
         // Pop any remaining operators and
         // append them to postfix.

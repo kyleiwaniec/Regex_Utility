@@ -1,13 +1,7 @@
 package edu.mccc.cos210.regex;
 
 import java.io.*;
-import edu.mccc.cos210.ds.DoublyLinkedList;
 import edu.mccc.cos210.ds.ArrayList;
-import edu.mccc.cos210.ds.Stack;
-import edu.mccc.cos210.ds.DFAStack;
-import edu.mccc.cos210.ds.Edge;
-import edu.mccc.cos210.ds.ArrayListGraph;
-import edu.mccc.cos210.ds.ListGraph;
 import edu.mccc.cos210.regex.NFA;
 
 import java.util.Iterator;
