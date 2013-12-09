@@ -60,7 +60,7 @@ public class KHRETester extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private boolean result = false;
-		private JTextField jtfRegex = new JTextField("kyle@[a-z]*.com", 32);
+		private JTextField jtfRegex = new JTextField("ab[d-f]*g", 32);
 		private JTextField jtfString = new JTextField("kyle@gmail.com whatever", 32);
 
 		private JButton jBtn_Match = new JButton("Exact Match");
