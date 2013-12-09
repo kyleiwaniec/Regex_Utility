@@ -19,7 +19,7 @@ import edu.mccc.cos210.ex.GrumpyCatError;
 
 
 public class NFA extends ListGraph{
-	private static final String OPERATORS = "[](){}*+?•^$|.";
+	private static final String OPERATORS = "[](){}*+?•^$|";
 	private Stack<ListGraph> nfaStack;
 	private String posixRegexp;
     private int rgl; 
@@ -44,6 +44,7 @@ public class NFA extends ListGraph{
 
         		nfa.insert(new Edge(nfa.getStartState(), nfa.getAcceptState(), c));
         		nfaStack.push(nfa);
+
         	}else if(c == '•'){
         		// pop 2 nfas off stack,
         		// modyfy
@@ -70,8 +71,7 @@ public class NFA extends ListGraph{
         		nfa.setAcceptState(top.getAcceptState());
 
         		nfaStack.push(nfa);
-        		System.out.println("• NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
 
         	}else if(c == '*'){
         		// pop 1 nfa off stack,
@@ -94,8 +94,8 @@ public class NFA extends ListGraph{
 
         		nfa.insert(new Edge(nfa.getAcceptState(), top.getStartState()));
         		nfaStack.push(nfa);
-        		System.out.println("* NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
+
 
         	}else if(c == '+'){
         		// pop 1 nfa off stack,
@@ -119,8 +119,7 @@ public class NFA extends ListGraph{
 
         		nfaStack.push(nfa);
 
-        		System.out.println("+ NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
         	}else if(c == '?'){
         		// pop 1 nfa off stack,
         		// modyfy
@@ -139,8 +138,7 @@ public class NFA extends ListGraph{
         		nfa.setAcceptState(top.getAcceptState());
         		nfaStack.push(nfa);
 
-        		System.out.println("? NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
 
         	}else if(c == '^'){
         		// set flag to say match must start at begginning of input string
@@ -180,21 +178,50 @@ public class NFA extends ListGraph{
 
 
         		nfaStack.push(nfa);
-        		System.out.println("| NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+        		
 
         	}else{
         		throw new GrumpyCatError("STOP TRYING TO BREAK ME.. CAN'T YOU SEE I'M FRAGILE?!");
         	}
         	
         }
-    
+
+
+        while(!nfaStack.empty()){
+            ListGraph top = nfaStack.pop();
+
+            if(!nfaStack.empty()){
+
+                ListGraph bot = nfaStack.pop();
+
+                nfa = new ListGraph(numV, true);
+
+                for(int j = 0; j < top.getNumV(); j++){
+                    for(Object e1 : top.get(j)){
+                        nfa.insert((Edge) e1);
+                    }
+                }
+                for(int k = 0; k < bot.getNumV(); k++){
+                    for(Object e2 : bot.get(k)){
+                        nfa.insert((Edge) e2);
+                    }
+                }
+                // insert epilon edge
+                nfa.insert(new Edge(bot.getAcceptState(), top.getStartState()));
+
+                nfa.setStartState(bot.getStartState());
+                nfa.setAcceptState(top.getAcceptState());
+            }
+            
+        }
+        System.out.println("final NFA: "+nfa.toString());
+
 	}
     public int nfaAcceptState(){
         return nfa.getAcceptState();
     }
     public ListGraph getGraph(){
-        return nfaStack.pop();
+        return nfa;
     }
 	/**
      * Determine whether a character is an operator.

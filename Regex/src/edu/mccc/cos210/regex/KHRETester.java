@@ -46,6 +46,12 @@ public class KHRETester extends JFrame {
 	 
 
 	public static void main(String[] sa) {
+		//Get the jvm heap size.
+        long heapSize = Runtime.getRuntime().totalMemory();
+         
+        //Print the jvm heap size.
+        System.out.println("Heap Size = " + heapSize);
+        
 		KHRETester.sa = sa;
 		new KHRETester();
 	}
@@ -54,8 +60,8 @@ public class KHRETester extends JFrame {
 
 		private static final long serialVersionUID = 1L;
 		private boolean result = false;
-		private JTextField jtfRegex = new JTextField("[a-c]", 32);
-		private JTextField jtfString = new JTextField("12cat", 32);
+		private JTextField jtfRegex = new JTextField("[a-g]+@[a-c]com", 32);
+		private JTextField jtfString = new JTextField("abc@abcom", 32);
 
 		private JButton jBtn_Match = new JButton("Exact Match");
 		private JButton jBtn_Find = new JButton("Find");
@@ -63,8 +69,10 @@ public class KHRETester extends JFrame {
 		
 		private URL grumpy = getClass().getResource("/img/grumpycat.jpg");
 		private URL dancing = getClass().getResource("/img/dancingCat.gif");
-		private JLabel jLabel1 = new JLabel(new ImageIcon(grumpy));
+		private URL notFound = getClass().getResource("/img/notFound.jpg");
+		private JLabel jLabel1 = new JLabel(new ImageIcon(notFound));
 		private JLabel jLabel2 = new JLabel(new ImageIcon(dancing));
+		private JLabel jLabel3 = new JLabel(new ImageIcon(grumpy));
 		private int icon;
 
 		public MyJPanel() {
@@ -75,6 +83,7 @@ public class KHRETester extends JFrame {
 
 			jLabel1.setVisible(false);
 			jLabel2.setVisible(false);
+			jLabel3.setVisible(false);
 
 			add(jtfRegex);
 			add(jtfString);
@@ -83,7 +92,7 @@ public class KHRETester extends JFrame {
 			add(jBtn_Reset);
 			add(jLabel1);
 			add(jLabel2);
-			
+			add(jLabel3);
 		}
 
 		@Override
@@ -97,7 +106,7 @@ public class KHRETester extends JFrame {
 					ioe.printStackTrace();
 				}catch (GrumpyCatError gce){
 					System.out.println(gce.getDescription());
-					icon = 2;
+					icon = 4;
 				}
 			}else if (e.getSource() == jBtn_Find){
 				try{
@@ -107,7 +116,7 @@ public class KHRETester extends JFrame {
 					ioe.printStackTrace();
 				}catch (GrumpyCatError gce){
 					System.out.println(gce.getDescription());
-					icon = 2;
+					icon = 4;
 				}
 			}else if (e.getSource() == jBtn_Reset){
 				reEvaluator.reset();
@@ -124,12 +133,19 @@ public class KHRETester extends JFrame {
 			switch(icon){
 				case 1 : jLabel1.setVisible(false);
 						 jLabel2.setVisible(true);
+						 jLabel3.setVisible(false);	
 				break;
 				case 2 : jLabel1.setVisible(true);
 						 jLabel2.setVisible(false);
+						 jLabel3.setVisible(false);	
 				break;
 				case 3 : jLabel1.setVisible(false);
-						 jLabel2.setVisible(false);				 
+						 jLabel2.setVisible(false);	
+						 jLabel3.setVisible(false);	
+				break;		 
+				case 4:  jLabel1.setVisible(false);
+						 jLabel2.setVisible(false);	
+						 jLabel3.setVisible(true);				 			 
 			}
 			repaint();
 		}
