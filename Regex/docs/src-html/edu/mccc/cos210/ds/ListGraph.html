@@ -11,12 +11,12 @@
 <span class="sourceLineNo">003</span><a name="line.3"></a>
 <span class="sourceLineNo">004</span>/** A ListGraph is a class that uses an array of lists to represent the edges<a name="line.4"></a>
 <span class="sourceLineNo">005</span>*/<a name="line.5"></a>
-<span class="sourceLineNo">006</span>public class ListGraph implements Iterable, Graph{<a name="line.6"></a>
+<span class="sourceLineNo">006</span>public class ListGraph implements Graph{<a name="line.6"></a>
 <span class="sourceLineNo">007</span>        // Data field<a name="line.7"></a>
 <span class="sourceLineNo">008</span>        /** An array of Lists to contain the edges that originate with each vertex<a name="line.8"></a>
 <span class="sourceLineNo">009</span>                <a name="line.9"></a>
 <span class="sourceLineNo">010</span>        */<a name="line.10"></a>
-<span class="sourceLineNo">011</span>        private DoublyLinkedList&lt;Edge&gt;[] edges;<a name="line.11"></a>
+<span class="sourceLineNo">011</span>        private ArrayList&lt;Edge&gt;[] edges;<a name="line.11"></a>
 <span class="sourceLineNo">012</span><a name="line.12"></a>
 <span class="sourceLineNo">013</span>        // Data Fields<a name="line.13"></a>
 <span class="sourceLineNo">014</span>    /** The number of vertices */<a name="line.14"></a>
@@ -35,9 +35,9 @@
 <span class="sourceLineNo">027</span>        public ListGraph(int numV, boolean isDirected){<a name="line.27"></a>
 <span class="sourceLineNo">028</span>                this.numV = numV;<a name="line.28"></a>
 <span class="sourceLineNo">029</span>        this.directed = isDirected;<a name="line.29"></a>
-<span class="sourceLineNo">030</span>                edges = new DoublyLinkedList[numV];<a name="line.30"></a>
+<span class="sourceLineNo">030</span>                edges = new ArrayList[numV];<a name="line.30"></a>
 <span class="sourceLineNo">031</span>                for(int i = 0; i &lt; numV; i++){<a name="line.31"></a>
-<span class="sourceLineNo">032</span>                        edges[i] = new DoublyLinkedList&lt;Edge&gt;();<a name="line.32"></a>
+<span class="sourceLineNo">032</span>                        edges[i] = new ArrayList&lt;Edge&gt;();<a name="line.32"></a>
 <span class="sourceLineNo">033</span>                }<a name="line.33"></a>
 <span class="sourceLineNo">034</span>        }<a name="line.34"></a>
 <span class="sourceLineNo">035</span>        public ListGraph(){<a name="line.35"></a>
@@ -50,11 +50,11 @@
 <span class="sourceLineNo">042</span>        */      <a name="line.42"></a>
 <span class="sourceLineNo">043</span>        public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char weight))<a name="line.43"></a>
 <span class="sourceLineNo">044</span>                // add the edge to the end of the list for the given source vertex<a name="line.44"></a>
-<span class="sourceLineNo">045</span>                edges[edge.getSource()].addLast(edge);<a name="line.45"></a>
+<span class="sourceLineNo">045</span>                edges[edge.getSource()].add(edge);<a name="line.45"></a>
 <span class="sourceLineNo">046</span><a name="line.46"></a>
 <span class="sourceLineNo">047</span>                if(!isDirected()){<a name="line.47"></a>
 <span class="sourceLineNo">048</span><a name="line.48"></a>
-<span class="sourceLineNo">049</span>                        edges[edge.getDest()].addLast(new Edge(edge.getDest(),<a name="line.49"></a>
+<span class="sourceLineNo">049</span>                        edges[edge.getDest()].add(new Edge(edge.getDest(),<a name="line.49"></a>
 <span class="sourceLineNo">050</span>                                                                                                edge.getSource(),<a name="line.50"></a>
 <span class="sourceLineNo">051</span>                                                                                                edge.getWeight()));<a name="line.51"></a>
 <span class="sourceLineNo">052</span>                }<a name="line.52"></a>
@@ -66,7 +66,7 @@
 <span class="sourceLineNo">058</span>        public int numEdges() {<a name="line.58"></a>
 <span class="sourceLineNo">059</span>        return ListGraph.this.size;<a name="line.59"></a>
 <span class="sourceLineNo">060</span>    }<a name="line.60"></a>
-<span class="sourceLineNo">061</span>    public DoublyLinkedList&lt;Edge&gt; get(int i){<a name="line.61"></a>
+<span class="sourceLineNo">061</span>    public ArrayList&lt;Edge&gt; get(int i){<a name="line.61"></a>
 <span class="sourceLineNo">062</span>        return edges[i];<a name="line.62"></a>
 <span class="sourceLineNo">063</span>    }<a name="line.63"></a>
 <span class="sourceLineNo">064</span>    /**<a name="line.64"></a>
@@ -116,7 +116,7 @@
 <span class="sourceLineNo">108</span>        }<a name="line.108"></a>
 <span class="sourceLineNo">109</span><a name="line.109"></a>
 <span class="sourceLineNo">110</span>    public int numEdgesInSource(int source){<a name="line.110"></a>
-<span class="sourceLineNo">111</span>        return edges[source].getSize();<a name="line.111"></a>
+<span class="sourceLineNo">111</span>        return edges[source].size();<a name="line.111"></a>
 <span class="sourceLineNo">112</span>    }<a name="line.112"></a>
 <span class="sourceLineNo">113</span><a name="line.113"></a>
 <span class="sourceLineNo">114</span>    public void setStartState(int startState){<a name="line.114"></a>
@@ -150,64 +150,64 @@
 <span class="sourceLineNo">142</span>    public Iterator&lt;Edge&gt; edgeIterator(int source){<a name="line.142"></a>
 <span class="sourceLineNo">143</span>            return edges[source].iterator();<a name="line.143"></a>
 <span class="sourceLineNo">144</span>    };<a name="line.144"></a>
-<span class="sourceLineNo">145</span>    @Override<a name="line.145"></a>
-<span class="sourceLineNo">146</span>    public Iterator&lt;Edge&gt; iterator(){<a name="line.146"></a>
-<span class="sourceLineNo">147</span>            return new Iter();<a name="line.147"></a>
-<span class="sourceLineNo">148</span>    };<a name="line.148"></a>
-<span class="sourceLineNo">149</span>    private class Iter implements Iterator&lt;Edge&gt; {<a name="line.149"></a>
-<span class="sourceLineNo">150</span>        // Data Fields<a name="line.150"></a>
+<span class="sourceLineNo">145</span>    // @Override<a name="line.145"></a>
+<span class="sourceLineNo">146</span>    // public Iterator&lt;Edge&gt; iterator(){<a name="line.146"></a>
+<span class="sourceLineNo">147</span>    //         return new Iter();<a name="line.147"></a>
+<span class="sourceLineNo">148</span>    // };<a name="line.148"></a>
+<span class="sourceLineNo">149</span>    // private class Iter implements Iterator&lt;Edge&gt; {<a name="line.149"></a>
+<span class="sourceLineNo">150</span>    //     // Data Fields<a name="line.150"></a>
 <span class="sourceLineNo">151</span><a name="line.151"></a>
-<span class="sourceLineNo">152</span>        // Count of elements accessed so far */<a name="line.152"></a>
-<span class="sourceLineNo">153</span>        private int count = 0;<a name="line.153"></a>
-<span class="sourceLineNo">154</span>        private int source;<a name="line.154"></a>
+<span class="sourceLineNo">152</span>    //     // Count of elements accessed so far */<a name="line.152"></a>
+<span class="sourceLineNo">153</span>    //     private int count = 0;<a name="line.153"></a>
+<span class="sourceLineNo">154</span>    //     private int source;<a name="line.154"></a>
 <span class="sourceLineNo">155</span><a name="line.155"></a>
-<span class="sourceLineNo">156</span>        // Methods<a name="line.156"></a>
-<span class="sourceLineNo">157</span>        // Constructor<a name="line.157"></a>
-<span class="sourceLineNo">158</span>        /**<a name="line.158"></a>
-<span class="sourceLineNo">159</span>         * Initializes the Iter object to reference the<a name="line.159"></a>
-<span class="sourceLineNo">160</span>         * first  element.<a name="line.160"></a>
-<span class="sourceLineNo">161</span>         */<a name="line.161"></a>
-<span class="sourceLineNo">162</span>        public Iter(){<a name="line.162"></a>
-<span class="sourceLineNo">163</span>                //super(source);<a name="line.163"></a>
-<span class="sourceLineNo">164</span>        }<a name="line.164"></a>
-<span class="sourceLineNo">165</span>        public Iter(int source) {<a name="line.165"></a>
-<span class="sourceLineNo">166</span>            this.source = source;<a name="line.166"></a>
-<span class="sourceLineNo">167</span>            count = 0;<a name="line.167"></a>
-<span class="sourceLineNo">168</span>            edges[source].getFirst();<a name="line.168"></a>
-<span class="sourceLineNo">169</span>        }<a name="line.169"></a>
+<span class="sourceLineNo">156</span>    //     // Methods<a name="line.156"></a>
+<span class="sourceLineNo">157</span>    //     // Constructor<a name="line.157"></a>
+<span class="sourceLineNo">158</span>    //     /**<a name="line.158"></a>
+<span class="sourceLineNo">159</span>    //      * Initializes the Iter object to reference the<a name="line.159"></a>
+<span class="sourceLineNo">160</span>    //      * first  element.<a name="line.160"></a>
+<span class="sourceLineNo">161</span>    //      */<a name="line.161"></a>
+<span class="sourceLineNo">162</span>    //     public Iter(){<a name="line.162"></a>
+<span class="sourceLineNo">163</span>    //             //super(source);<a name="line.163"></a>
+<span class="sourceLineNo">164</span>    //     }<a name="line.164"></a>
+<span class="sourceLineNo">165</span>    //     public Iter(int source) {<a name="line.165"></a>
+<span class="sourceLineNo">166</span>    //         this.source = source;<a name="line.166"></a>
+<span class="sourceLineNo">167</span>    //         count = 0;<a name="line.167"></a>
+<span class="sourceLineNo">168</span>    //         edges[source].getFirst();<a name="line.168"></a>
+<span class="sourceLineNo">169</span>    //     }<a name="line.169"></a>
 <span class="sourceLineNo">170</span><a name="line.170"></a>
-<span class="sourceLineNo">171</span>        /**<a name="line.171"></a>
-<span class="sourceLineNo">172</span>         * Returns true if there are more elements in the queue to access.<a name="line.172"></a>
-<span class="sourceLineNo">173</span>         * @return true if there are more elements in the queue to access.<a name="line.173"></a>
-<span class="sourceLineNo">174</span>         */<a name="line.174"></a>
-<span class="sourceLineNo">175</span>        @Override<a name="line.175"></a>
-<span class="sourceLineNo">176</span>        public boolean hasNext() {<a name="line.176"></a>
-<span class="sourceLineNo">177</span>            return edges[source].hasNext();<a name="line.177"></a>
+<span class="sourceLineNo">171</span>    //     /**<a name="line.171"></a>
+<span class="sourceLineNo">172</span>    //      * Returns true if there are more elements in the queue to access.<a name="line.172"></a>
+<span class="sourceLineNo">173</span>    //      * @return true if there are more elements in the queue to access.<a name="line.173"></a>
+<span class="sourceLineNo">174</span>    //      */<a name="line.174"></a>
+<span class="sourceLineNo">175</span>    //     @Override<a name="line.175"></a>
+<span class="sourceLineNo">176</span>    //     public boolean hasNext() {<a name="line.176"></a>
+<span class="sourceLineNo">177</span>    //         return edges[source].hasNext();<a name="line.177"></a>
 <span class="sourceLineNo">178</span><a name="line.178"></a>
-<span class="sourceLineNo">179</span>        }<a name="line.179"></a>
+<span class="sourceLineNo">179</span>    //     }<a name="line.179"></a>
 <span class="sourceLineNo">180</span><a name="line.180"></a>
-<span class="sourceLineNo">181</span>        /**<a name="line.181"></a>
-<span class="sourceLineNo">182</span>         * Returns the next element in the list.<a name="line.182"></a>
-<span class="sourceLineNo">183</span>         * @pre index references the next element to access.<a name="line.183"></a>
-<span class="sourceLineNo">184</span>         * @post index and count are incremented.<a name="line.184"></a>
-<span class="sourceLineNo">185</span>         * @return The element with subscript index<a name="line.185"></a>
-<span class="sourceLineNo">186</span>         */<a name="line.186"></a>
-<span class="sourceLineNo">187</span>        @Override<a name="line.187"></a>
-<span class="sourceLineNo">188</span>        public Edge next() {<a name="line.188"></a>
-<span class="sourceLineNo">189</span>            count++;<a name="line.189"></a>
-<span class="sourceLineNo">190</span>            return edges[source].getNext();<a name="line.190"></a>
+<span class="sourceLineNo">181</span>    //     /**<a name="line.181"></a>
+<span class="sourceLineNo">182</span>    //      * Returns the next element in the list.<a name="line.182"></a>
+<span class="sourceLineNo">183</span>    //      * @pre index references the next element to access.<a name="line.183"></a>
+<span class="sourceLineNo">184</span>    //      * @post index and count are incremented.<a name="line.184"></a>
+<span class="sourceLineNo">185</span>    //      * @return The element with subscript index<a name="line.185"></a>
+<span class="sourceLineNo">186</span>    //      */<a name="line.186"></a>
+<span class="sourceLineNo">187</span>    //     @Override<a name="line.187"></a>
+<span class="sourceLineNo">188</span>    //     public Edge next() {<a name="line.188"></a>
+<span class="sourceLineNo">189</span>    //         count++;<a name="line.189"></a>
+<span class="sourceLineNo">190</span>    //         return edges[source].getNext();<a name="line.190"></a>
 <span class="sourceLineNo">191</span>            <a name="line.191"></a>
-<span class="sourceLineNo">192</span>        }<a name="line.192"></a>
+<span class="sourceLineNo">192</span>    //     }<a name="line.192"></a>
 <span class="sourceLineNo">193</span><a name="line.193"></a>
-<span class="sourceLineNo">194</span>        /**<a name="line.194"></a>
-<span class="sourceLineNo">195</span>         * Remove the item accessed by the Iter object -- not implemented.<a name="line.195"></a>
-<span class="sourceLineNo">196</span>         * @throws UnsupportedOperationException when called<a name="line.196"></a>
-<span class="sourceLineNo">197</span>         */<a name="line.197"></a>
-<span class="sourceLineNo">198</span>        @Override<a name="line.198"></a>
-<span class="sourceLineNo">199</span>        public void remove() {<a name="line.199"></a>
-<span class="sourceLineNo">200</span>                throw new UnsupportedOperationException();<a name="line.200"></a>
-<span class="sourceLineNo">201</span>        }<a name="line.201"></a>
-<span class="sourceLineNo">202</span>    }<a name="line.202"></a>
+<span class="sourceLineNo">194</span>    //     /**<a name="line.194"></a>
+<span class="sourceLineNo">195</span>    //      * Remove the item accessed by the Iter object -- not implemented.<a name="line.195"></a>
+<span class="sourceLineNo">196</span>    //      * @throws UnsupportedOperationException when called<a name="line.196"></a>
+<span class="sourceLineNo">197</span>    //      */<a name="line.197"></a>
+<span class="sourceLineNo">198</span>    //     @Override<a name="line.198"></a>
+<span class="sourceLineNo">199</span>    //     public void remove() {<a name="line.199"></a>
+<span class="sourceLineNo">200</span>    //             throw new UnsupportedOperationException();<a name="line.200"></a>
+<span class="sourceLineNo">201</span>    //     }<a name="line.201"></a>
+<span class="sourceLineNo">202</span>    // }<a name="line.202"></a>
 <span class="sourceLineNo">203</span>        <a name="line.203"></a>
 <span class="sourceLineNo">204</span><a name="line.204"></a>
 <span class="sourceLineNo">205</span><a name="line.205"></a>
