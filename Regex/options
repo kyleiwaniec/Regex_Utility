@@ -11,4 +11,4 @@
 -sourcepath src
 -classpath bin;lib/Debug.jar
 -link "http://docs.oracle.com/javase/7/docs/api/"
--subpackages edu.mccc.cos210.ds edu.mccc.cos210.tests edu.mccc.cos210.regex
+-subpackages edu.mccc.cos210.ds edu.mccc.cos210.tests edu.mccc.cos210.regex edu.mccc.cos210.ex
