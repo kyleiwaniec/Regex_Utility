@@ -24,7 +24,7 @@ public class DFAList<E> extends ArrayList<E>{
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(this.label+" : [");
+		sb.append("l"+this.label+" : [");
 		for(int i = 0; i < this.size(); i++) {
 			sb.append(", "+this.get(i));
 		}
