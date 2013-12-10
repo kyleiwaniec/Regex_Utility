@@ -3,12 +3,12 @@ import java.util.Iterator;
 
 /** A ListGraph is a class that uses an array of lists to represent the edges
 */
-public class ListGraph implements Iterable, Graph{
+public class ListGraph implements Graph{
 	// Data field
 	/** An array of Lists to contain the edges that originate with each vertex
 		
 	*/
-	private DoublyLinkedList<Edge>[] edges;
+	private ArrayList<Edge>[] edges;
 
 	// Data Fields
     /** The number of vertices */
@@ -27,9 +27,9 @@ public class ListGraph implements Iterable, Graph{
 	public ListGraph(int numV, boolean isDirected){
 		this.numV = numV;
         this.directed = isDirected;
-		edges = new DoublyLinkedList[numV];
+		edges = new ArrayList[numV];
 		for(int i = 0; i < numV; i++){
-			edges[i] = new DoublyLinkedList<Edge>();
+			edges[i] = new ArrayList<Edge>();
 		}
 	}
 	public ListGraph(){
@@ -42,11 +42,11 @@ public class ListGraph implements Iterable, Graph{
 	*/	
 	public void insert(Edge edge){ // usage: insert(new Edge(int source, int destination, char weight))
 		// add the edge to the end of the list for the given source vertex
-		edges[edge.getSource()].addLast(edge);
+		edges[edge.getSource()].add(edge);
 
 		if(!isDirected()){
 
-			edges[edge.getDest()].addLast(new Edge(edge.getDest(),
+			edges[edge.getDest()].add(new Edge(edge.getDest(),
 												edge.getSource(),
 												edge.getWeight()));
 		}
@@ -58,7 +58,7 @@ public class ListGraph implements Iterable, Graph{
 	public int numEdges() {
         return ListGraph.this.size;
     }
-    public DoublyLinkedList<Edge> get(int i){
+    public ArrayList<Edge> get(int i){
         return edges[i];
     }
     /**
@@ -108,7 +108,7 @@ public class ListGraph implements Iterable, Graph{
 	}
 
     public int numEdgesInSource(int source){
-        return edges[source].getSize();
+        return edges[source].size();
     }
 
     public void setStartState(int startState){
@@ -142,65 +142,5 @@ public class ListGraph implements Iterable, Graph{
     public Iterator<Edge> edgeIterator(int source){
             return edges[source].iterator();
     };
-    @Override
-    public Iterator<Edge> iterator(){
-            return new Iter();
-    };
-    private class Iter implements Iterator<Edge> {
-        // Data Fields
-
-        // Count of elements accessed so far */
-        private int count = 0;
-        private int source;
-
-        // Methods
-        // Constructor
-        /**
-         * Initializes the Iter object to reference the
-         * first  element.
-         */
-        public Iter(){
-                //super(source);
-        }
-        public Iter(int source) {
-            this.source = source;
-            count = 0;
-            edges[source].getFirst();
-        }
-
-        /**
-         * Returns true if there are more elements in the queue to access.
-         * @return true if there are more elements in the queue to access.
-         */
-        @Override
-        public boolean hasNext() {
-            return edges[source].hasNext();
-
-        }
-
-        /**
-         * Returns the next element in the list.
-         * @pre index references the next element to access.
-         * @post index and count are incremented.
-         * @return The element with subscript index
-         */
-        @Override
-        public Edge next() {
-            count++;
-            return edges[source].getNext();
-            
-        }
-
-        /**
-         * Remove the item accessed by the Iter object -- not implemented.
-         * @throws UnsupportedOperationException when called
-         */
-        @Override
-        public void remove() {
-                throw new UnsupportedOperationException();
-        }
-    }
-	
-
 
 }

@@ -29,16 +29,16 @@ public class Regex{
 	public boolean match(String regExpr, String target) throws IOException, GrumpyCatError {
 
 		InfixToPostfix itp = new InfixToPostfix(regExpr);
-		String posix = itp.convert(regExpr);
+		String postfix = itp.convert(regExpr);
 		char[] language = itp.getLanguage();
 
      	String langStr = new String(language);
 
 		System.out.println("infix: "+regExpr);
-		System.out.println("postfix: "+posix);
+		System.out.println("postfix: "+postfix);
 		System.out.println("alphabet: "+langStr);
 
-		NFA nfa = new NFA(posix);
+		NFA nfa = new NFA(postfix);
 		DFA dfa = new DFA(nfa, language);
 
 		System.out.println("dfa final states: "+dfa.getfinalStates()); // Arraylist
@@ -49,16 +49,16 @@ public class Regex{
 	}
 	public boolean find(String regExpr, String target) throws IOException, GrumpyCatError{
 		InfixToPostfix itp = new InfixToPostfix(regExpr);
-		String posix = itp.convert(regExpr);
+		String postfix = itp.convert(regExpr);
 		char[] language = itp.getLanguage();
 
      	String langStr = new String(language);
 
 		System.out.println("infix: "+regExpr);
-		System.out.println("postfix: "+posix);
+		System.out.println("postfix: "+postfix);
 		System.out.println("alphabet: "+langStr);
 
-		NFA nfa = new NFA(posix);
+		NFA nfa = new NFA(postfix);
 		DFA dfa = new DFA(nfa, language);
 
 		System.out.println("dfa final states: "+dfa.getfinalStates()); // Arraylist

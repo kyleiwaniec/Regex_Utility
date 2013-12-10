@@ -1,6 +1,6 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
-import edu.mccc.cos210.ds.DoublyLinkedList;
+import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.DFAStatesList;
 import edu.mccc.cos210.ds.Stack;
@@ -70,13 +70,15 @@ public class DFA{
 			DFAList<Integer> nextClos = new DFAList<Integer>();
 			
 			for(int i = 0; i < langLength; i++){
-				count++;
+				
 				nextClos = getEClosure(move(eClos, i, language, l), l);
 				transition[1] = i;
 				int equalsCount = 0;
 
 				for(Object listObj : dfaStatesList){
 					DFAList<Integer> existingList = (DFAList<Integer>) listObj;
+					// System.out.println("existing: "+existingList);
+					// System.out.println("nextClos: "+nextClos);
 					if(existingList.equals(nextClos)){
 						transition[2] = existingList.getLabel();
 						dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
@@ -93,22 +95,27 @@ public class DFA{
 				}
 				//mark this StateSet as final in DFA.
 				if(nextClos.contains(nfa.nfaAcceptState())){
-					finalDFAStateList.add(nextClos.getLabel());
+					if(!finalDFAStateList.contains(nextClos.getLabel())){
+						finalDFAStateList.add(nextClos.getLabel());
+					}
+					
+
 				}
 			}
 			eClos = nextClos;
 
 			
 		}
-		dfaTransTable = new int[dfaStatelabel+1][langLength];
+		int lbe = dfaStatelabel+1;
+		dfaTransTable = new int[lbe][langLength];
 		for(int i =0; i < dfaTransTable.length; i++){
 			for(int j = 0; j<langLength; j++){
 				dfaTransTable[i][j] = -1;
 			}
 		}
 		// convenience DEBUG:
-		System.out.println("NFA to DFA State map: " +dfaStatesList);
-		System.out.println("DFA Transitions:");
+		// System.out.println("NFA to DFA State map: " +dfaStatesList);
+		// System.out.println("DFA Transitions:");
 		
 		while(!dfaTransitionStack.empty()){
 			StringBuilder sb = new StringBuilder();
@@ -119,7 +126,7 @@ public class DFA{
 					sb.append(trans[j]+" ");
 				}
 			sb.append("]");	
-			System.out.println(sb);
+			//System.out.println(sb);
 		}
 		System.out.println("DFA Transition Table (2D array of: DFA States x Alphabet)");
 		System.out.println("(-1 denotes unreachable states)");
@@ -130,7 +137,7 @@ public class DFA{
 		DFAList<Integer> list = new DFAList<Integer>();
 		for(Object ss : S){
 			Integer s = (Integer) ss;
-			DoublyLinkedList dll = l.get(s);
+			ArrayList dll = l.get(s);
 			for(Object edge : dll){
 				Edge e = (Edge)edge;
 				if(e.getWeight() == language[letter]){
@@ -155,7 +162,7 @@ public class DFA{
 		while(!stack.empty()){
 			int t = stack.pop();
 
-			DoublyLinkedList dll = l.get(t);
+			ArrayList dll = l.get(t);
 			for(Object edge : dll){
 				Edge e = (Edge)edge;
 				if(e.isEpsilon()){
