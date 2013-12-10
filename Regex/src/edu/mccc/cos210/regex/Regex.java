@@ -106,16 +106,16 @@ public class Regex{
 			if(input != -1){ // if it's not in the language, then total fail
 				if (table[state][input] == -1){ // unreachable state
 					return false; 
-				}else if (fs.contains(table[state][input])  && !br.ready()){ // fs => final states in DFA
+				}else if (fs.contains(table[state][input]) && !br.ready()){ // fs => final states in DFA
 					return true; // Table indicates that for this state, we accept the input given
 				}
 			// Advance to next state.
 		    state = table[state][input];	
 		    }else{
-		    	break;
+		    	return false;
 		    }  
 		}
-		return false;
+		return true;
 	}
 	// exact match:
 	private boolean findMatch(int[][] table, String lang, ArrayList<Integer> fs, String target) throws IOException{

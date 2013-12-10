@@ -21,5 +21,15 @@ public class DFAList<E> extends ArrayList<E>{
 	public void markAsFinal(){
 		
 	}
-
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("l"+this.label+" : [");
+		for(int i = 0; i < this.size(); i++) {
+			sb.append(", "+this.get(i));
+		}
+		sb.append("]");
+		if(sb.length()>=3){sb.delete(5,7);};
+		return sb.toString();
+	}
 }
