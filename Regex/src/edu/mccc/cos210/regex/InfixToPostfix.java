@@ -10,7 +10,7 @@ public class InfixToPostfix{
     /** The operator stack */
     private Stack<Character> operatorStack;
     /** The operators */
-    private static final String OPERATORS = "[](){}*+?•^$|.";
+    private static final String OPERATORS = "[](){}*+?•^$|";
     /** The precedence of the operators, matches order in OPERATORS. 
 
     The order of precedence for of operators is as follows:
@@ -23,7 +23,7 @@ public class InfixToPostfix{
 		Anchoring ^$
 		Alternation |
 	*/
-    private static final int[] PRECEDENCE = {6,6,5,5,4,4,4,4,4,3,2,2,1,1};
+    private static final int[] PRECEDENCE = {8,8,7,7,6,6, 5, 5,5,4,3,3,2};
 	private StringBuilder postfix;
 
 	public InfixToPostfix(String infix){
@@ -40,13 +40,15 @@ public class InfixToPostfix{
 		boolean bracketExp = false;
 		boolean range = false;
 		boolean dashFlag = false;
+		boolean duplication = false;
 		int sbIdx = 0; // keeps track of number of charcters in converted regex sring
 
 		while ((c = br.read()) != -1){
+			char curr = (char)c;
 			if(bracketExp && !dashFlag && (char)c == '-'){ // the dash is not the first character after the bracket
 				// process range
 				// we need to know the PREVIOUS charcter and NEXT character to build range
-				char curr = (char)c;
+				
 				char prev = sb.charAt(sbIdx-1);
 				int n = br.read(); //*********** CAREFUL - WE ARE ADVANCING THE READER ***********
 				char next = (char)n;
@@ -75,7 +77,7 @@ public class InfixToPostfix{
 				if(!isOperator((char)c) && isToken){
 					sb.append('|');
 					sbIdx++;
-				}else if((char)c == '[' && isToken){
+				}else if((char)c == '[' && (isToken || closingBracket)){
 					sb.append('•');
 					sbIdx++;
 				}
@@ -88,7 +90,7 @@ public class InfixToPostfix{
 				if(!isOperator((char)c) && isToken){
 					sb.append('•');
 					sbIdx++;
-				}else if((char)c == '(' && isToken){
+				}else if((char)c == '(' && (isToken || closingBracket)){
 					sb.append('•');
 					sbIdx++;
 				}
@@ -101,6 +103,16 @@ public class InfixToPostfix{
 					sb.append('•');
 					sbIdx++;
 				}
+				if(isToken && duplication){
+					sb.append('•');
+					sbIdx++;
+				}
+				
+			}
+			if(curr == '*' || curr == '+' || curr == '?'){
+				duplication = true;
+			}else{
+				duplication = false;
 			}
 			if((char)c == ']' || (char)c == ')'){
 				closingBracket = true;
@@ -114,8 +126,11 @@ public class InfixToPostfix{
 			}else{
 				sb.append((char)c);
 			}
+			
+
 			sbIdx++;
 		}
+		//System.out.println("with concat ops: "+sb.toString());
 		return sb.toString();
 	}
 
@@ -158,6 +173,8 @@ public class InfixToPostfix{
     	if (operatorStack.empty()) {
             operatorStack.push(op);
         } else {
+        	//System.out.println("operatorStack: "+operatorStack);
+
             // Peek the operator stack and
             // let topOp be top operator.
             char topOp = operatorStack.peek();
@@ -202,11 +219,20 @@ public class InfixToPostfix{
 
 		return lang;
 	}
+	public String languageToString(){
+		StringBuilder sb = new StringBuilder();
+	        for(int i = 0; i < this.language.size(); i++) {
+	            sb.append(language.get(i));
+	        }
+	    return sb.toString();    
+	}
 	private void setLanguage(){
 		this.language = language;
 	}
 	private void buildLanguage(char c){
-		this.language.add(c);
+		if(!this.language.contains(c)){
+			this.language.add(c);
+		}
 	}
 	/**
      * Determine whether a character is an operator.

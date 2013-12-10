@@ -1,12 +1,11 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
-import edu.mccc.cos210.ds.DoublyLinkedList;
+import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.DFAStatesList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.DFAList;
 import edu.mccc.cos210.ds.Edge;
-import edu.mccc.cos210.ds.ArrayListGraph;
 import edu.mccc.cos210.ds.ListGraph;
 
 import edu.mccc.cos210.regex.NFA;
@@ -22,17 +21,22 @@ public class DFA{
 	private DFAStatesList<DFAList<Integer>> dfaStatesList = new DFAStatesList<DFAList<Integer>>(); // extended ArrayList with "marked" data field
 	private DFAList<Integer> eClos = new DFAList<Integer>();
 	private DFAList<Integer> nextClos = new DFAList<Integer>();
-	private int finalState;
-	private ArrayList<int[]> dfaTransitionList = new ArrayList<int[]>(); // the int[] will hold 3 values fromState/input/toState
+	private DFAList<Integer> startStateList = new DFAList<Integer>();
+	private ArrayList<Integer> finalDFAStateList;
+	private Stack<int[]> dfaTransitionStack; // the int[] will hold 3 values fromState/input/toState
 	private int[] transition = new int[3];
 	private int dfaStatelabel = 0;
+	private int count = 0;
+	private int[][] dfaTransTable;
 
 	public DFA(NFA nfa, char[] language) throws GrumpyCatError{
 		
 		ListGraph l = nfa.getGraph();
 		int s = l.getStartState();
-
-		DFAList<Integer> startStateList = new DFAList<Integer>();
+		int langLength = language.length;
+		dfaTransitionStack = new Stack<int[]>();
+		finalDFAStateList = new ArrayList<Integer>();
+		startStateList = new DFAList<Integer>();
 		startStateList.mark(false);
 		startStateList.setLabel(dfaStatelabel);
 
@@ -48,7 +52,7 @@ public class DFA{
 		// while there are unmarked states, do:
 		while(dfaStatesList.hasUnMarkedStates()){
 
-			// loope over all the lists and return the first unmarked one.
+			// loop over all the lists and return the first unmarked one.
 			for(Object m : dfaStatesList){
 				DFAList<Integer> mm = (DFAList<Integer>) m;
 				if(!mm.isMarked()){
@@ -60,29 +64,25 @@ public class DFA{
 
 			eClos.mark(true);
 			dfaStatesList.updateUnMarkedStates(-1);
-			System.out.println("label: "+eClos.getLabel());
-			
 			transition[0] = eClos.getLabel();
 			
 
-			if(eClos.contains(nfa.getAcceptState())){
-				// TODO: mark this StateSet as final in DFA.
-			}; 
-
 			DFAList<Integer> nextClos = new DFAList<Integer>();
-
-			for(int i = 0; i < language.length; i++){
+			
+			for(int i = 0; i < langLength; i++){
+				
 				nextClos = getEClosure(move(eClos, i, language, l), l);
 				transition[1] = i;
 				int equalsCount = 0;
 
 				for(Object listObj : dfaStatesList){
 					DFAList<Integer> existingList = (DFAList<Integer>) listObj;
+					// System.out.println("existing: "+existingList);
+					// System.out.println("nextClos: "+nextClos);
 					if(existingList.equals(nextClos)){
-						equalsCount++;
 						transition[2] = existingList.getLabel();
-						dfaTransitionList.add(transition);
-						break;
+						dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+						equalsCount++;
 					}
 				}
 				if(equalsCount == 0 && nextClos.size() > 0){
@@ -91,26 +91,53 @@ public class DFA{
 					nextClos.setLabel(++dfaStatelabel);
 					dfaStatesList.add(nextClos); 
 					transition[2] = nextClos.getLabel();
-					dfaTransitionList.add(transition);
+					dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
 				}
-				// convenience DEBUG:
-				System.out.println(i+". dfaStatesList: " +dfaStatesList);
-				for(int d = 0; d < dfaTransitionList.size(); d++){
-					int[] arrs = dfaTransitionList.get(d);
-					for(int a = 0; a < 3; a++){
-						System.out.println(", "+arrs[a]);
+				//mark this StateSet as final in DFA.
+				if(nextClos.contains(nfa.nfaAcceptState())){
+					if(!finalDFAStateList.contains(nextClos.getLabel())){
+						finalDFAStateList.add(nextClos.getLabel());
 					}
-					System.out.println("---");
+					
+
 				}
 			}
 			eClos = nextClos;
+
+			
 		}
+		int lbe = dfaStatelabel+1;
+		dfaTransTable = new int[lbe][langLength];
+		for(int i =0; i < dfaTransTable.length; i++){
+			for(int j = 0; j<langLength; j++){
+				dfaTransTable[i][j] = -1;
+			}
+		}
+		// convenience DEBUG:
+		// System.out.println("NFA to DFA State map: " +dfaStatesList);
+		// System.out.println("DFA Transitions:");
+		
+		while(!dfaTransitionStack.empty()){
+			StringBuilder sb = new StringBuilder();
+			sb.append("[ ");
+			int[] trans = dfaTransitionStack.pop();
+				dfaTransTable[trans[0]][trans[1]] = trans[2];
+				for(int j = 0; j<3; j++){
+					sb.append(trans[j]+" ");
+				}
+			sb.append("]");	
+			//System.out.println(sb);
+		}
+		System.out.println("DFA Transition Table (2D array of: DFA States x Alphabet)");
+		System.out.println("(-1 denotes unreachable states)");
+		printTable(dfaTransTable, language);
+
 	}
 	public DFAList<Integer> move(DFAList<Integer> S, int letter, char[] language, ListGraph l){
 		DFAList<Integer> list = new DFAList<Integer>();
 		for(Object ss : S){
 			Integer s = (Integer) ss;
-			DoublyLinkedList dll = l.get(s);
+			ArrayList dll = l.get(s);
 			for(Object edge : dll){
 				Edge e = (Edge)edge;
 				if(e.getWeight() == language[letter]){
@@ -135,7 +162,7 @@ public class DFA{
 		while(!stack.empty()){
 			int t = stack.pop();
 
-			DoublyLinkedList dll = l.get(t);
+			ArrayList dll = l.get(t);
 			for(Object edge : dll){
 				Edge e = (Edge)edge;
 				if(e.isEpsilon()){
@@ -148,5 +175,31 @@ public class DFA{
 		}		
 		return eClosure;
 	}
+	public ArrayList<Integer> getfinalStates(){
+		return finalDFAStateList;
+	}
+	public int[][] getTransitionTable(){
+		return dfaTransTable;
+	}
+	public static void printTable(int[][] array, char[] language) {
+		System.out.print("  ");
+		for (int col = 0; col < language.length; col++) {
+			System.out.printf("%-1s %-2c", " ", language[col]);
+		}
+		String separator = "----";
+		for(int ls = 0; ls<language.length; ls++){
+			separator+="----";
+		}
+		
+		System.out.println("\n   "+separator);
+		for (int j = 0; j < array.length; j++) {
+			System.out.printf("%-2d", 0 + j);
+			for (int i = 0; i < language.length; i++) {
 
+				System.out.printf("%-1s %-2d", "|", array[j][i]);
+
+			}
+			System.out.println("|\n   "+separator);
+		}
+	}
 }

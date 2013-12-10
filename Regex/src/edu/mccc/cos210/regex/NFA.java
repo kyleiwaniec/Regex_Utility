@@ -1,10 +1,7 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
-import edu.mccc.cos210.ds.DoublyLinkedList;
-import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.Edge;
-import edu.mccc.cos210.ds.ArrayListGraph;
 import edu.mccc.cos210.ds.ListGraph;
 
 import java.util.Iterator;
@@ -16,13 +13,12 @@ import edu.mccc.cos210.ex.GrumpyCatError;
 *	Equivalent infix: cat[a-d]
 *
 */
-
-
 public class NFA extends ListGraph{
-	private static final String OPERATORS = "[](){}*+?•^$|.";
+	private static final String OPERATORS = "[](){}*+?•^$|";
 	private Stack<ListGraph> nfaStack;
 	private String posixRegexp;
     private int rgl; 
+    private ListGraph nfa;
 	public NFA(String posixRegexp) throws GrumpyCatError{
 		this.posixRegexp = posixRegexp;
         rgl = posixRegexp.length();
@@ -36,13 +32,14 @@ public class NFA extends ListGraph{
         	char c = posixRegexp.charAt(i);
         	if(!isOperator(c)){
         		// make edge to nfa and push on stack
-        		ListGraph nfa = new ListGraph(numV+=2,true);
+        		nfa = new ListGraph(numV+=2,true);
 
         		nfa.setStartState(++state);
         		nfa.setAcceptState(++state);
 
         		nfa.insert(new Edge(nfa.getStartState(), nfa.getAcceptState(), c));
         		nfaStack.push(nfa);
+
         	}else if(c == '•'){
         		// pop 2 nfas off stack,
         		// modyfy
@@ -50,7 +47,7 @@ public class NFA extends ListGraph{
         		ListGraph top = nfaStack.pop();
         		ListGraph bot = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV, true);
+        		nfa = new ListGraph(numV, true);
 
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
@@ -69,8 +66,7 @@ public class NFA extends ListGraph{
         		nfa.setAcceptState(top.getAcceptState());
 
         		nfaStack.push(nfa);
-        		System.out.println("• NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
 
         	}else if(c == '*'){
         		// pop 1 nfa off stack,
@@ -78,7 +74,7 @@ public class NFA extends ListGraph{
         		// push on stack;
         		ListGraph top = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		nfa = new ListGraph(numV+=2, true);
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
         				nfa.insert((Edge) e1);
@@ -93,8 +89,8 @@ public class NFA extends ListGraph{
 
         		nfa.insert(new Edge(nfa.getAcceptState(), top.getStartState()));
         		nfaStack.push(nfa);
-        		System.out.println("* NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
+
 
         	}else if(c == '+'){
         		// pop 1 nfa off stack,
@@ -102,7 +98,7 @@ public class NFA extends ListGraph{
         		// push on stack;
         		ListGraph top = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		nfa = new ListGraph(numV+=2, true);
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
         				nfa.insert((Edge) e1);
@@ -118,15 +114,14 @@ public class NFA extends ListGraph{
 
         		nfaStack.push(nfa);
 
-        		System.out.println("+ NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
         	}else if(c == '?'){
         		// pop 1 nfa off stack,
         		// modyfy
         		// push on stack;
         		ListGraph top = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV, true);
+        		nfa = new ListGraph(numV, true);
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
         				nfa.insert((Edge) e1);
@@ -138,8 +133,7 @@ public class NFA extends ListGraph{
         		nfa.setAcceptState(top.getAcceptState());
         		nfaStack.push(nfa);
 
-        		System.out.println("? NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+
 
         	}else if(c == '^'){
         		// set flag to say match must start at begginning of input string
@@ -154,7 +148,7 @@ public class NFA extends ListGraph{
         		ListGraph top = nfaStack.pop();
         		ListGraph bot = nfaStack.pop();
 
-        		ListGraph nfa = new ListGraph(numV+=2, true);
+        		nfa = new ListGraph(numV+=2, true);
 
         		for(int j = 0; j < top.getNumV(); j++){
         			for(Object e1 : top.get(j)){
@@ -179,8 +173,7 @@ public class NFA extends ListGraph{
 
 
         		nfaStack.push(nfa);
-        		System.out.println("| NFA: "+nfa.toString());
-        		System.out.println("start: "+nfa.getStartState()+" accept: "+nfa.getAcceptState());
+        		
 
         	}else{
         		throw new GrumpyCatError("STOP TRYING TO BREAK ME.. CAN'T YOU SEE I'M FRAGILE?!");
@@ -188,9 +181,43 @@ public class NFA extends ListGraph{
         	
         }
 
+
+        while(!nfaStack.empty()){
+            ListGraph top = nfaStack.pop();
+
+            if(!nfaStack.empty()){
+
+                ListGraph bot = nfaStack.pop();
+
+                nfa = new ListGraph(numV, true);
+
+                for(int j = 0; j < top.getNumV(); j++){
+                    for(Object e1 : top.get(j)){
+                        nfa.insert((Edge) e1);
+                    }
+                }
+                for(int k = 0; k < bot.getNumV(); k++){
+                    for(Object e2 : bot.get(k)){
+                        nfa.insert((Edge) e2);
+                    }
+                }
+                // insert epilon edge
+                nfa.insert(new Edge(bot.getAcceptState(), top.getStartState()));
+
+                nfa.setStartState(bot.getStartState());
+                nfa.setAcceptState(top.getAcceptState());
+            }
+            
+        }
+       // System.out.println("final NFA: ");
+        System.out.println("final NFA: "+nfa.toString());
+
 	}
+    public int nfaAcceptState(){
+        return nfa.getAcceptState();
+    }
     public ListGraph getGraph(){
-        return nfaStack.pop();
+        return nfa;
     }
 	/**
      * Determine whether a character is an operator.
@@ -200,4 +227,5 @@ public class NFA extends ListGraph{
     private boolean isOperator(char ch) {
         return OPERATORS.indexOf(ch) != -1;
     }
+
 }

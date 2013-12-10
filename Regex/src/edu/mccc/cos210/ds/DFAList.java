@@ -18,5 +18,8 @@ public class DFAList<E> extends ArrayList<E>{
 	public int getLabel(){
 		return this.label;
 	}
+	public void markAsFinal(){
+		
+	}
 
 }
