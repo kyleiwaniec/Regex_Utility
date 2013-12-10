@@ -47,6 +47,8 @@ public class DFA{
 		startStateList.add(s); // startStateList now contains 1 state: the NFA startState.
 		
 		eClos = getEClosure(startStateList, l); // adds new closure to DFA states (dfaStatesList), and returns it.
+		eClos.mark(false);
+		eClos.setLabel(dfaStatelabel);
 		dfaStatesList.add(eClos);	
 		
 		// while there are unmarked states, do:
@@ -65,44 +67,64 @@ public class DFA{
 			eClos.mark(true);
 			dfaStatesList.updateUnMarkedStates(-1);
 			transition[0] = eClos.getLabel();
+
+			System.out.println("IS this should be the first closure?: "+eClos);
 			
 
 			DFAList<Integer> nextClos = new DFAList<Integer>();
 			
 			for(int i = 0; i < langLength; i++){
-				
-				nextClos = getEClosure(move(eClos, i, language, l), l);
-				transition[1] = i;
-				int equalsCount = 0;
+				transition[1] = i; // the letter
 
-				for(Object listObj : dfaStatesList){
-					DFAList<Integer> existingList = (DFAList<Integer>) listObj;
-					// System.out.println("existing: "+existingList);
-					// System.out.println("nextClos: "+nextClos);
-					if(existingList.equals(nextClos)){
-						transition[2] = existingList.getLabel();
-						dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
-						equalsCount++;
-					}
-				}
-				if(equalsCount == 0 && nextClos.size() > 0){
+				nextClos = getEClosure(move(eClos, i, language, l), l);
+				nextClos.setLabel(++dfaStatelabel);
+
+				if(!dfaStatesList.contains(nextClos)){
 					nextClos.mark(false);
 					dfaStatesList.updateUnMarkedStates(1);
-					nextClos.setLabel(++dfaStatelabel);
-					dfaStatesList.add(nextClos); 
-					transition[2] = nextClos.getLabel();
-					dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+					dfaStatesList.add(nextClos);
 				}
-				//mark this StateSet as final in DFA.
-				if(nextClos.contains(nfa.nfaAcceptState())){
-					if(!finalDFAStateList.contains(nextClos.getLabel())){
-						finalDFAStateList.add(nextClos.getLabel());
-					}
+				transition[2] = nextClos.getLabel();
+				dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+
+				// nextClos = getEClosure(move(eClos, i, language, l), l);
+				// transition[1] = i;
+				// int equalsCount = 0;
+
+				// for(Object listObj : dfaStatesList){
+				// 	DFAList<Integer> existingList = (DFAList<Integer>) listObj;
+				// 	// System.out.println("existing: "+existingList);
+				// 	// System.out.println("nextClos: "+nextClos);
+				// 	if(existingList.equals(nextClos)){
+				// 		transition[2] = existingList.getLabel();
+				// 		dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+				// 		equalsCount++;
+				// 	}
+				// }
+				// if(equalsCount == 0 && nextClos.size() > 0){
+				// 	System.out.println("this should be the first closure: "+nextClos);
+				// 	nextClos.mark(false);
+				// 	dfaStatesList.updateUnMarkedStates(1);
+				// 	System.out.println("dfaStatelabel before: "+dfaStatelabel);
+				// 	nextClos.setLabel(++dfaStatelabel);
+				// 	System.out.println("dfaStatelabel after: "+dfaStatelabel);
+				// 	dfaStatesList.add(nextClos); 
+				// 	transition[2] = nextClos.getLabel();
+				// 	dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+				// }
+				// //mark this StateSet as final in DFA.
+				// if(nextClos.contains(nfa.nfaAcceptState())){
+				// 	System.out.println("closure contains nfa accept state: "+nextClos);
+				// 	if(!finalDFAStateList.contains(nextClos.getLabel())){
+				// 		System.out.println("state added to final dfa state list: "+nextClos.getLabel());
+				// 		finalDFAStateList.add(nextClos.getLabel());
+				// 	}
 					
 
-				}
+				// }
 			}
-			eClos = nextClos;
+
+			//eClos = nextClos;
 
 			
 		}
@@ -114,8 +136,8 @@ public class DFA{
 			}
 		}
 		// convenience DEBUG:
-		// System.out.println("NFA to DFA State map: " +dfaStatesList);
-		// System.out.println("DFA Transitions:");
+		System.out.println("NFA to DFA State map: " +dfaStatesList);
+		//System.out.println("DFA Transitions:");
 		
 		while(!dfaTransitionStack.empty()){
 			StringBuilder sb = new StringBuilder();
