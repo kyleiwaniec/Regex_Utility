@@ -53,22 +53,30 @@ public class DFA{
 		
 		// while there are unmarked states, do:
 		while(dfaStatesList.hasUnMarkedStates()){
-
+			transition[0] = eClos.getLabel();
 			// loop over all the lists and return the first unmarked one.
 			for(Object m : dfaStatesList){
 				DFAList<Integer> mm = (DFAList<Integer>) m;
 				if(!mm.isMarked()){
 					eClos = mm;
-					break;
+					//break;
 				}
 				
 			}
 
 			eClos.mark(true);
 			dfaStatesList.updateUnMarkedStates(-1);
-			transition[0] = eClos.getLabel();
+			
 
-			System.out.println("IS this should be the first closure?: "+eClos);
+			System.out.println("current closure: "+eClos);
+			//mark this StateSet as final in DFA.
+				if(eClos.contains(nfa.nfaAcceptState())){
+					//System.out.println("closure contains nfa accept state: "+nextClos);
+					if(!finalDFAStateList.contains(nextClos.getLabel())){
+						System.out.println("state added to final dfa state list: "+eClos.getLabel());
+						finalDFAStateList.add(eClos.getLabel());
+					}
+				}
 			
 
 			DFAList<Integer> nextClos = new DFAList<Integer>();
@@ -79,13 +87,34 @@ public class DFA{
 				nextClos = getEClosure(move(eClos, i, language, l), l);
 				nextClos.setLabel(++dfaStatelabel);
 
-				if(!dfaStatesList.contains(nextClos)){
+
+				// check if the list of DFA states alreaady contains the new closure
+				// by iterating over all the lists and comparing
+				int equalsCount = 0;
+				for(Object listObj : dfaStatesList){
+						DFAList<Integer> existingList = (DFAList<Integer>) listObj;
+						if(existingList.equals(nextClos)){
+							equalsCount++;
+					}
+				}
+				if(equalsCount == 0 && nextClos.size() > 0){
 					nextClos.mark(false);
 					dfaStatesList.updateUnMarkedStates(1);
 					dfaStatesList.add(nextClos);
+
+					transition[2] = nextClos.getLabel();
+					dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
 				}
-				transition[2] = nextClos.getLabel();
-				dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+
+				
+
+
+
+
+
+
+
+
 
 				// nextClos = getEClosure(move(eClos, i, language, l), l);
 				// transition[1] = i;
