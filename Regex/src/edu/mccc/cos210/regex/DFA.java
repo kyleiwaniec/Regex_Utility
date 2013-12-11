@@ -1,7 +1,6 @@
 package edu.mccc.cos210.regex;
 import java.io.*;
 import edu.mccc.cos210.ds.ArrayList;
-import edu.mccc.cos210.ds.ArrayList;
 import edu.mccc.cos210.ds.DFAStatesList;
 import edu.mccc.cos210.ds.Stack;
 import edu.mccc.cos210.ds.DFAList;
@@ -20,7 +19,7 @@ public class DFA{
 
 	private DFAStatesList<DFAList<Integer>> dfaStatesList = new DFAStatesList<DFAList<Integer>>(); // extended ArrayList with "marked" data field
 	private DFAList<Integer> eClos = new DFAList<Integer>();
-	private DFAList<Integer> nextClos = new DFAList<Integer>();
+	private DFAList<Integer> nextClos;
 	private DFAList<Integer> startStateList = new DFAList<Integer>();
 	private ArrayList<Integer> finalDFAStateList;
 	private Stack<int[]> dfaTransitionStack; // the int[] will hold 3 values fromState/input/toState
@@ -42,8 +41,6 @@ public class DFA{
 
 		// increment count of unmarked states in dfaStatesList:
 		dfaStatesList.updateUnMarkedStates(1);
-
-
 		startStateList.add(s); // startStateList now contains 1 state: the NFA startState.
 		
 		eClos = getEClosure(startStateList, l); // adds new closure to DFA states (dfaStatesList), and returns it.
@@ -66,16 +63,15 @@ public class DFA{
 			eClos.mark(true);
 			dfaStatesList.updateUnMarkedStates(-1);
 
-			//mark this StateSet as final in DFA.
-				if(eClos.contains(nfa.nfaAcceptState())){
-					//System.out.println("closure contains nfa accept state: "+nextClos);
-					if(!finalDFAStateList.contains(nextClos.getLabel())){
-						finalDFAStateList.add(eClos.getLabel());
-					}
+			//mark this StateSet as final in DFA if it contains a final state from the NFA
+			if(eClos.contains(nfa.nfaAcceptState())){
+				if(!finalDFAStateList.contains(nextClos.getLabel())){
+					finalDFAStateList.add(eClos.getLabel());
 				}
+			}
 			
 
-			DFAList<Integer> nextClos = new DFAList<Integer>();
+			nextClos = new DFAList<Integer>();
 			
 			for(int i = 0; i < langLength; i++){
 				transition[1] = i; // the letter
@@ -93,8 +89,6 @@ public class DFA{
 
 				// check if the list of DFA states alreaady contains the new closure
 				// by iterating over all the lists and comparing
-				
-				//System.out.println("equalsCount: "+equalsCount);
 				if(equalsCount == 0 && nextClos.size() > 0){
 					nextClos.mark(false);
 					dfaStatesList.updateUnMarkedStates(1);
@@ -103,7 +97,7 @@ public class DFA{
 				}
 
 				transition[2] = nextClos.getLabel();
-					dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
+				dfaTransitionStack.push(new int[] {transition[0], transition[1], transition[2]});
 			}
 			
 		}
@@ -114,9 +108,7 @@ public class DFA{
 				dfaTransTable[i][j] = -1;
 			}
 		}
-		// convenience DEBUG:
 		System.out.println("NFA to DFA State map: " +dfaStatesList);
-		//System.out.println("DFA TransitionStack: "+dfaTransitionStack);
 		
 		while(!dfaTransitionStack.empty()){
 			StringBuilder sb = new StringBuilder();
@@ -158,8 +150,6 @@ public class DFA{
 			stack.push(s); // push state onto stack
 			eClosure.add(s); // add state to eClosure list
 		}
-		
-
 		// return all states reachable by epsilon transitions
 		while(!stack.empty()){
 			int t = stack.pop();
@@ -192,14 +182,11 @@ public class DFA{
 		for(int ls = 0; ls<language.length; ls++){
 			separator+="----";
 		}
-		
 		System.out.println("\n   "+separator);
 		for (int j = 0; j < array.length; j++) {
 			System.out.printf("%-2d", 0 +j);
 			for (int i = 0; i < language.length; i++) {
-
 				System.out.printf("%-1s %-2d", "|", array[j][i]);
-
 			}
 			System.out.println("|\n   "+separator);
 		}
