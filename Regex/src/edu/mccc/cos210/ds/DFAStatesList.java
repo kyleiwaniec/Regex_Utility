@@ -15,6 +15,7 @@ public class DFAStatesList<E> extends ArrayList{
 	public void updateUnMarkedStates(int i){
 		this.numUnMarkedStates+=i;
 	}
+	
 }
 
 

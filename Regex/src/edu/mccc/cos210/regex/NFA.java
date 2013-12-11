@@ -83,11 +83,13 @@ public class NFA extends ListGraph{
 
         		nfa.insert(new Edge(++state, top.getStartState()));
         		nfa.setStartState(state);
+
         		nfa.insert(new Edge(top.getAcceptState(), ++state));
         		nfa.setAcceptState(state);
+                
         		nfa.insert(new Edge(nfa.getStartState(), nfa.getAcceptState()));
 
-        		nfa.insert(new Edge(nfa.getAcceptState(), top.getStartState()));
+        		nfa.insert(new Edge(top.getAcceptState(), top.getStartState()));
         		nfaStack.push(nfa);
 
 
@@ -211,6 +213,8 @@ public class NFA extends ListGraph{
         }
        // System.out.println("final NFA: ");
         System.out.println("final NFA: "+nfa.toString());
+        System.out.println("final NFA start: "+nfa.getStartState());
+        System.out.println("final NFA accept: "+nfa.getAcceptState());
 
 	}
     public int nfaAcceptState(){
