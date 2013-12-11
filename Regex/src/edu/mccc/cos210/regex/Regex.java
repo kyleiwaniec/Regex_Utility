@@ -117,26 +117,36 @@ public class Regex{
 		}
 		return true;
 	}
-	// exact match:
+	// find a match: (returns shortest match)
+	// this prob needs some clean-up - NO TIME.
 	private boolean findMatch(int[][] table, String lang, ArrayList<Integer> fs, String target) throws IOException{
 
 		BufferedReader br = stringToBR(target);
 		int c; 
 		int state = 0;
+		int currState = 0;
+		StringBuilder sb = new StringBuilder();
 		while (((c = br.read()) != -1)) {
+			
+			sb.append((char)c);
 			int input = lang.indexOf((char)c);
-			if(input == -1){
-				state = 0;
-				continue;
-			}else{ // if it's not in the language, then total fail
-				if (table[state][input] == -1){ // unreachable state
-					state = 0;
+			if (fs.contains(state)){ // if the state we're in  is a final state in DFA (returns shortest match)
+										// this was put here as a fix for when state 0 is a final state.
+				System.out.println("meow: "+sb.toString()); // this is as far as I got
+				return true;
+			}else if(input != -1){ // the input letter is in the language of the regex
+				if (fs.contains(table[state][input])){ 
+					System.out.println("meow: "+sb.toString()); // this is as far as I got
+					return true; // Table indicates that the next state is an accepting state.
+				}else if (table[state][input] == -1){ // unreachable state
+					state = currState;
 					continue;
-				}else if (fs.contains(table[state][input])){ // fs => final states in DFA
-					return true; // Table indicates that for this state, we accept the input given
 				}
-			// Advance to next state.
-		    state = table[state][input];	
+				currState = state;	 // track current state.		
+				state = table[state][input]; // Advance to next state.
+			}else{ 
+		    	state = currState;
+				continue;	
 		    }
 		}
 		return false;

@@ -65,7 +65,7 @@ public class DFA{
 
 			//mark this StateSet as final in DFA if it contains a final state from the NFA
 			if(eClos.contains(nfa.nfaAcceptState())){
-				if(!finalDFAStateList.contains(nextClos.getLabel())){
+				if(!finalDFAStateList.contains(eClos.getLabel())){
 					finalDFAStateList.add(eClos.getLabel());
 				}
 			}
