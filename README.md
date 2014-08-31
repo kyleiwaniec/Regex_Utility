@@ -4,7 +4,7 @@ Regex_Utility
 View the full presentation explaining the project:
 http://candpgeneration.com/meteorite-catcher/pdfs/RegexCat.pdf
 
-Java class assignment:
+COS210 Final Project
 
 Regular Expression Matcher
 
