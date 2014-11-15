@@ -191,7 +191,7 @@ public class InfixToPostfix{
                         topOp = operatorStack.peek();
                     }
             	}
-            	operatorStack.pop();
+            	operatorStack.pop(); // removes the right parenthesis
         	} else {
                 // Pop all stacked operators with equal
                 // or higher precedence than op.

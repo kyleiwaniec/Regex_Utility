@@ -1,7 +1,7 @@
 package edu.mccc.cos210.ds;
 import java.util.Iterator;
 
-public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
+public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable<E>{
 	private DNode<E> head;
 	private DNode<E> tail;
 	private DNode<E> current;
@@ -12,7 +12,16 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		this.tail = null;
 		this.current = null;
 	}
-	
+	/* this was being used for a version of Iterator class, 
+	* which I have since deleted, but leaving this in for now
+	*/
+	public DNode<E> getFirstNode() throws java.util.NoSuchElementException {
+		if (this.size == 0) {
+			throw new java.util.NoSuchElementException();
+		}
+		this.current = this.head;
+		return this.head;
+	}
 	@Override
 	public E getFirst() throws java.util.NoSuchElementException {
 		if (this.size == 0) {
@@ -41,6 +50,16 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		E element = this.current.element;
 		return element;
 	}
+	public DNode<E> getNextNode() throws java.util.NoSuchElementException {
+		if (this.size == 0 || this.current == null) {
+			throw new java.util.NoSuchElementException();
+		}
+		this.current = this.current.next;
+		if (this.current == null) {
+			throw new java.util.NoSuchElementException();
+		}
+		return this.current;
+	}
 	public boolean hasNext(){
 		if (this.size == 0 || this.current == null) {
 			return false;
@@ -48,16 +67,7 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		if(this.current.next == null){
 			return false;
 		}
-		//this.current = this.current.previous;
 		return true;
-
-
-
-
-		//return currentIndex < currentSize && arrayList[currentIndex] != null;
-
-
-				
 	}
 	@Override
 	public E getPrevious() {
@@ -84,13 +94,10 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 	public void addFirst(E element) {
 		DNode<E> node = new DNode<E>(element);
 		if(this.head != null){
-			
 			node.next = this.head;
 			node.previous = null;
-
 			this.head.previous = node;
 			this.head = node;
-
 		}else{
 			node.next = null;
 			node.previous = null;
@@ -99,7 +106,6 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		}
 		this.current = node;
 		this.size++;
-
 	}
 	@Override 
 	public void addLast(E element) {
@@ -107,16 +113,13 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			addFirst(element);
 		} else {
 			DNode<E> node = new DNode<E>(element);
-
 			node.previous = this.tail;
 			node.next = null;
-
 			this.tail.next = node;
 			this.tail = node;
 			this.current = node;
 			this.size++;
 		}
-
 	}
 	@Override 
 	public void addNext(E element) {
@@ -126,42 +129,33 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			addLast(element);
 		}else{
 			DNode<E> node = new DNode<E>(element);
-
 			node.previous = this.current;
 			node.next = this.current.next;
-			
 			this.current.next.previous = node;
 			this.current.next = node;
-
 			this.current = node;
 			this.size++;
 		}
 	}
 	@Override
 	public void addPrevious(E element) {
-		
 		if(this.current == this.head){
 			throw new java.util.NoSuchElementException();
 		}else{
 			DNode<E> node = new DNode<E>(element);
 			node.next = this.current;
 			node.previous = this.current.previous;
-
-
 			this.current.previous.next = node;
 			this.current.previous = node;
 			this.current = node;
 			this.size++;
 		}
-
 	}
 	@Override 
 	public void removeFirst() throws java.util.NoSuchElementException {
 		if (this.size == 0) {
 			throw new java.util.NoSuchElementException();
 		}
-		
-
 		if(this.size == 1){
 			this.current = null;
 			this.head = null;
@@ -169,24 +163,19 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			this.current = this.head.next;
 			this.head.next.previous = null;
 		}
-		
 		DNode<E> node = this.head;
 		this.head = node.next;
 		node.reset();
-
 		this.size--;
-
 		if(this.size == 1){
 			this.tail = this.current;
 		}
-		
 	} 
 	@Override
 	public void removeLast() throws java.util.NoSuchElementException {
 		if (this.size == 0) {
 			throw new java.util.NoSuchElementException();
 		}
-		
 		if (size == 1) {
 			this.current = null;
 			this.head = null;
@@ -194,14 +183,10 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			this.current = this.tail.previous;
 			this.tail.previous.next = null;
 		}
-
 		DNode<E> node = this.tail;
 		this.tail = node.previous;
-
 		node.reset();
-		
 		this.size--;
-
 	}
 	@Override
 	public void removeNext() throws java.util.NoSuchElementException {
@@ -239,9 +224,7 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 	}
 
 	/** Removes the current item
-	*	
 	*	sets the next item to current
-	*
 	*/
 	@Override
 	public void removeCurrent() throws java.util.NoSuchElementException {
@@ -249,8 +232,6 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			this.current = null;
 			throw new java.util.NoSuchElementException();
 		}
-		
-
 		if(this.current.next == null){
 			removeLast();
 		}else if (this.current.previous == null) {
@@ -259,9 +240,7 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 			DNode<E> node = this.current;
 			this.current.next.previous = this.current.previous;
 			this.current.previous.next = this.current.next;
-
 			this.current = this.current.next;
-			
 			node.reset();
 			this.size--;
 		}
@@ -290,6 +269,16 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		sb.append(" >");
 		return sb.toString();
 	}
+	public boolean contains(E el){
+		DNode<E> node = head;
+		while (node != null) {
+			if (node.element != null) {
+				 if(el.equals(node.element)){return true;};
+			}
+			node = node.next;
+		}
+		return false;
+	}
 	public class DNode<T> {
 		public T element;
 		public DNode<T> next = null;
@@ -304,73 +293,69 @@ public class DoublyLinkedList<E> implements DoublyLinkedListInt<E>, Iterable{
 		}
 	}
 	
-	public boolean contains(E el){
-		DNode<E> node = head;
-		while (node != null) {
-			if (node.element != null) {
-				 if(el.equals(node.element)){return true;};
-			}
-			node = node.next;
-		}
-		return false;
-	}
-
-	@Override
-	public Iterator<E> iterator(){
-		return new Iter();
-	};
 	
-	private class Iter extends DoublyLinkedList<E> implements Iterator<E> {
-        // Data Fields
-        // Index of next element */
+	
+/*******************************************************
+ *
+ *  The Iterator class
+ *
+********************************************************/
+   @Override
+   public Iterator<E> iterator(){
+      return new DoublyLinkedListIterator();
+   }
 
-        private int index;
-        // Count of elements accessed so far */
-        private int count = 0;
+   private class DoublyLinkedListIterator  implements Iterator<E> {
+      private DNode<E> nextNode;
 
-        // Methods
-        // Constructor
-        /**
-         * Initializes the Iter object to reference the
-         * first queue element.
-         */
-        public Iter() {
-           count = 0;
-           DoublyLinkedList.this.current = DoublyLinkedList.this.head;
+      public DoublyLinkedListIterator(){
+         nextNode = head;
+      }
+      @Override
+      public boolean hasNext(){
+         return nextNode != null;
+      }
+      @Override
+      public E next(){
+         if (!hasNext()) { return null; }
+         E element = nextNode.element;
+         nextNode = nextNode.next;
+         return element;
+      }
+      @Override
+        public void remove() {
+        	throw new UnsupportedOperationException();
         }
+   }
 
-        /**
-         * Returns true if there are more elements in the queue to access.
-         * @return true if there are more elements in the queue to access.
-         */
+/* another version of iterator ******************************* /	
+    @Override
+	public Iterator<E> iterator() {
+		return new Iter<E>(this);
+	}
+  	private class Iter<T> implements Iterator<E> {
+        private int count = 0;
+        private DoublyLinkedList<E> dll;
+        public Iter(DoublyLinkedList<E> dll) {
+           count = 0;
+           this.dll = dll;
+           dll.current = dll.head;
+        }
         @Override
         public boolean hasNext() {
-            return count < DoublyLinkedList.this.getSize();
+            return count < this.dll.getSize();
         }
-
-        /**
-         * Returns the next element in the queue.
-         * @pre index references the next element to access.
-         * @post index and count are incremented.
-         * @return The element with subscript index
-         */
         @Override
         public E next() {
-        	
 			count++;
-			E element = DoublyLinkedList.this.current.element;
-			DoublyLinkedList.this.current = DoublyLinkedList.this.current.next;
+			E element = this.dll.current.element;
+			this.dll.current = this.dll.current.next;
 			return element;
         }
-
-        /**
-         * Remove the item accessed by the Iter object -- not implemented.
-         * @throws UnsupportedOperationException when called
-         */
         @Override
         public void remove() {
         	throw new UnsupportedOperationException();
         }
     }
-
+/**********************************************************/
 }

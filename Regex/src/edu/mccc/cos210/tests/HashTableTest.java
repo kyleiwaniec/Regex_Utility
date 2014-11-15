@@ -1,35 +1,44 @@
 package edu.mccc.cos210.tests;
 import edu.mccc.cos210.ds.HashTable;
+import java.io.*;
+import java.net.URL;
+
 public class HashTableTest{
-	public static void main(String[] sa){
-		HashTable<Integer, String> ht = new HashTable();
-
-		// ht.put(1,"Anna");
-		// ht.put(2,"Brittany");
-		// ht.put(20,"Samnuel");
-		ht.put(3, "A");
-		System.out.println(ht.toString());
-		ht.put(3, "B");
-		System.out.println(ht.toString());
-		ht.put(3, "C");
-		System.out.println(ht.toString());
-		ht.put(3, "D");
-		System.out.println(ht.toString());
-		ht.put(3, "E");
-		System.out.println(ht.toString());
-		ht.put(3, "F");
-		System.out.println(ht.toString());
-		ht.put(3, "G");
-		ht.put(782,"Sammy");
-		ht.put(178,"bob");
-		System.out.println(ht.toString());
-		System.out.println("get"+ht.get(4));
-
-		ht.remove(3);
-		System.out.println(ht.toString());
-
-		ht.put(3, "Woot!");
-		System.out.println(ht.toString());
+	public HashTableTest() {};
+	public static void main(String[] sa)throws IOException{
+		HashTableTest htt = new HashTableTest();
+		htt.doit();
 
 	}
+	public void doit()throws IOException{
+			URL resource = getClass().getResource("/img/all.txt");
+
+			File file = new File(resource.getPath());
+			double filesize = (double) file.length()/1024/1024;
+			System.out.println("the file is this big: "+filesize);
+	        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+	        String line = null;
+	        int count = 0;
+
+			long startTime = System.currentTimeMillis( );
+			
+	        HashTable<String, String> ht = new HashTable();
+	        while( (line = br.readLine())!= null ){
+	                // \\s+ means any number of whitespaces between tokens
+	            String [] tokens = line.split("\\s+");
+
+	            for(int i = 0; i < tokens.length; i++){
+	              ht.put(tokens[i], tokens[i]);
+	              count++;
+	            }
+	        }
+	        long endTime = System.currentTimeMillis( );
+        
+        	System.out.println( "Elapsed time: " + (endTime - startTime) );
+	        System.out.println("number of words in the file: "+count);
+	        System.out.println("number of keys: "+ht.getSize());
+	        System.out.println("number of buckets: "+ht.getBuckeSize());
+	        System.out.println("table length: "+ht.getTableLength());
+	        System.out.println(ht.get("unpleasantly."));
+		}
 }

@@ -50,13 +50,13 @@ public class NFA extends ListGraph{
         		nfa = new ListGraph(numV, true);
 
         		for(int j = 0; j < top.getNumV(); j++){
-        			for(Object e1 : top.get(j)){
-        				nfa.insert((Edge) e1);
+        			for(Edge e1 : top.get(j)){
+        				nfa.insert(e1);
         			}
         		}
         		for(int k = 0; k < bot.getNumV(); k++){
-        			for(Object e2 : bot.get(k)){
-        				nfa.insert((Edge) e2);
+        			for(Edge e2 : bot.get(k)){
+        				nfa.insert(e2);
         			}
         		}
         		// insert epilon edge
@@ -76,8 +76,8 @@ public class NFA extends ListGraph{
 
         		nfa = new ListGraph(numV+=2, true);
         		for(int j = 0; j < top.getNumV(); j++){
-        			for(Object e1 : top.get(j)){
-        				nfa.insert((Edge) e1);
+        			for(Edge e1 : top.get(j)){
+        				nfa.insert(e1);
         			}
         		}
 
@@ -102,8 +102,8 @@ public class NFA extends ListGraph{
 
         		nfa = new ListGraph(numV+=2, true);
         		for(int j = 0; j < top.getNumV(); j++){
-        			for(Object e1 : top.get(j)){
-        				nfa.insert((Edge) e1);
+        			for(Edge e1 : top.get(j)){
+        				nfa.insert(e1);
         			}
         		}
         		nfa.insert(new Edge(top.getAcceptState(), top.getStartState()));
@@ -125,8 +125,8 @@ public class NFA extends ListGraph{
 
         		nfa = new ListGraph(numV, true);
         		for(int j = 0; j < top.getNumV(); j++){
-        			for(Object e1 : top.get(j)){
-        				nfa.insert((Edge) e1);
+        			for(Edge e1 : top.get(j)){
+        				nfa.insert(e1);
         			}
         		}
         		nfa.insert(new Edge(top.getStartState(), top.getAcceptState()));
@@ -153,13 +153,13 @@ public class NFA extends ListGraph{
         		nfa = new ListGraph(numV+=2, true);
 
         		for(int j = 0; j < top.getNumV(); j++){
-        			for(Object e1 : top.get(j)){
-        				nfa.insert((Edge) e1);
+        			for(Edge e1 : top.get(j)){
+        				nfa.insert(e1);
         			}
         		}
         		for(int k = 0; k < bot.getNumV(); k++){
-        			for(Object e2 : bot.get(k)){
-        				nfa.insert((Edge) e2);
+        			for(Edge e2 : bot.get(k)){
+        				nfa.insert(e2);
         			}
         		}
 
@@ -194,13 +194,13 @@ public class NFA extends ListGraph{
                 nfa = new ListGraph(numV, true);
 
                 for(int j = 0; j < top.getNumV(); j++){
-                    for(Object e1 : top.get(j)){
-                        nfa.insert((Edge) e1);
+                    for(Edge e1 : top.get(j)){
+                        nfa.insert(e1);
                     }
                 }
                 for(int k = 0; k < bot.getNumV(); k++){
-                    for(Object e2 : bot.get(k)){
-                        nfa.insert((Edge) e2);
+                    for(Edge e2 : bot.get(k)){
+                        nfa.insert(e2);
                     }
                 }
                 // insert epilon edge

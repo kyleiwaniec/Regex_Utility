@@ -3,7 +3,7 @@ import java.util.Iterator;
 /**
  * Hash table implementation using chaining.
  **/
-public class HashTable<K, V> implements HashMapInt<K, V> {
+public class HashTable<K, V> implements HashMapInt<K, V>{
 
     /** The table */
     private DoublyLinkedList<Entry<K, V>>[] table;
@@ -61,8 +61,7 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
             value = val;
             return oldVal;
         }
-// Insert solution to programming exercise 3, section 4, chapter 7 here
-        // toString method
+
         public String toString(){
             String result = "";
             result += this.key +" : "+this.value;
@@ -70,13 +69,56 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         }
     }
 
-    // Constructor
     public HashTable() {
         table = new DoublyLinkedList[CAPACITY];
     }
 
     public HashTable(int capcity) {
         table = new DoublyLinkedList[capcity];
+    }
+    public int mod(int a, int b){
+        int c = a % b;
+            if (c < 0){
+                c += b;
+            }
+        return c;    
+    }
+    public long mod(int a, long b){
+        long c = (long)a % b;
+            if (c < 0){
+                c += b;
+            }
+        return c;    
+    }
+    public int mod(long a, long b){
+        long c = a % b;
+            if (c < 0){
+                c += b;
+            }
+        return (int) c;    
+    }
+
+    public int hashCodefn(Object key){
+              String k = (String) key;
+              long h = 1099511628211l;
+              long len = k.length();
+              for (int i = 0; i < len; i++ ){
+                h = ( h * 16777619 ) ^ k.charAt(i);
+              }
+              return (int) h;
+    }
+
+    public int compress(Object key){
+        long PRIME = 2166136261l;
+        //int hash = hashCodefn(key);
+        int hash = key.hashCode();
+        int index =  mod(mod((127*hash+7219), PRIME), table.length);
+        //int index = ( (127*key.hashCode()+7219) % PRIME) % table.length;
+        //int index = key.hashCode() % table.length;
+        // if (index < 0) {
+        //     index += table.length;
+        // }
+        return index;
     }
     /**
      * Method get for class HashTable.
@@ -86,40 +128,34 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
      */
     @Override
     public V get(Object key) {
-        int index = key.hashCode() % table.length;
-        if (index < 0) {
-            index += table.length;
-        }
+        int index = compress(key);
         if (table[index] == null) {
             return null; // key is not in the table.
         }
-        // Search the list at table[index] to find the key.
-        // for (Entry<K, V> nextItem : table[index]) {
-        //     if (nextItem.key.equals(key)) {
-        //         return nextItem.value;
-        //     }
-        // }
+        //Search the bucket at table[index] to find the key. O(n) operation, but OK if buckets are small
+        for (Entry<K, V> nextItem : table[index]) {
+            if (nextItem.key.equals(key)) {
+                return nextItem.value;
+            }
+        }
 
-        // TODO: ^^ REWRITE sans iterator
+        // BElOW: ^^ REWRITE sans iterator
         
 
 
-        Entry<K, V> nextItem = (Entry<K, V>) table[index].getFirst();
-        for(int i = 0; i < table[index].getSize(); i++){
-            if (nextItem.key.equals(key)) {
-                 return nextItem.value;
-            }
-            while(table[index].hasNext()){
-                nextItem = (Entry<K, V>) table[index].getNext();
-            }
-        }
+        // Entry<K, V> nextItem = (Entry<K, V>) table[index].getFirst();
+        // for(int i = 0; i < table[index].getSize(); i++){
+        //     if (nextItem.key.equals(key)) {
+        //          return nextItem.value;
+        //     }
+        //     while(table[index].hasNext()){
+        //         nextItem = (Entry<K, V>) table[index].getNext();
+        //     }
+        // }
         
         return null;
     }
-    // private int hashCode(){
-    //     // TODO
-    // }
-    
+
     /**
      * Method put for class HashTable.
      * @post This key-value pair is inserted in the
@@ -133,29 +169,25 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
      */
     @Override
     public V put(K key, V value) {
-        int index = key.hashCode() % table.length;
-        if (index < 0) {
-            index += table.length;
-        }
+        int index = compress(key);
         if (table[index] == null) {
             // Create a new linked list at table[index].
             table[index] = new DoublyLinkedList<Entry<K, V>>();
         }
 
-        // Search the list at table[index] to find the key.
-        // for (Entry<K, V> nextItem : table[index]) {
-        //     // If the search is successful, replace the old value.
-        //     if (nextItem.key.equals(key)) {
-        //         // Replace value for this key.
-        //         V oldVal = nextItem.value;
-        //         nextItem.setValue(value);
-        //         return oldVal;
-        //     }
-        // }
+        //Search the list at table[index] to find the key. NO DUPLICATE KEYS!
+        for (Entry<K, V> nextItem : table[index]) {
+            // If the search is successful, replace the old value.
+            if (nextItem.key.equals(key)) {
+                // Replace value for this key.
+                V oldVal = nextItem.value;
+                nextItem.setValue(value);
+                return oldVal;
+            }
+        }
 
-        // TODO: ^^ REWRITE sans iterator
 
-    // assert: key is not in the table, add new item.
+        // assert: key is not in the table, add new item.
         table[index].addFirst(new Entry<K, V>(key, value));
         numKeys++;
         if (numKeys > (LOAD_THRESHOLD * table.length)) {
@@ -164,12 +196,8 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
 
         return null;
     }
-    public void getCurrent(){
-        System.out.println(table[3].getCurrent());
-    }
 
     public String toString(){
-
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < table.length; i++) {
             if(table[i] != null){
@@ -179,30 +207,48 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         if(sb.length()>=2){sb.delete(0,2);};
         return sb.toString();
     }
+    public int getBuckeSize(){
+        int count = 0;
+        for(int i = 0; i < table.length; i++) {
+            if(table[i] != null){
+                count++;
+            }
+        }
+        return count;
+    }
 
-// Insert solution to programming exercise 5, section 4, chapter 7 here
-    // getSize() method
     public int getSize(){
         return numKeys;
+    }
+    public int getTableLength(){
+        return table.length;
     }
     /** Returns true if empty */
     public boolean isEmpty() {
         return numKeys == 0;
     }
 
-// Insert solution to programming exercise 2, section 4, chapter 7 here
-    // rehash, and remove.
-    public void rehash(){
+    private void rehash() {
+        DoublyLinkedList<Entry<K, V>>[] oldTable = table;
+        // Create a new double-sized, empty table
+        table = new DoublyLinkedList[2 * oldTable.length];
+        numKeys = 0;
 
+            // Copy table over
+        for( DoublyLinkedList<Entry<K, V>> bucket : oldTable ){
+            if( bucket != null ){
+                for(Entry<K,V> entry : bucket){
+                    put((K) entry.getKey(), (V) entry.getValue() );
+                }
+            }
+        }
     }
+
     /** removes all items with given key
     *   @return null.
     */
     public V remove(Object key){
-        int index = key.hashCode() % table.length;
-        if (index < 0) {
-            index += table.length;
-        }
+        int index = compress(key);
         Entry<K, V> nextItem = (Entry<K, V>) table[index].getFirst();
         int size = table[index].getSize();
         for(int i = 0; i < size; i++){
@@ -221,7 +267,4 @@ public class HashTable<K, V> implements HashMapInt<K, V> {
         }
         return null;
     }
-
-
-// Insert solution to programming project 7, chapter -1 here ????
 }

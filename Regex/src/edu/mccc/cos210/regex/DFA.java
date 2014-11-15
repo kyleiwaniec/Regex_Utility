@@ -51,10 +51,10 @@ public class DFA{
 		// while there are unmarked states, do:
 		while(dfaStatesList.hasUnMarkedStates()){
 			// loop over all the lists and return the first unmarked one.
-			for(Object m : dfaStatesList){
-				DFAList<Integer> mm = (DFAList<Integer>) m;
-				if(!mm.isMarked()){
-					eClos = mm;
+			for(DFAList<Integer> m : dfaStatesList){
+				//DFAList<Integer> mm = (DFAList<Integer>) m;
+				if(!m.isMarked()){
+					eClos = m;
 					break;
 				}
 				
@@ -77,8 +77,8 @@ public class DFA{
 				transition[1] = i; // the letter
 				nextClos = getEClosure(move(eClos, i, language, l), l);
 				int equalsCount = 0;
-				for(Object listObj : dfaStatesList){
-						DFAList<Integer> existingList = (DFAList<Integer>) listObj;
+				for(DFAList<Integer> existingList : dfaStatesList){
+						//DFAList<Integer> existingList = (DFAList<Integer>) listObj;
 						if(existingList.equals(nextClos)){
 							equalsCount++;
 					}
@@ -129,11 +129,9 @@ public class DFA{
 	}
 	public DFAList<Integer> move(DFAList<Integer> S, int letter, char[] language, ListGraph l){
 		DFAList<Integer> list = new DFAList<Integer>();
-		for(Object ss : S){
-			Integer s = (Integer) ss;
-			ArrayList dll = l.get(s);
-			for(Object edge : dll){
-				Edge e = (Edge)edge;
+		for(Integer s : S){
+			ArrayList<Edge> dll = l.get(s);
+			for(Edge e : dll){
 				if(e.getWeight() == language[letter]){
 					list.add(e.getDest());
 				}
@@ -145,8 +143,7 @@ public class DFA{
 		Stack<Integer> stack = new Stack<Integer>();
 		DFAList<Integer> eClosure = new DFAList<Integer>();
 
-		for(Object ss : S){
-			Integer s = (Integer) ss;
+		for(Integer s : S){
 			stack.push(s); // push state onto stack
 			eClosure.add(s); // add state to eClosure list
 		}
@@ -154,9 +151,8 @@ public class DFA{
 		while(!stack.empty()){
 			int t = stack.pop();
 
-			ArrayList dll = l.get(t);
-			for(Object edge : dll){
-				Edge e = (Edge)edge;
+			ArrayList<Edge> dll = l.get(t);
+			for(Edge e : dll){
 				if(e.isEpsilon()){
 					if(!eClosure.contains(e.getDest())){  /* destination state is not in the Closure */
 						stack.push(e.getDest());

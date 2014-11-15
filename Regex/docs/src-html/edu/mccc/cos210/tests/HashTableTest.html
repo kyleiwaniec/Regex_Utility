@@ -8,39 +8,48 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package edu.mccc.cos210.tests;<a name="line.1"></a>
 <span class="sourceLineNo">002</span>import edu.mccc.cos210.ds.HashTable;<a name="line.2"></a>
-<span class="sourceLineNo">003</span>public class HashTableTest{<a name="line.3"></a>
-<span class="sourceLineNo">004</span>        public static void main(String[] sa){<a name="line.4"></a>
-<span class="sourceLineNo">005</span>                HashTable&lt;Integer, String&gt; ht = new HashTable();<a name="line.5"></a>
-<span class="sourceLineNo">006</span><a name="line.6"></a>
-<span class="sourceLineNo">007</span>                // ht.put(1,"Anna");<a name="line.7"></a>
-<span class="sourceLineNo">008</span>                // ht.put(2,"Brittany");<a name="line.8"></a>
-<span class="sourceLineNo">009</span>                // ht.put(20,"Samnuel");<a name="line.9"></a>
-<span class="sourceLineNo">010</span>                ht.put(3, "A");<a name="line.10"></a>
-<span class="sourceLineNo">011</span>                System.out.println(ht.toString());<a name="line.11"></a>
-<span class="sourceLineNo">012</span>                ht.put(3, "B");<a name="line.12"></a>
-<span class="sourceLineNo">013</span>                System.out.println(ht.toString());<a name="line.13"></a>
-<span class="sourceLineNo">014</span>                ht.put(3, "C");<a name="line.14"></a>
-<span class="sourceLineNo">015</span>                System.out.println(ht.toString());<a name="line.15"></a>
-<span class="sourceLineNo">016</span>                ht.put(3, "D");<a name="line.16"></a>
-<span class="sourceLineNo">017</span>                System.out.println(ht.toString());<a name="line.17"></a>
-<span class="sourceLineNo">018</span>                ht.put(3, "E");<a name="line.18"></a>
-<span class="sourceLineNo">019</span>                System.out.println(ht.toString());<a name="line.19"></a>
-<span class="sourceLineNo">020</span>                ht.put(3, "F");<a name="line.20"></a>
-<span class="sourceLineNo">021</span>                System.out.println(ht.toString());<a name="line.21"></a>
-<span class="sourceLineNo">022</span>                ht.put(3, "G");<a name="line.22"></a>
-<span class="sourceLineNo">023</span>                ht.put(782,"Sammy");<a name="line.23"></a>
-<span class="sourceLineNo">024</span>                ht.put(178,"bob");<a name="line.24"></a>
-<span class="sourceLineNo">025</span>                System.out.println(ht.toString());<a name="line.25"></a>
-<span class="sourceLineNo">026</span>                System.out.println("get"+ht.get(4));<a name="line.26"></a>
-<span class="sourceLineNo">027</span><a name="line.27"></a>
-<span class="sourceLineNo">028</span>                ht.remove(3);<a name="line.28"></a>
-<span class="sourceLineNo">029</span>                System.out.println(ht.toString());<a name="line.29"></a>
-<span class="sourceLineNo">030</span><a name="line.30"></a>
-<span class="sourceLineNo">031</span>                ht.put(3, "Woot!");<a name="line.31"></a>
-<span class="sourceLineNo">032</span>                System.out.println(ht.toString());<a name="line.32"></a>
-<span class="sourceLineNo">033</span><a name="line.33"></a>
-<span class="sourceLineNo">034</span>        }<a name="line.34"></a>
-<span class="sourceLineNo">035</span>}<a name="line.35"></a>
+<span class="sourceLineNo">003</span>import java.io.*;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import java.net.URL;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>public class HashTableTest{<a name="line.6"></a>
+<span class="sourceLineNo">007</span>        public HashTableTest() {};<a name="line.7"></a>
+<span class="sourceLineNo">008</span>        public static void main(String[] sa)throws IOException{<a name="line.8"></a>
+<span class="sourceLineNo">009</span>                HashTableTest htt = new HashTableTest();<a name="line.9"></a>
+<span class="sourceLineNo">010</span>                htt.doit();<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>        }<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        public void doit()throws IOException{<a name="line.13"></a>
+<span class="sourceLineNo">014</span>                        URL resource = getClass().getResource("/img/all.txt");<a name="line.14"></a>
+<span class="sourceLineNo">015</span><a name="line.15"></a>
+<span class="sourceLineNo">016</span>                        File file = new File(resource.getPath());<a name="line.16"></a>
+<span class="sourceLineNo">017</span>                        double filesize = (double) file.length()/1024/1024;<a name="line.17"></a>
+<span class="sourceLineNo">018</span>                        System.out.println("the file is this big: "+filesize);<a name="line.18"></a>
+<span class="sourceLineNo">019</span>                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));<a name="line.19"></a>
+<span class="sourceLineNo">020</span>                String line = null;<a name="line.20"></a>
+<span class="sourceLineNo">021</span>                int count = 0;<a name="line.21"></a>
+<span class="sourceLineNo">022</span><a name="line.22"></a>
+<span class="sourceLineNo">023</span>                        long startTime = System.currentTimeMillis( );<a name="line.23"></a>
+<span class="sourceLineNo">024</span>                        <a name="line.24"></a>
+<span class="sourceLineNo">025</span>                HashTable&lt;String, String&gt; ht = new HashTable();<a name="line.25"></a>
+<span class="sourceLineNo">026</span>                while( (line = br.readLine())!= null ){<a name="line.26"></a>
+<span class="sourceLineNo">027</span>                        // \\s+ means any number of whitespaces between tokens<a name="line.27"></a>
+<span class="sourceLineNo">028</span>                    String [] tokens = line.split("\\s+");<a name="line.28"></a>
+<span class="sourceLineNo">029</span><a name="line.29"></a>
+<span class="sourceLineNo">030</span>                    for(int i = 0; i &lt; tokens.length; i++){<a name="line.30"></a>
+<span class="sourceLineNo">031</span>                      ht.put(tokens[i], tokens[i]);<a name="line.31"></a>
+<span class="sourceLineNo">032</span>                      count++;<a name="line.32"></a>
+<span class="sourceLineNo">033</span>                    }<a name="line.33"></a>
+<span class="sourceLineNo">034</span>                }<a name="line.34"></a>
+<span class="sourceLineNo">035</span>                long endTime = System.currentTimeMillis( );<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        <a name="line.36"></a>
+<span class="sourceLineNo">037</span>                System.out.println( "Elapsed time: " + (endTime - startTime) );<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                System.out.println("number of words in the file: "+count);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                System.out.println("number of keys: "+ht.getSize());<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                System.out.println("number of buckets: "+ht.getBuckeSize());<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                System.out.println("table length: "+ht.getTableLength());<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                System.out.println(ht.get("unpleasantly."));<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                }<a name="line.43"></a>
+<span class="sourceLineNo">044</span>}<a name="line.44"></a>
 
 
 

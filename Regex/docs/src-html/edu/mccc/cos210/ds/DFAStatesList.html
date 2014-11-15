@@ -8,7 +8,7 @@
 <div class="sourceContainer">
 <pre><span class="sourceLineNo">001</span>package edu.mccc.cos210.ds;<a name="line.1"></a>
 <span class="sourceLineNo">002</span>import java.util.Iterator;<a name="line.2"></a>
-<span class="sourceLineNo">003</span>public class DFAStatesList&lt;E&gt; extends ArrayList{<a name="line.3"></a>
+<span class="sourceLineNo">003</span>public class DFAStatesList&lt;E&gt; extends ArrayList&lt;E&gt;{<a name="line.3"></a>
 <span class="sourceLineNo">004</span><a name="line.4"></a>
 <span class="sourceLineNo">005</span>        private int numUnMarkedStates = 0;<a name="line.5"></a>
 <span class="sourceLineNo">006</span>        public DFAStatesList(){<a name="line.6"></a>
@@ -23,9 +23,10 @@
 <span class="sourceLineNo">015</span>        public void updateUnMarkedStates(int i){<a name="line.15"></a>
 <span class="sourceLineNo">016</span>                this.numUnMarkedStates+=i;<a name="line.16"></a>
 <span class="sourceLineNo">017</span>        }<a name="line.17"></a>
-<span class="sourceLineNo">018</span>}<a name="line.18"></a>
-<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">018</span>        <a name="line.18"></a>
+<span class="sourceLineNo">019</span>}<a name="line.19"></a>
 <span class="sourceLineNo">020</span><a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
 
 
 

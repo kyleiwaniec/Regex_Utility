@@ -1,6 +1,6 @@
 package edu.mccc.cos210.ds;
 import java.util.Iterator;
-public class DFAStatesList<E> extends ArrayList{
+public class DFAStatesList<E> extends ArrayList<E>{
 
 	private int numUnMarkedStates = 0;
 	public DFAStatesList(){

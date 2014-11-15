@@ -1,6 +1,6 @@
 package edu.mccc.cos210.ds;
 import java.util.Iterator;
-public class ArrayList<E>  implements Cloneable, Iterable{
+public class ArrayList<E>  implements Cloneable, Iterable<E>{
 
 	// Data fields
 	/** The default initial capacity */
